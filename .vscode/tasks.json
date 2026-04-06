@@ -1,0 +1,19 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "dev",
+			"problemMatcher": [],
+			"label": "npm: dev",
+			"detail": "tsx watch server.ts"
+		},
+		{
+			"type": "npm",
+			"script": "kill",
+			"problemMatcher": [],
+			"label": "Kill Ghost Servers",
+			"detail": "Kills any running node instances in the background."
+		}
+	]
+}

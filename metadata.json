@@ -1,0 +1,5 @@
+{
+  "name": "Ayushmaan Residency",
+  "description": "Exclusive 2BHK & 3BHK flats in a premium G+6 multi-story building. Manage leads, promotions, and deals with our integrated broker dashboard.",
+  "requestFramePermissions": ["geolocation"]
+}
