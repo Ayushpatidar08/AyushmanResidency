@@ -107,7 +107,7 @@ NODE_ENV=production
 PORT=3000
 
 # Database (required)
-MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/ayushmaan?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://user:[EMAIL_ADDRESS]/ayushmaan?retryWrites=true&w=majority
 
 # Auth (required)
 JWT_SECRET=<128-char hex — generate with: node -e "console.log(require('crypto').randomBytes(64).toString('hex'))">
