@@ -141,7 +141,6 @@ export function BrokerPortal() {
         body: JSON.stringify({
           ...manualLeadForm,
           phone: manualLeadForm.phone.startsWith('+91') ? manualLeadForm.phone : `+91${manualLeadForm.phone}`,
-          referral: brokers.find(b => b.id === selectedBrokerId)?.name || 'Direct Entry',
           assigned_broker_id: selectedBrokerId
         })
       });
@@ -590,7 +589,6 @@ export function BrokerPortal() {
                           <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/50">Phone/Email</th>
                           <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/50">Status</th>
                           <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/50">Requirement</th>
-                          <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/50">Referral</th>
                           <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/50">Date Added</th>
                         </tr>
                       </thead>
@@ -611,9 +609,7 @@ export function BrokerPortal() {
                                 <div className="text-sm font-medium">{lead.property_type}</div>
                                 <div className="text-xs text-white/40 max-w-[150px] truncate">{lead.location_pref || 'No pref'}</div>
                              </td>
-                             <td className="px-6 py-4">
-                                <div className="text-xs text-gold font-medium">{lead.referral || 'Direct'}</div>
-                             </td>
+
                              <td className="px-6 py-4 text-xs text-white/50">
                                 {new Date(lead.created_at).toLocaleDateString()}
                              </td>

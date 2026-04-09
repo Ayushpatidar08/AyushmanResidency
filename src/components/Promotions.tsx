@@ -22,7 +22,7 @@ const benefits = [
     id: 3,
     icon: <Banknote className="w-8 h-8" />,
     title: 'Easy Financing',
-    description: 'Up To 95 Loan Available From All Major Banks Perfect For First Time Buyers.',
+    description: 'Up To 95% Loan Available From All Major Banks Perfect For First Time Buyers.',
     color: 'bg-indigo-50 text-indigo-600'
   },
   {
@@ -88,7 +88,7 @@ const offers = [
     id: 3,
     icon: <Bell className="w-6 h-6" />,
     title: 'Book from ₹11,000 only',
-    description: 'Secure your dream home with just ₹11,000 initial booking amount and get up to 95 LOAN AVAILABLE.',
+    description: 'Secure your dream home with just ₹11,000 initial booking amount and get up to 95% LOAN AVAILABLE.',
     badge: 'Limited Offer'
   }
 ];

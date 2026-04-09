@@ -27,7 +27,6 @@ export function LeadForm({ preselectedOffers = [] }: { preselectedOffers?: strin
     location_pref: '',
     budget: '',
     message: '',
-    referral: '',
     claimed_offers: preselectedOffers
   });
 
@@ -81,8 +80,7 @@ export function LeadForm({ preselectedOffers = [] }: { preselectedOffers?: strin
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ...formData,
-          referral: formData.referral.trim()
+          ...formData
         })
       });
       
@@ -91,7 +89,7 @@ export function LeadForm({ preselectedOffers = [] }: { preselectedOffers?: strin
         setTimeout(() => {
           sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 100);
-        setFormData({ name: '', email: '', phone: '+91 ', property_type: '2BHK', location_pref: '', budget: '', message: '', referral: '', claimed_offers: [] });
+        setFormData({ name: '', email: '', phone: '+91 ', property_type: '2BHK', location_pref: '', budget: '', message: '', claimed_offers: [] });
       } else {
         setStatus('error');
       }
@@ -162,16 +160,7 @@ export function LeadForm({ preselectedOffers = [] }: { preselectedOffers?: strin
                     onChange={(e) => setFormData({...formData, name: formatName(e.target.value)})}
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-white/40 text-xs font-bold uppercase tracking-widest">Referral (Broker Name)</label>
-                  <input 
-                    type="text" 
-                    placeholder="Enter Broker Name (If any)"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:border-gold outline-none transition-colors"
-                    value={formData.referral}
-                    onChange={(e) => setFormData({...formData, referral: formatName(e.target.value)})}
-                  />
-                </div>
+
                 <div className="space-y-2">
                   <label className="text-white/40 text-xs font-bold uppercase tracking-widest flex items-center gap-1">
                     Phone Number <span className="text-gold">*</span>

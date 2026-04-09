@@ -17,8 +17,19 @@ const TermsOfService = lazy(() => import('./components/TermsOfService').then(m =
 const SuperAdminPortal = lazy(() => import('./components/portal/SuperAdminPortal').then(m => ({ default: m.SuperAdminPortal })));
 const BrokerPortal = lazy(() => import('./components/portal/BrokerPortal').then(m => ({ default: m.BrokerPortal })));
 const ClientPortal = lazy(() => import('./components/portal/ClientPortal').then(m => ({ default: m.ClientPortal })));
+const ComingSoon = lazy(() => import('./components/ComingSoon').then(m => ({ default: m.ComingSoon })));
 
 import { LazySection } from './components/LazySection';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
 
 function HomePage() {
   const [selectedOffers, setSelectedOffers] = useState<string[]>([]);
@@ -39,19 +50,19 @@ function HomePage() {
   return (
     <div>
       <Hero />
-      <LazySection minHeight="1200px">
+      <LazySection id="features" minHeight="1200px">
         <Suspense fallback={<div className="h-64 flex items-center justify-center"><div className="w-8 h-8 rounded-full border-2 border-gold border-t-transparent animate-spin"></div></div>}>
           <Features onOpen3D={() => {}} />
         </Suspense>
       </LazySection>
       
-      <LazySection minHeight="1000px">
+      <LazySection id="offers-section" minHeight="1000px">
         <Suspense fallback={<div className="h-64 flex items-center justify-center"><div className="w-8 h-8 rounded-full border-2 border-gold border-t-transparent animate-spin"></div></div>}>
           <Promotions onClaim={handleClaim} />
         </Suspense>
       </LazySection>
       
-      <LazySection minHeight="2000px">
+      <LazySection id="gallery" minHeight="2000px">
         <Suspense fallback={<div className="h-96 flex items-center justify-center"><div className="w-8 h-8 rounded-full border-2 border-gold border-t-transparent animate-spin"></div></div>}>
           <Gallery />
         </Suspense>
@@ -81,6 +92,7 @@ export default function App() {
   return (
     <CMSProvider>
       <Router>
+        <ScrollToTop />
         <div className="min-h-screen bg-paper overflow-x-hidden w-full">
           <Suspense fallback={null}>
             <Navbar />
@@ -120,6 +132,11 @@ export default function App() {
               <Route path="/terms-of-service" element={
                 <Suspense fallback={null}>
                   <TermsOfService />
+                </Suspense>
+              } />
+              <Route path="/coming-soon" element={
+                <Suspense fallback={null}>
+                  <ComingSoon />
                 </Suspense>
               } />
             </Routes>

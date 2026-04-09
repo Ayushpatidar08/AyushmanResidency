@@ -497,7 +497,6 @@ export function SuperAdminPortal() {
                       <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/50">Customer</th>
                       <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/50">Requirements</th>
                       <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/50">Status</th>
-                      <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/50">Referral</th>
                       <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/50">Assigned To</th>
                       <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/50">Actions</th>
                     </tr>
@@ -542,16 +541,7 @@ export function SuperAdminPortal() {
                               <option value="closed">Closed</option>
                             </select>
                           </td>
-                          <td className="px-6 py-4">
-                            {lead.referral ? (
-                              <div className="flex flex-col">
-                                <span className="text-xs text-white/40 uppercase font-bold tracking-tighter">Broker</span>
-                                <span className="text-sm font-bold text-gold">{lead.referral}</span>
-                              </div>
-                            ) : (
-                              <span className="text-white/20 text-xs italic">Direct Inquiry</span>
-                            )}
-                          </td>
+
                           <td className="px-6 py-4">
                             <select
                               value={lead.assigned_broker_id || ''}
@@ -1069,10 +1059,7 @@ export function SuperAdminPortal() {
                         <div className="p-2 bg-white/5 rounded-lg"><MapPin className="w-4 h-4 text-white/40" /></div>
                         <div><p className="text-xs text-white/40">Preferred Location</p><p className="font-bold">{selectedLead.location_pref || 'Not specified'}</p></div>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 bg-white/5 rounded-lg"><UserPlus className="w-4 h-4 text-gold" /></div>
-                        <div><p className="text-xs text-white/40">Referred By (Broker)</p><p className="font-bold text-gold">{selectedLead.referral || 'Direct Entry'}</p></div>
-                      </div>
+
                     </div>
                   </div>
                 </div>

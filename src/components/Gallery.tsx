@@ -253,7 +253,9 @@ export function Gallery() {
               muted 
               loop 
               playsInline
-              className={`w-full h-auto object-cover aspect-video transition-opacity duration-1000 ${deferredFlatVideoSrc ? 'opacity-100' : 'opacity-0'}`}
+              className={`w-full h-auto object-cover transition-opacity duration-1000 ${
+                deferredFlatVideoSrc.includes('.webm') || deferredFlatVideoSrc.includes('.mp4') ? 'aspect-[9/16]' : 'aspect-video'
+              } ${deferredFlatVideoSrc ? 'opacity-100' : 'opacity-0'}`}
             />
             <div className="absolute inset-0 bg-dark/30 group-hover:bg-transparent transition-colors" />
             <div className="absolute top-3 left-3">
@@ -391,7 +393,11 @@ export function Gallery() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="w-full h-full max-w-6xl aspect-video rounded-3xl overflow-hidden shadow-2xl bg-black"
+              className={`rounded-3xl overflow-hidden shadow-2xl bg-black ${
+                selectedVideo.includes('.webm') || selectedVideo.includes('.mp4')
+                  ? 'w-[85vw] max-w-[420px] aspect-[9/16] max-h-[85vh]'
+                  : 'w-full h-full max-w-6xl aspect-video'
+              }`}
               onClick={(e) => e.stopPropagation()}
             >
               {(() => {

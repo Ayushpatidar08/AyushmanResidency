@@ -27,7 +27,7 @@ const properties = [
     desc: 'Experience 1,200 sq.ft of Exquisite Luxury, Meticulously designed for Ultimate comfort.',
     image: '/3bhk-plan.webp',
     details: 'Premium corner views, Vast Living Area, Dual Balconies.',
-    videoUrl: '/video/2bhk.webm',
+    videoUrl: '/video/3bhk.webm',
     features: ['3 Bedrooms', '3 Washrooms', '1 Balcony', '1 Living Area', 'Large Kitchen', 'Premium Fittings'],
     isSold: false
   }
@@ -175,7 +175,7 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
 
                 <div className="grid grid-cols-2 gap-4 mb-8">
                   {prop.features.map((feature) => (
-                    <div key={feature} className="flex items-center space-x-2 text-sm text-danpm rk/70">
+                    <div key={feature} className="flex items-center space-x-2 text-sm text-dark/70">
                       <div className="w-5 h-5 rounded-full bg-gold/10 flex items-center justify-center">
                         <Check className="w-3 h-3 text-gold" />
                       </div>
@@ -278,7 +278,11 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="w-full max-w-6xl aspect-video rounded-3xl overflow-hidden shadow-2xl bg-black relative"
+              className={`rounded-3xl overflow-hidden shadow-2xl bg-black relative ${
+                activeVideo.includes('.webm') || activeVideo.includes('.mp4')
+                  ? 'w-[85vw] max-w-[420px] aspect-[9/16] max-h-[85vh]' 
+                  : 'w-full max-w-6xl aspect-video'
+              }`}
             >
               {activeVideo.endsWith('.webm') || activeVideo.endsWith('.mp4') ? (
                 <video 

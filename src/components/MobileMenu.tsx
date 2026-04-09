@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 
 const menuItems = [
   { label: 'Home', href: '/#home' },
-  { label: 'Residences', href: '/#features' },
+  { label: 'Why Choose Us?', href: '/#offers-section' },
   { label: 'Gallery', href: '/#gallery' },
   { label: 'Contact', href: '/#contact' },
 ];

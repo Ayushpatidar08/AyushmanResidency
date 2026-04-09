@@ -33,13 +33,19 @@ export function Footer() {
             <p className="text-white/80 text-sm font-medium mb-3">Connect With Us On</p>
             <div className="flex space-x-3 mt-6">
               {[
-                { Icon: Instagram, href: 'https://www.instagram.com/shreegirirajrealestate', label: 'Instagram' },
-                { Icon: Youtube, href: 'https://youtu.be/vSvJb9Lpvzc?si=csaUNnCvRxoeg_kk', label: 'YouTube' },
-                { Icon: MessageCircle, href: 'https://wa.me/917869612823?text=Hello-AyushmaanResidency,I-am-intrested', label: 'WhatsApp' }
+                { Icon: Instagram, href: 'https://www.instagram.com/shreegirirajrealestate', label: 'Instagram', external: true },
+                { Icon: Youtube, href: '/coming-soon', label: 'YouTube', external: false },
+                { Icon: MessageCircle, href: 'https://wa.me/917869612823?text=Hello-AyushmaanResidency,I-am-intrested', label: 'WhatsApp', external: true }
               ].map((social, idx) => (
-                <a key={idx} href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label} className="p-2.5 bg-white/5 border border-white/10 rounded-full hover:bg-gold hover:border-gold hover:text-dark transition-all duration-300 group">
-                  <social.Icon className="w-5 h-5 text-white/70 group-hover:text-dark" />
-                </a>
+                social.external ? (
+                  <a key={idx} href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label} className="p-2.5 bg-white/5 border border-white/10 rounded-full hover:bg-gold hover:border-gold hover:text-dark transition-all duration-300 group">
+                    <social.Icon className="w-5 h-5 text-white/70 group-hover:text-dark" />
+                  </a>
+                ) : (
+                  <Link key={idx} to={social.href} aria-label={social.label} className="p-2.5 bg-white/5 border border-white/10 rounded-full hover:bg-gold hover:border-gold hover:text-dark transition-all duration-300 group">
+                    <social.Icon className="w-5 h-5 text-white/70 group-hover:text-dark" />
+                  </Link>
+                )
               ))}
             </div>
           </div>
@@ -49,10 +55,10 @@ export function Footer() {
             <h2 className="text-lg font-serif mb-6 text-gold tracking-wider">Explore</h2>
             <ul className="space-y-4">
               {[
-                { label: 'Home', href: '#' },
-                { label: 'Residences', href: '#features' },
-                { label: 'Gallery', href: '#gallery' },
-                { label: 'Contact Us', href: '#contact' },
+                { label: 'Home', href: '/#home' },
+                { label: 'Residences', href: '/#features' },
+                { label: 'Gallery', href: '/#gallery' },
+                { label: 'Contact Us', href: '/#contact' },
                 { label: 'Portal', href: '/admin' }
               ].map((link, idx) => (
                 <li key={idx}>

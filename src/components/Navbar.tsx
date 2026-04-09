@@ -6,7 +6,7 @@ const MobileMenu = lazy(() => import('./MobileMenu'));
 
 const menuItems = [
   { label: 'Home', href: '/#home' },
-  { label: 'Residences', href: '/#features' },
+  { label: 'Why Choose Us?', href: '/#offers-section' },
   { label: 'Gallery', href: '/#gallery' },
   { label: 'Contact', href: '/#contact' },
 ];

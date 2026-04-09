@@ -44,7 +44,7 @@ export function Hero() {
               <div className="flex items-center space-x-2"><span className="text-[#D4AF37]">✦</span> <span>24x7 Water Supply</span></div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-4">
               <a
                 href="#contact"
                 className="inline-flex items-center justify-center px-8 py-4 bg-[#D4AF37] text-dark font-bold rounded-full hover:scale-105 transition-transform duration-300 group shadow-lg shadow-[#D4AF37]/20"
@@ -53,10 +53,22 @@ export function Hero() {
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </a>
               <a
-                href="#gallery"
+                href="#offers-section"
                 className="inline-flex items-center justify-center px-8 py-4 border border-white text-white font-bold rounded-full hover:bg-white/10 transition-colors duration-300"
               >
-                View Amenities
+                Why Choose Us?
+              </a>
+              <a
+                href="#features"
+                className="inline-flex items-center justify-center px-8 py-4 border border-white/40 text-white font-bold rounded-full hover:bg-white/10 transition-colors duration-300"
+              >
+                View Flats
+              </a>
+              <a
+                href="#gallery"
+                className="inline-flex items-center justify-center px-8 py-4 border border-white/40 text-white font-bold rounded-full hover:bg-white/10 transition-colors duration-300"
+              >
+                View Gallery
               </a>
             </div>
           </div>
