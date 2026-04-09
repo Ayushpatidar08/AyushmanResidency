@@ -81,7 +81,7 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href={cms.contact_phone_footer ? `tel:${cms.contact_phone_footer.replace(/[^0-9+]/g, '')}` : "tel:+91 1234567890"} className="flex items-start space-x-4 group text-left">
+                <a href={cms.contact_phone_footer ? `tel:${cms.contact_phone_footer.replace(/[^0-9+]/g, '')}` : "tel:+917869612823"} className="flex items-start space-x-4 group text-left">
                   <div className="p-2 bg-white/5 rounded-lg border border-white/10 mt-0.5 group-hover:border-gold/50 transition-colors">
                     <Phone className="w-4 h-4 text-gold" />
                   </div>
@@ -92,7 +92,7 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href={`mailto:${cms.contact_email_footer || 'fakeayush062006@gmail.com'}`} className="flex items-start space-x-4 group text-left">
+                <a href={`mailto:${cms.contact_email_footer || 'residencyayushman@gmail.com'}`} className="flex items-start space-x-4 group text-left">
                   <div className="p-2 bg-white/5 rounded-lg border border-white/10 mt-0.5 group-hover:border-gold/50 transition-colors">
                     <Mail className="w-4 h-4 text-gold" />
                   </div>
