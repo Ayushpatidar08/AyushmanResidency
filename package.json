@@ -9,6 +9,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean": "if exist dist rmdir /s /q dist",
+    "commit": "git add . && git commit -m \"update\" && git push origin main",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
