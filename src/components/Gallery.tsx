@@ -48,8 +48,8 @@ export function Gallery() {
   useEffect(() => {
     // Defer loading of non-critical flat visit video to optimize performance (LCP)
     const handleLoad = () => {
-      setTimeout(() => setDeferredFlatVideoSrc('/video/2bhk.webm'), 14000);
-      setTimeout(() => setDeferredDroneVideoSrc('/video/drone.webm'), 12000);
+      setTimeout(() => setDeferredFlatVideoSrc('/video/2bhk.webm'), 8000);
+      setTimeout(() => setDeferredDroneVideoSrc('/video/drone.webm'), 6000);
     };
 
     if (document.readyState === 'complete') {

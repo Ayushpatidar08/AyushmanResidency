@@ -18,7 +18,7 @@ export default function LeafletMap({ position }: { position: [number, number] })
   return (
     <MapContainer 
       center={position} 
-      zoom={17} 
+      zoom={15} 
       style={{ height: '100%', width: '100%', background: '#111' }}
       scrollWheelZoom={false}
       zoomControl={true}

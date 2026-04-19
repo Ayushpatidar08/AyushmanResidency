@@ -116,7 +116,6 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
                   height={600}
                   className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ${prop.isSold ? 'grayscale' : ''}`}
                   referrerPolicy="no-referrer"
-                  loading="lazy"
                   decoding="async"
                 />
                 

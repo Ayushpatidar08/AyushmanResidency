@@ -5,8 +5,8 @@ import { useState, Suspense, lazy } from 'react';
 
 const Navbar = lazy(() => import('./components/Navbar').then(m => ({ default: m.Navbar })));
 const Footer = lazy(() => import('./components/Footer').then(m => ({ default: m.Footer })));
+import { Features } from './components/Features';
 const Gallery = lazy(() => import('./components/Gallery').then(m => ({ default: m.Gallery })));
-const Features = lazy(() => import('./components/Features').then(m => ({ default: m.Features })));
 const LeadForm = lazy(() => import('./components/LeadForm').then(m => ({ default: m.LeadForm })));
 const AdminDashboard = lazy(() => import('./components/AdminDashboard').then(m => ({ default: m.AdminDashboard })));
 const MapSection = lazy(() => import('./components/MapSection').then(m => ({ default: m.MapSection })));
@@ -50,11 +50,7 @@ function HomePage() {
   return (
     <div>
       <Hero />
-      <LazySection id="features" minHeight="1200px">
-        <Suspense fallback={<div className="h-64 flex items-center justify-center"><div className="w-8 h-8 rounded-full border-2 border-gold border-t-transparent animate-spin"></div></div>}>
-          <Features onOpen3D={() => {}} />
-        </Suspense>
-      </LazySection>
+      <Features onOpen3D={() => {}} />
       
       <LazySection id="offers-section" minHeight="1000px">
         <Suspense fallback={<div className="h-64 flex items-center justify-center"><div className="w-8 h-8 rounded-full border-2 border-gold border-t-transparent animate-spin"></div></div>}>

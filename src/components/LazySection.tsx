@@ -11,7 +11,7 @@ interface LazySectionProps {
 export function LazySection({ 
   children, 
   threshold = 0.1, 
-  rootMargin = '100px',
+  rootMargin = '500px',
   minHeight = '400px',
   id
 }: LazySectionProps) {
