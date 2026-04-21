@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Hero } from './components/Hero';
+import { Analytics } from '@vercel/analytics/react';
 
 import { useState, Suspense, lazy } from 'react';
 
@@ -141,6 +142,7 @@ export default function App() {
           </Suspense>
         </div>
       </Router>
+      <Analytics />
     </CMSProvider>
   );
 }
