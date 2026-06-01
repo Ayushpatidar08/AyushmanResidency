@@ -11,7 +11,7 @@ const properties = [
     details: 'Spacious balcony, Modern kitchen, Smart layout.',
     videoUrl: '/video/2bhk.webm',
     features: ['1 Bedroom', '1 Bathroom', '1 Balcony', 'G+6 View'],
-    isSold: true
+    isSold: false
   },
   {
     title: '2 BHK Flats',
