@@ -111,7 +111,8 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
               <div className="aspect-[4/3] overflow-hidden relative">
                 <img
                   src={prop.image}
-                  alt={prop.title}
+                  alt={`Ayushman Residency Rau Indore - ${prop.title} Floor Plan Layout`}
+                  title={`Ayushman Residency ${prop.title} Floor Plan`}
                   width={800}
                   height={600}
                   className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ${prop.isSold ? 'grayscale' : ''}`}

@@ -42,21 +42,36 @@
   }
   </script>
   
-  <!-- SCRIPT 2: ApartmentComplex Schema -->
+  <!-- SCRIPT 2: ApartmentComplex Schema with Complete Media & Amenities -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "ApartmentComplex",
     "name": "Ayushman Residency",
-    "description": "Premium G+6 Multi-Story Residences in Rau, Indore. Blocks A to K featuring 1, 2 and 3 BHK Flats.",
-    "url": "https://ayushmanresidency.vercel.app",
+    "alternateName": ["Ayushmaan Residency", "Ayushman Residency Indore", "Ayushman Residency Rau"],
+    "description": "Premium G+6 Multi-Story Residences in Rau, Indore near Medicaps University. Offering luxurious 1, 2 and 3 BHK flats with modern amenities, temple, lush gardens, 50-feet roads and 24x7 security.",
+    "url": "https://ayushmanresidency.vercel.app/",
     "telephone": "+917869612823",
     "logo": "https://ayushmanresidency.vercel.app/logo.png",
-    "image": "https://ayushmanresidency.vercel.app/hero-bg.webp",
+    "image": [
+      "https://ayushmanresidency.vercel.app/hero-bg.webp",
+      "https://ayushmanresidency.vercel.app/luxzurybuliding%20photo%20.webp",
+      "https://ayushmanresidency.vercel.app/gallery-1.webp",
+      "https://ayushmanresidency.vercel.app/gallery-2.webp",
+      "https://ayushmanresidency.vercel.app/gallery-3.webp",
+      "https://ayushmanresidency.vercel.app/gallery-4.webp",
+      "https://ayushmanresidency.vercel.app/gallery-5.webp",
+      "https://ayushmanresidency.vercel.app/gallery-6.webp",
+      "https://ayushmanresidency.vercel.app/gallery-7.webp",
+      "https://ayushmanresidency.vercel.app/1bhk.webp",
+      "https://ayushmanresidency.vercel.app/2bhk.webp",
+      "https://ayushmanresidency.vercel.app/2bhk-plan.webp",
+      "https://ayushmanresidency.vercel.app/3bhk-plan.webp"
+    ],
     "numberOfRooms": "1, 2 and 3 BHK",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Rau, near Medicaps University",
+      "streetAddress": "Rau, near Medicaps University, AB Road",
       "addressLocality": "Indore",
       "addressRegion": "Madhya Pradesh",
       "postalCode": "453331",
@@ -64,37 +79,95 @@
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": 22.6375,
-      "longitude": 75.8111
+      "latitude": 22.6141681,
+      "longitude": 75.8087054
     },
     "amenityFeature": [
       {
         "@type": "LocationFeatureSpecification",
-        "name": "Garden & Play Zone",
+        "name": "Garden & Children Play Zone",
         "value": true
       },
       {
         "@type": "LocationFeatureSpecification",
-        "name": "Temple & Wide Roads",
+        "name": "Mahadev Temple & Spiritual Zone",
         "value": true
       },
       {
         "@type": "LocationFeatureSpecification",
-        "name": "Massive Ground Parking",
+        "name": "50 Feet Wide Campus Roads",
         "value": true
       },
       {
         "@type": "LocationFeatureSpecification",
-        "name": "24x7 Water Supply",
+        "name": "Massive Ground Covered Parking",
+        "value": true
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        "name": "24x7 Water & Electricity Supply",
+        "value": true
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        "name": "24x7 CCTV & Single Gated Security",
+        "value": true
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        "name": "Superior Natural Ventilation with 50ft Building Gaps",
+        "value": true
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        "name": "Near Medicaps University and AB Road",
         "value": true
       }
     ],
     "sameAs": [
-      "https://www.instagram.com/ayushmanresidencyindore",
-      "https://www.justdial.com",
-      "https://www.proptiger.com"
+      "https://www.instagram.com/shreegirirajrealestate",
+      "https://maps.app.goo.gl/EUKjJBXYGgxubYUm8"
     ]
   }
+  </script>
+
+  <!-- SCRIPT 3: VideoObject Schemas for Google Video Search -->
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": "Ayushman Residency Drone Aerial Campus Tour Rau Indore",
+      "description": "Aerial drone tour of Ayushman Residency showcasing G+6 apartment towers, wide roads, and campus near Medicaps University, Indore.",
+      "thumbnailUrl": "https://ayushmanresidency.vercel.app/drone-thumbnail.png",
+      "uploadDate": "2026-04-01T00:00:00+05:30",
+      "contentUrl": "https://ayushmanresidency.vercel.app/video/drone.webm",
+      "embedUrl": "https://ayushmanresidency.vercel.app/",
+      "duration": "PT35S"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": "Ayushman Residency 2 BHK Flat Walkthrough Tour",
+      "description": "Sample walkthrough video of 2 BHK luxury flat at Ayushman Residency in Rau, Indore.",
+      "thumbnailUrl": "https://ayushmanresidency.vercel.app/2bhk.webp",
+      "uploadDate": "2026-04-01T00:00:00+05:30",
+      "contentUrl": "https://ayushmanresidency.vercel.app/video/2bhk.webm",
+      "embedUrl": "https://ayushmanresidency.vercel.app/",
+      "duration": "PT60S"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": "Ayushman Residency 3 BHK Luxury Flat Tour",
+      "description": "Exclusive sample flat tour of 3 BHK luxury residence at Ayushman Residency, Rau, Indore.",
+      "thumbnailUrl": "https://ayushmanresidency.vercel.app/3bhk-plan.webp",
+      "uploadDate": "2026-04-01T00:00:00+05:30",
+      "contentUrl": "https://ayushmanresidency.vercel.app/video/3bhk.webm",
+      "embedUrl": "https://ayushmanresidency.vercel.app/",
+      "duration": "PT90S"
+    }
+  ]
   </script>
 
   <!-- Google Fonts optimized loading -->

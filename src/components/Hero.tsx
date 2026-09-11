@@ -7,7 +7,8 @@ export function Hero() {
       <div className="absolute inset-0 z-0 h-full w-full">
         <img
           src="/hero-bg.webp"
-          alt="Luxury Building"
+          alt="Ayushman Residency Indore - Luxury G+6 Residential Building in Rau near Medicaps"
+          title="Ayushman Residency Indore Luxury Apartments"
           className="w-full h-full object-cover"
           fetchPriority="high"
           decoding="async"

@@ -1,32 +1,183 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+
+  <!-- Main Homepage (With all Project Images & Videos & Amenities) -->
   <url>
     <loc>https://ayushmanresidency.vercel.app/</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-09-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+
+    <!-- Project Exterior & Hero Image -->
+    <image:image>
+      <image:loc>https://ayushmanresidency.vercel.app/hero-bg.webp</image:loc>
+      <image:title>Ayushman Residency Indore Luxury Apartments Exterior View</image:title>
+      <image:caption>Premium G+6 multi-story residential building featuring 1, 2, and 3 BHK apartments in Rau, Indore near Medicaps University.</image:caption>
+    </image:image>
+
+    <!-- Brand Logo -->
+    <image:image>
+      <image:loc>https://ayushmanresidency.vercel.app/logo.png</image:loc>
+      <image:title>Ayushman Residency Official Logo</image:title>
+      <image:caption>Official logo and branding of Ayushman Residency Rau Indore.</image:caption>
+    </image:image>
+
+    <!-- Luxury Building Photo -->
+    <image:image>
+      <image:loc>https://ayushmanresidency.vercel.app/luxzurybuliding%20photo%20.webp</image:loc>
+      <image:title>Ayushman Residency Building Elevation and Architecture</image:title>
+      <image:caption>Modern luxury architectural design, wide campus, and premium residential towers in Rau Road Indore.</image:caption>
+    </image:image>
+
+    <!-- Floor Plans & Flat Layouts -->
+    <image:image>
+      <image:loc>https://ayushmanresidency.vercel.app/1bhk.webp</image:loc>
+      <image:title>1 BHK Flat Layout - Ayushman Residency Indore</image:title>
+      <image:caption>540 sq.ft tailored compact luxury 1 BHK flat layout plan with balcony and modern modular kitchen.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://ayushmanresidency.vercel.app/2bhk.webp</image:loc>
+      <image:title>2 BHK Luxury Flat - Ayushman Residency Rau Indore</image:title>
+      <image:caption>1050 sq.ft spacious 2 BHK apartment interior and layout designed for families in Rau Indore.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://ayushmanresidency.vercel.app/2bhk-plan.webp</image:loc>
+      <image:title>2 BHK Floor Plan - Ayushman Residency</image:title>
+      <image:caption>Detailed architectural 2 BHK floor plan diagram with master bedroom, 2 washrooms, and 3 balconies.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://ayushmanresidency.vercel.app/3bhk-plan.webp</image:loc>
+      <image:title>3 BHK Luxury Floor Plan - Ayushman Residency Indore</image:title>
+      <image:caption>1200 sq.ft 3 BHK luxury flat layout with vast living area, dual balconies, 3 washrooms and premium fittings.</image:caption>
+    </image:image>
+
+    <!-- Gallery & Amenities Images -->
+    <image:image>
+      <image:loc>https://ayushmanresidency.vercel.app/gallery-1.webp</image:loc>
+      <image:title>Ayushman Residency Building Exterior and Elevation</image:title>
+      <image:caption>High quality elevation and finished structure of Ayushman Residency residential towers.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://ayushmanresidency.vercel.app/gallery-2.webp</image:loc>
+      <image:title>Ayushman Residency Campus and Amenities</image:title>
+      <image:caption>Spacious open campus, landscaped garden and wide 50-feet internal roads.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://ayushmanresidency.vercel.app/gallery-3.webp</image:loc>
+      <image:title>Ayushman Residency Apartment Living Space</image:title>
+      <image:caption>Spacious, well-ventilated living room with natural sunlight and balcony access.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://ayushmanresidency.vercel.app/gallery-4.webp</image:loc>
+      <image:title>Ayushman Residency Modern Flat Interiors</image:title>
+      <image:caption>Modern interior craftsmanship, vitrified tile flooring, and premium finishes.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://ayushmanresidency.vercel.app/gallery-5.webp</image:loc>
+      <image:title>Ayushman Residency Residential Front View</image:title>
+      <image:caption>Grand entrance and frontage of Ayushman Residency in Rau, Indore.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://ayushmanresidency.vercel.app/gallery-6.webp</image:loc>
+      <image:title>Ayushman Residency Temple and Garden Amenity</image:title>
+      <image:caption>Lush green landscaped park, children play zone, and Mahadev temple inside campus.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://ayushmanresidency.vercel.app/gallery-7.webp</image:loc>
+      <image:title>Ayushman Residency G+6 Multi-Story Balcony View</image:title>
+      <image:caption>Serene view and fresh ventilation from high-rise balconies across Rau-Indore skyline.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://ayushmanresidency.vercel.app/drone-thumbnail.png</image:loc>
+      <image:title>Ayushman Residency Aerial Drone View</image:title>
+      <image:caption>Panoramic drone view showing blocks A to K, large ground parking and open campus.</image:caption>
+    </image:image>
+
+    <!-- Video 1: Drone Aerial View Video -->
+    <video:video>
+      <video:thumbnail_loc>https://ayushmanresidency.vercel.app/drone-thumbnail.png</video:thumbnail_loc>
+      <video:title>Ayushman Residency Aerial Drone Campus Tour Rau Indore</video:title>
+      <video:description>Complete aerial drone view of Ayushman Residency showcasing G+6 towers, wide 50-feet roads, ground parking, garden, and campus layout near Medicaps University, Rau, Indore.</video:description>
+      <video:content_loc>https://ayushmanresidency.vercel.app/video/drone.webm</video:content_loc>
+      <video:player_loc>https://ayushmanresidency.vercel.app/</video:player_loc>
+      <video:duration>35</video:duration>
+      <video:publication_date>2026-04-01T00:00:00+05:30</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+
+    <!-- Video 2: 2 BHK Flat Sample Visit Video -->
+    <video:video>
+      <video:thumbnail_loc>https://ayushmanresidency.vercel.app/2bhk.webp</video:thumbnail_loc>
+      <video:title>Ayushman Residency 2 BHK Flat Walkthrough Video Tour</video:title>
+      <video:description>Walkthrough video tour of sample 2 BHK flat at Ayushman Residency, Rau, Indore displaying living room, modular kitchen, bedrooms and balconies.</video:description>
+      <video:content_loc>https://ayushmanresidency.vercel.app/video/2bhk.webm</video:content_loc>
+      <video:player_loc>https://ayushmanresidency.vercel.app/</video:player_loc>
+      <video:duration>60</video:duration>
+      <video:publication_date>2026-04-01T00:00:00+05:30</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+
+    <!-- Video 3: 3 BHK Luxury Flat Video Tour -->
+    <video:video>
+      <video:thumbnail_loc>https://ayushmanresidency.vercel.app/3bhk-plan.webp</video:thumbnail_loc>
+      <video:title>Ayushman Residency 3 BHK Luxury Apartment Video Tour</video:title>
+      <video:description>Exclusive 3 BHK sample flat video tour at Ayushman Residency Rau Indore featuring expansive living room, 3 bedrooms, 3 washrooms, and dual balconies.</video:description>
+      <video:content_loc>https://ayushmanresidency.vercel.app/video/3bhk.webm</video:content_loc>
+      <video:player_loc>https://ayushmanresidency.vercel.app/</video:player_loc>
+      <video:duration>90</video:duration>
+      <video:publication_date>2026-04-01T00:00:00+05:30</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
   </url>
+
+  <!-- Developer Page -->
   <url>
     <loc>https://ayushmanresidency.vercel.app/developer</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-09-11</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://ayushmanresidency.vercel.app/developer.webp</image:loc>
+      <image:title>Ayush Patidar - Website Developer</image:title>
+      <image:caption>Ayush Patidar, Frontend & Full-Stack Developer of the official Ayushman Residency web portal.</image:caption>
+    </image:image>
   </url>
+
+  <!-- Privacy Policy Page -->
   <url>
     <loc>https://ayushmanresidency.vercel.app/privacy-policy</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-09-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
+
+  <!-- Terms of Service Page -->
   <url>
     <loc>https://ayushmanresidency.vercel.app/terms-of-service</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-09-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
+
+  <!-- Coming Soon Page -->
   <url>
     <loc>https://ayushmanresidency.vercel.app/coming-soon</loc>
-    <lastmod>2026-07-15</lastmod>
+    <lastmod>2026-09-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>

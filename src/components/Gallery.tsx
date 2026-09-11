@@ -223,7 +223,8 @@ export function Gallery() {
             >
               <img 
                 src={url} 
-                alt={`Gallery image ${index + 1}`} 
+                alt={`Ayushman Residency Rau Indore - Gallery Photo ${index + 1} Luxury Apartments & Amenities`} 
+                title={`Ayushman Residency Rau Indore - Gallery ${index + 1}`}
                 width={600}
                 height={400}
                 className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-700 ease-out"
