@@ -1,13 +1,15 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { Building2, X, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { scrollToSection } from '../utils/scroll';
 
 const menuItems = [
-  { label: 'Home', href: '/#home' },
-  { label: 'Why Choose Us?', href: '/#offers-section' },
-  { label: 'Gallery', href: '/#gallery' },
-  { label: 'Contact', href: '/#contact' },
+  { label: 'Home', href: '#home' },
+  { label: 'Residences', href: '#features' },
+  { label: 'Gallery', href: '#gallery' },
+  { label: 'Why Choose Us?', href: '#offers-section' },
+  { label: 'Contact', href: '#contact' },
 ];
 
 interface MobileMenuProps {
@@ -16,12 +18,25 @@ interface MobileMenuProps {
 
 export default function MobileMenu({ onClose }: MobileMenuProps) {
   const [isVisible, setIsVisible] = useState(true);
+  const location = useLocation();
 
   const handleClose = () => {
     setIsVisible(false);
     setTimeout(() => {
       onClose();
-    }, 500); // Wait for exit animation
+    }, 400); // Wait for exit animation
+  };
+
+  const handleItemClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (location.pathname === '/') {
+      e.preventDefault();
+      handleClose();
+      setTimeout(() => {
+        scrollToSection(href);
+      }, 450);
+    } else {
+      handleClose();
+    }
   };
 
   return (
@@ -94,9 +109,9 @@ export default function MobileMenu({ onClose }: MobileMenuProps) {
                   transition={{ duration: 0.4, delay: 0.15 + i * 0.08 }}
                 >
                   <a
-                    href={item.href}
+                    href={location.pathname === '/' ? item.href : `/${item.href}`}
                     className="group flex items-center gap-4 py-4"
-                    onClick={handleClose}
+                    onClick={(e) => handleItemClick(e, item.href)}
                   >
                     {/* Number */}
                     <span className="text-xs font-mono text-gold/50 w-6">0{i + 1}</span>

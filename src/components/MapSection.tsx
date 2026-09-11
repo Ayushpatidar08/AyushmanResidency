@@ -114,10 +114,10 @@ export function MapSection() {
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
           {/* Amenity List Panel */}
           <div className="lg:col-span-5 space-y-4 flex flex-col justify-between">
-            <div className="space-y-4">
+            <div className="space-y-3">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTab}
@@ -125,27 +125,27 @@ export function MapSection() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
                   transition={{ duration: 0.4, ease: "circOut" }}
-                  className="space-y-4"
+                  className="space-y-2.5 sm:space-y-3"
                 >
                   {AMENITIES[activeTab].map((item, idx) => (
                     <motion.div
                       key={item.name}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: idx * 0.1 }}
-                      className="group p-5 bg-white/5 rounded-3xl border border-white/10 hover:border-gold/50 hover:bg-white/[0.08] transition-all duration-500 flex items-start gap-5 cursor-default"
+                      transition={{ delay: idx * 0.06 }}
+                      className="group p-3.5 sm:p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-gold/50 hover:bg-white/[0.08] transition-all duration-300 flex items-start gap-3.5 cursor-default"
                     >
-                      <div className="p-4 bg-gold/10 rounded-2xl group-hover:scale-110 transition-transform duration-500">
-                        <item.icon className="w-6 h-6 text-gold" />
+                      <div className="p-2.5 bg-gold/10 rounded-xl group-hover:scale-105 transition-transform duration-300 shrink-0">
+                        <item.icon className="w-5 h-5 text-gold" />
                       </div>
-                      <div className="flex-1">
-                        <div className="flex justify-between items-start mb-1">
-                          <h4 className="font-bold text-white text-lg group-hover:text-gold transition-colors">{item.name}</h4>
-                          <span className="px-3 py-1 bg-white/5 rounded-full text-[10px] font-black uppercase tracking-widest text-gold/60 border border-gold/20">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex justify-between items-start mb-0.5">
+                          <h4 className="font-bold text-white text-sm sm:text-base group-hover:text-gold transition-colors truncate">{item.name}</h4>
+                          <span className="px-2.5 py-0.5 bg-white/5 rounded-full text-[10px] font-black uppercase tracking-wider text-gold/80 border border-gold/20 shrink-0 ml-2">
                             {item.dist}
                           </span>
                         </div>
-                        <p className="text-white/40 text-sm leading-relaxed">{item.desc}</p>
+                        <p className="text-white/40 text-xs leading-snug line-clamp-2">{item.desc}</p>
                       </div>
                     </motion.div>
                   ))}
@@ -153,56 +153,66 @@ export function MapSection() {
               </AnimatePresence>
             </div>
 
+            {/* Clear Address & Destination Card */}
             <motion.div 
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              className="mt-8 p-8 bg-gradient-to-br from-gold/20 to-transparent rounded-[2.5rem] border border-gold/20 relative group overflow-hidden"
+              viewport={{ once: true }}
+              className="mt-6 p-6 sm:p-7 bg-gradient-to-br from-gold/15 to-white/5 rounded-3xl border border-gold/20 relative group overflow-hidden"
             >
-              <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:rotate-12 transition-transform duration-700">
-                <Compass className="w-24 h-24 text-gold" />
+              <div className="absolute top-0 right-0 p-5 opacity-10 pointer-events-none">
+                <Compass className="w-20 h-20 text-gold" />
               </div>
               <div className="relative z-10">
-                <div className="flex items-center gap-2 text-gold mb-3 font-black text-xs uppercase tracking-widest">
-                  <Info className="w-4 h-4" /> Destination Stats
+                <div className="flex items-center gap-2 text-gold mb-2 font-bold text-[11px] uppercase tracking-widest">
+                  <MapPin className="w-4 h-4 text-emerald-400" /> Official Site Address
                 </div>
-                <h3 className="text-2xl font-serif text-white mb-6 italic">Strategically Located in <br /> Rau, Indore</h3>
-                <div className="grid grid-cols-2 gap-6 mb-8">
+                <h3 className="text-lg sm:text-xl font-serif text-white font-bold mb-1">
+                  Ayushman Residency, Rau
+                </h3>
+                <p className="text-white/60 text-xs sm:text-sm leading-relaxed mb-4">
+                  Near Medi-Caps University, AB Road Bypass, Rau, Indore, Madhya Pradesh - 453331
+                </p>
+
+                <div className="grid grid-cols-2 gap-3 mb-5 p-3 bg-black/40 rounded-2xl border border-white/5">
                   <div>
-                    <p className="text-white/40 text-xs font-bold uppercase tracking-widest mb-1">Commute Ease</p>
-                    <p className="text-gold text-2xl font-black">1.0 km <span className="text-xs uppercase ml-1">to NH-52</span></p>
+                    <p className="text-white/40 text-[10px] font-bold uppercase tracking-wider">Highway Access</p>
+                    <p className="text-gold text-lg font-black">1.0 km <span className="text-[10px] text-white/50 uppercase">NH-52</span></p>
                   </div>
                   <div>
-                    <p className="text-white/40 text-xs font-bold uppercase tracking-widest mb-1">Airport Reach</p>
-                    <p className="text-gold text-2xl font-black">25 mins <span className="text-xs uppercase ml-1">Drive</span></p>
+                    <p className="text-white/40 text-[10px] font-bold uppercase tracking-wider">Indore Airport</p>
+                    <p className="text-gold text-lg font-black">25 mins <span className="text-[10px] text-white/50 uppercase">Drive</span></p>
                   </div>
                 </div>
+
                 <a 
                   href={cms.all_location_link || "https://maps.app.goo.gl/EUKjJBXYGgxubYUm8"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-5 bg-gold text-dark rounded-2xl font-black hover:bg-white hover:scale-[1.02] transition-all duration-500 shadow-2xl shadow-gold/20"
+                  className="flex items-center justify-center gap-2 w-full py-3.5 bg-gold hover:bg-white text-dark rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-xl shadow-gold/20"
                 >
-                  EXPLORE FULL NEIGHBORHOOD <ArrowRight className="w-5 h-5" />
+                  <span>Open Directions in Google Maps</span>
+                  <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
             </motion.div>
           </div>
 
           {/* Interactive Map Area */}
-          <div className="lg:col-span-7 h-[500px] md:h-[600px] lg:h-[700px] max-h-[60vh] lg:max-h-[80vh] rounded-[3rem] relative group border border-white/10 shadow-3xl overflow-hidden bg-dark">
-            <div className="absolute top-6 left-6 z-20 flex flex-col gap-3">
+          <div className="lg:col-span-7 h-[400px] sm:h-[480px] lg:h-auto min-h-[400px] rounded-3xl relative group border border-white/10 shadow-2xl overflow-hidden bg-dark">
+            <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
               <a 
                 href="https://maps.app.goo.gl/EUKjJBXYGgxubYUm8"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-dark/80 backdrop-blur-xl p-4 rounded-2xl border border-white/10 flex items-center gap-3 shadow-2xl hover:bg-gold/10 transition-colors group/link"
+                className="bg-dark/85 backdrop-blur-md p-3 rounded-xl border border-white/15 flex items-center gap-3 shadow-xl hover:bg-gold/10 transition-colors"
               >
-                <div className="w-10 h-10 bg-emerald-500/20 rounded-xl flex items-center justify-center border border-emerald-500/30 group-hover/link:bg-gold/20 group-hover/link:border-gold/30">
-                  <MapPin className="w-5 h-5 text-emerald-400 animate-bounce group-hover/link:text-gold" />
+                <div className="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center border border-emerald-500/30">
+                  <MapPin className="w-4 h-4 text-emerald-400" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black uppercase text-white/40 tracking-widest">Your Future Address</p>
-                  <p className="text-sm font-bold text-white uppercase tracking-tight group-hover/link:text-gold transition-colors">Ayushmaan Residency, Rau</p>
+                  <p className="text-[9px] font-bold uppercase text-white/40 tracking-wider">GPS Verified Location</p>
+                  <p className="text-xs font-bold text-white uppercase">Ayushman Residency Rau</p>
                 </div>
               </a>
             </div>

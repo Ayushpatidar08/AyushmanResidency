@@ -1,244 +1,236 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Check, Maximize2, Ruler, Box, Play, X } from 'lucide-react';
+import { Check, Maximize2, Ruler, Box, Play, X, Download, Tag } from 'lucide-react';
+import { useCMS } from '../context/CMSContext';
 
 const properties = [
   {
+    key: '1bhk',
     title: '1 BHK Flats',
-    desc: '540 sq.ft tailored for Compact, Efficient, and Luxurious living.',
-    price: 'Unavailable',
+    desc: '540 sq.ft tailored for compact & modern living.',
+    defaultPrice: '₹18.5 - ₹22.5 Lakhs*',
     image: '/1bhk.webp',
     details: 'Spacious balcony, Modern kitchen, Smart layout.',
     videoUrl: '/video/2bhk.webm',
-    features: ['1 Bedroom', '1 Bathroom', '1 Balcony', 'G+6 View'],
-    isSold: false
+    features: ['1 Bedroom', '1 Bathroom', '1 Balcony', 'G+6 View', 'Modular Kitchen', 'Vitrified Tiles'],
+    brochureUrl: '/brochure-1bhk.pdf'
   },
   {
+    key: '2bhk',
     title: '2 BHK Flats',
-    desc: '1050 sq.ft designed for Growing Families with Premium Amenities.',
+    desc: '1050 sq.ft designed for growing families.',
+    defaultPrice: '₹27.5 - ₹33.0 Lakhs*',
     image: '/2bhk-plan.webp',
     details: 'Master bedroom with en-suite, ample sunlight, 3 spacious balconies.',
     videoUrl: '/video/2bhk.webm',
-    features: ['2 Bedrooms', '2 Washrooms', '3 Balconies', '1 Living Room', 'Kitchen', 'G+6 View'],
-    isSold: false
+    features: ['2 Bedrooms', '2 Washrooms', '3 Balconies', '1 Living Room', 'Kitchen & Wash', 'G+6 View'],
+    brochureUrl: '/brochure.pdf'
   },
   {
+    key: '3bhk',
     title: '3 BHK Flats',
-    desc: 'Experience 1,200 sq.ft of Exquisite Luxury, Meticulously designed for Ultimate comfort.',
+    desc: '1200 sq.ft of expansive luxury and comfort.',
+    defaultPrice: '₹38.0 - ₹44.5 Lakhs*',
     image: '/3bhk-plan.webp',
     details: 'Premium corner views, Vast Living Area, Dual Balconies.',
     videoUrl: '/video/3bhk.webm',
-    features: ['3 Bedrooms', '3 Washrooms', '1 Balcony', '1 Living Area', 'Large Kitchen', 'Premium Fittings'],
-    isSold: false
+    features: ['3 Bedrooms', '3 Washrooms', '2 Balconies', 'Vast Living Area', 'Large Kitchen', 'Premium Fittings'],
+    brochureUrl: '/brochure.pdf'
   }
 ];
-
-import { useCMS } from '../context/CMSContext';
 
 export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
   const { data: cms } = useCMS();
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [show3DDialog, setShow3DDialog] = useState(false);
 
-  const handleDownload = (type: string) => {
-    // Redirect to the actual brochure PDF file in public folder
+  const handleDownload = (prop: typeof properties[0]) => {
     const link = document.createElement('a');
-    link.href = '/brochure.pdf';
-    link.download = `Ayushman_Residency_${type.replace(' ', '_')}_Brochure.pdf`;
+    link.href = prop.brochureUrl;
+    link.download = `Ayushman_Residency_${prop.key.toUpperCase()}_Brochure.pdf`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
   const dynamicProperties = properties.map(p => {
-    if (p.title === '2 BHK Flats') {
-      return { ...p, image: cms.main_photo_2bhk || p.image };
+    let customImage = p.image;
+    let customVideo = p.videoUrl;
+    let customPrice = p.defaultPrice;
+    let isSold = false;
+
+    if (p.key === '1bhk') {
+      customImage = cms.main_photo_1bhk || p.image;
+      customVideo = cms.video_url_1bhk || p.videoUrl;
+      customPrice = cms.price_1bhk || p.defaultPrice;
+      isSold = cms.status_1bhk === 'sold';
+    } else if (p.key === '2bhk') {
+      customImage = cms.main_photo_2bhk || p.image;
+      customVideo = cms.video_url_2bhk || p.videoUrl;
+      customPrice = cms.price_2bhk || p.defaultPrice;
+      isSold = cms.status_2bhk === 'sold';
+    } else if (p.key === '3bhk') {
+      customImage = cms.main_photo_3bhk || p.image;
+      customVideo = cms.video_url_3bhk || p.videoUrl;
+      customPrice = cms.price_3bhk || p.defaultPrice;
+      isSold = cms.status_3bhk === 'sold';
     }
-    if (p.title === '3 BHK Flats') {
-      return { ...p, image: cms.main_photo_3bhk || p.image, videoUrl: cms.video_url_3bhk || p.videoUrl };
-    }
-    return p;
+
+    return {
+      ...p,
+      image: customImage,
+      videoUrl: customVideo,
+      price: customPrice,
+      isSold
+    };
   });
 
-  useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      if (!event.origin.includes('youtube.com')) return;
-      try {
-        const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
-        if (data.event === 'onStateChange' && data.info === 0) {
-          const source = event.source as MessageEventSource || (event.currentTarget as any)?.contentWindow;
-          if (source) {
-            (source as Window).postMessage(JSON.stringify({ event: 'command', func: 'seekTo', args: [1, true] }), '*');
-            (source as Window).postMessage(JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), '*');
-          }
-        }
-      } catch (e) {}
-    };
-
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, []);
-
   return (
-    <section id="features" className="py-24 bg-white">
+    <section id="features" className="py-14 md:py-20 bg-white scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-20">
+        <div className="text-center mb-12 md:mb-16">
           <motion.span
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            className="text-gold font-bold uppercase tracking-[0.4em] text-xs mb-4 block"
+            className="text-gold font-bold uppercase tracking-[0.3em] text-xs mb-2 block"
           >
-            Floor Plans & Pricing
+            Floor Plans & Estimates
           </motion.span>
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-serif text-dark"
+            className="text-3xl md:text-5xl font-serif text-dark"
           >
-            Designed for <span className="italic">Modernity</span>
+            Meticulously Designed <span className="italic text-gold">Residences</span>
           </motion.h2>
+          <p className="text-dark/60 text-xs sm:text-sm mt-2 max-w-lg mx-auto">
+            Explore our ready-to-move 1, 2, and 3 BHK apartment floor plans in Rau, Indore.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {dynamicProperties.map((prop, index) => (
             <motion.div
-              key={prop.title}
-              initial={{ opacity: 0, x: index === 0 ? -50 : 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className={`group relative bg-paper rounded-3xl overflow-hidden shadow-2xl shadow-dark/5 ${prop.isSold ? 'opacity-80' : ''}`}
+              key={prop.key}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className={`group relative bg-paper rounded-3xl overflow-hidden shadow-lg shadow-dark/5 border border-dark/5 flex flex-col justify-between ${prop.isSold ? 'opacity-80' : ''}`}
             >
-              <div className="aspect-[4/3] overflow-hidden relative">
-                <img
-                  src={prop.image}
-                  alt={`Ayushman Residency Rau Indore - ${prop.title} Floor Plan Layout`}
-                  title={`Ayushman Residency ${prop.title} Floor Plan`}
-                  width={800}
-                  height={600}
-                  className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ${prop.isSold ? 'grayscale' : ''}`}
-                  referrerPolicy="no-referrer"
-                  decoding="async"
-                />
-                
-                {prop.isSold && (
-                  <div className="absolute inset-0 bg-dark/40 flex items-center justify-center z-10">
-                    <span className="px-8 py-3 bg-red-600 text-white font-bold text-2xl rotate-[-15deg] border-4 border-white uppercase tracking-wider shadow-2xl">
-                      Sold Out
+              <div>
+                {/* Image Section */}
+                <div className="aspect-[4/3] overflow-hidden relative bg-zinc-100">
+                  <img
+                    src={prop.image}
+                    alt={`Ayushman Residency Rau Indore - ${prop.title} Floor Plan Layout`}
+                    title={`Ayushman Residency ${prop.title} Floor Plan`}
+                    width={800}
+                    height={600}
+                    className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${prop.isSold ? 'grayscale' : ''}`}
+                    referrerPolicy="no-referrer"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  
+                  {prop.isSold && (
+                    <div className="absolute inset-0 bg-dark/40 flex items-center justify-center z-10">
+                      <span className="px-6 py-2 bg-red-600 text-white font-bold text-lg rotate-[-12deg] border-2 border-white uppercase tracking-wider shadow-2xl">
+                        Sold Out
+                      </span>
+                    </div>
+                  )}
+
+                  {!prop.isSold && (
+                    <div className="absolute top-3 right-3 flex space-x-2">
+                      <button
+                        onClick={() => setShow3DDialog(true)}
+                        title="3D Virtual Tour"
+                        className="p-2.5 bg-white/90 backdrop-blur-sm rounded-full text-dark hover:bg-gold transition-colors shadow-md group/btn"
+                        aria-label="View 3D"
+                      >
+                        <Box className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
+                      </button>
+                      <button 
+                        onClick={() => setActiveVideo(prop.videoUrl)}
+                        title="Video Tour"
+                        className="p-2.5 bg-white/90 backdrop-blur-sm rounded-full text-dark hover:bg-gold transition-colors shadow-md group/btn"
+                        aria-label="Play video"
+                      >
+                        <Play className="w-4 h-4 fill-dark group-hover/btn:scale-110 transition-transform" />
+                      </button>
+                    </div>
+                  )}
+
+                  <div className="absolute bottom-3 left-3 bg-dark/80 backdrop-blur-sm px-3 py-1 rounded-full text-white text-[11px] font-bold">
+                    {prop.key.toUpperCase()}
+                  </div>
+                </div>
+
+                {/* Content Section */}
+                <div className="p-5 sm:p-6">
+                  <div className="flex justify-between items-start mb-3">
+                    <div>
+                      <h3 className="text-xl font-serif font-bold text-dark">{prop.title}</h3>
+                      <p className="text-dark/50 text-xs mt-0.5">{prop.desc}</p>
+                    </div>
+                  </div>
+
+                  {/* Estimated Price Tag */}
+                  <div className="mb-4 p-2.5 bg-gold/10 border border-gold/30 rounded-xl flex items-center justify-between">
+                    <span className="text-[11px] uppercase tracking-wider font-bold text-dark/70 flex items-center gap-1">
+                      <Tag className="w-3.5 h-3.5 text-gold" /> Est. Price:
+                    </span>
+                    <span className="text-sm font-bold text-gold font-mono">
+                      {prop.price}
                     </span>
                   </div>
-                )}
 
-                {!prop.isSold && (
-                  <div className="absolute top-4 right-4 flex space-x-2">
-                    <button
-                      onClick={() => setShow3DDialog(true)}
-                      title="3D Virtual Tour"
-                      className="p-3 bg-white/90 backdrop-blur-sm rounded-full text-dark hover:bg-gold transition-colors shadow-lg group/btn"
-                    >
-                      <Box className="w-5 h-5 group-hover/btn:scale-110 transition-transform" />
-                    </button>
-                    <button 
-                      onClick={() => setActiveVideo(prop.videoUrl)}
-                      title="Video Tour"
-                      className="p-3 bg-white/90 backdrop-blur-sm rounded-full text-dark hover:bg-gold transition-colors shadow-lg group/btn"
-                    >
-                      <Play className="w-5 h-5 group-hover/btn:scale-110 transition-transform fill-dark" />
-                    </button>
+                  <div className="grid grid-cols-2 gap-2 mb-6">
+                    {prop.features.map((feature) => (
+                      <div key={feature} className="flex items-center space-x-1.5 text-xs text-dark/70">
+                        <Check className="w-3.5 h-3.5 text-gold shrink-0" />
+                        <span className="truncate">{feature}</span>
+                      </div>
+                    ))}
                   </div>
-                )}
+                </div>
               </div>
 
-              <div className="p-8 md:p-12">
-                <div className="flex justify-between items-start mb-6">
-                  <div>
-                    <h3 className="text-3xl font-serif font-bold mb-2">{prop.title}</h3>
-                    <div className="flex items-center text-dark/50 space-x-4">
-                      <span className="flex items-center text-sm">
-                        <Ruler className="w-4 h-4 mr-1" />
-                        {prop.desc}
-                      </span>
-                      <span className="flex items-center text-sm">
-                        <Maximize2 className="w-4 h-4 mr-1" />
-                        G+6 Floor
-                      </span>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <a 
-                      href="#contact"
-                      className={`px-6 py-2 rounded-full font-bold text-sm transition-all duration-300 flex items-center justify-center ${prop.isSold ? 'hidden' : 'bg-gold text-dark hover:scale-105 shadow-lg shadow-gold/20'}`}
-                    >
-                      Get the Price
-                    </a>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 mb-8">
-                  {prop.features.map((feature) => (
-                    <div key={feature} className="flex items-center space-x-2 text-sm text-dark/70">
-                      <div className="w-5 h-5 rounded-full bg-gold/10 flex items-center justify-center">
-                        <Check className="w-3 h-3 text-gold" />
-                      </div>
-                      <span>{feature}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <button
-                    disabled={prop.isSold}
-                    onClick={() => handleDownload(prop.title)}
-                    className={`py-4 border border-dark/10 rounded-full font-bold transition-all duration-300 ${prop.isSold ? 'cursor-not-allowed opacity-20' : 'hover:bg-dark hover:text-white'}`}
-                  >
-                    Brochure
-                  </button>
-                  <button
-                    disabled={prop.isSold}
-                    onClick={() => setActiveVideo(prop.videoUrl)}
-                    className={`py-4 bg-gold text-dark rounded-full font-bold transition-all duration-300 flex items-center justify-center group/play ${prop.isSold ? 'cursor-not-allowed opacity-20 grayscale' : 'hover:scale-105'}`}
-                  >
-                    Video Tour <Play className="ml-2 w-4 h-4 fill-dark group-hover/play:scale-110 transition-transform" />
-                  </button>
-                </div>
+              {/* Action Buttons */}
+              <div className="p-5 sm:p-6 pt-0 grid grid-cols-2 gap-3 mt-auto">
+                <button
+                  onClick={() => handleDownload(prop)}
+                  className="py-2.5 px-3 border border-dark/15 rounded-xl text-xs font-bold uppercase tracking-wider text-dark hover:bg-dark hover:text-white transition-all flex items-center justify-center gap-1.5"
+                >
+                  <Download className="w-3.5 h-3.5" /> Brochure
+                </button>
+                <button
+                  disabled={prop.isSold}
+                  onClick={() => setActiveVideo(prop.videoUrl)}
+                  className={`py-2.5 px-3 bg-gold text-dark rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${prop.isSold ? 'opacity-30 cursor-not-allowed' : 'hover:scale-[1.02] shadow-md shadow-gold/20'}`}
+                >
+                  <Play className="w-3.5 h-3.5 fill-dark" /> Video Tour
+                </button>
               </div>
             </motion.div>
           ))}
-          
-          {/* Quote Section */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex flex-col justify-center items-center lg:items-start p-8 md:p-12 text-center lg:text-left"
-          >
-            <h3 className="text-3xl md:text-5xl font-serif text-dark/80 mb-2 leading-tight">
-              Home that match your
-            </h3>
-            <h3 className="text-4xl md:text-7xl font-sans font-black text-gold tracking-tighter leading-none uppercase italic">
-              LUXURY <br className="hidden md:block" /> LIFESTYLE
-            </h3>
-            <div className="w-24 h-1 bg-gold mt-6 rounded-full opacity-50" />
-          </motion.div>
         </div>
       </div>
 
       {/* 3D Coming Soon Dialog */}
       <AnimatePresence>
         {show3DDialog && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] bg-dark/80 flex items-center justify-center p-6 backdrop-blur-sm"
+          <div
+            className="fixed inset-0 z-[120] bg-dark/85 flex items-center justify-center p-4 backdrop-blur-sm"
             onClick={() => setShow3DDialog(false)}
           >
             <motion.div
-              initial={{ scale: 0.85, opacity: 0 }}
+              initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.85, opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+              exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative bg-gradient-to-br from-dark to-dark/90 border border-gold/30 rounded-3xl p-10 max-w-sm w-full text-center shadow-2xl shadow-gold/10"
+              className="relative bg-dark border border-gold/30 rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl text-white"
             >
               <button
                 onClick={() => setShow3DDialog(false)}
@@ -246,43 +238,44 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
               >
                 <X className="w-4 h-4" />
               </button>
-              <div className="w-16 h-16 bg-gold/10 border border-gold/30 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <Box className="w-8 h-8 text-gold" />
+              <div className="w-14 h-14 bg-gold/10 border border-gold/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Box className="w-7 h-7 text-gold" />
               </div>
-              <h3 className="text-2xl font-serif text-white mb-3">3D Model</h3>
-              <p className="text-white/50 text-sm leading-relaxed">Our interactive 3D model experience is coming soon! Stay tuned for an immersive virtual tour of your future home.</p>
-              <div className="mt-6 px-6 py-2 bg-gold/10 border border-gold/30 rounded-full text-gold text-xs font-bold uppercase tracking-widest inline-block">
+              <h3 className="text-xl font-serif text-white mb-2">3D Virtual Model</h3>
+              <p className="text-white/60 text-xs leading-relaxed">
+                Our interactive 3D floor plan viewer is coming soon! Stay tuned for an immersive walkthrough of your future home.
+              </p>
+              <div className="mt-5 px-5 py-2 bg-gold/10 border border-gold/30 rounded-full text-gold text-[10px] font-bold uppercase tracking-widest inline-block">
                 Coming Soon
               </div>
             </motion.div>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
 
       {/* Video Modal */}
       <AnimatePresence>
         {activeVideo && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] bg-dark/95 flex items-center justify-center p-4 md:p-20 backdrop-blur-sm"
+          <div 
+            className="fixed inset-0 z-[120] bg-dark/95 flex items-center justify-center p-4 md:p-12 backdrop-blur-sm"
+            onClick={() => setActiveVideo(null)}
           >
             <button
               onClick={() => setActiveVideo(null)}
-              className="absolute top-4 right-4 md:top-10 md:right-10 p-3 bg-white/20 rounded-full text-white hover:bg-gold hover:text-dark transition-all z-[210] flex items-center justify-center shadow-lg"
+              className="absolute top-4 right-4 md:top-8 md:right-8 p-3 bg-white/20 rounded-full text-white hover:bg-gold hover:text-dark transition-all z-[130]"
             >
-              <X className="w-6 h-6 md:w-8 md:h-8" />
+              <X className="w-6 h-6" />
             </button>
             <motion.div 
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className={`rounded-3xl overflow-hidden shadow-2xl bg-black relative ${
+              className={`rounded-3xl overflow-hidden shadow-2xl bg-black ${
                 activeVideo.includes('.webm') || activeVideo.includes('.mp4')
-                  ? 'w-[85vw] max-w-[420px] aspect-[9/16] max-h-[85vh]' 
-                  : 'w-full max-w-6xl aspect-video'
+                  ? 'w-[90vw] max-w-[420px] aspect-[9/16] max-h-[85vh]' 
+                  : 'w-full max-w-5xl aspect-video'
               }`}
+              onClick={(e) => e.stopPropagation()}
             >
               {activeVideo.endsWith('.webm') || activeVideo.endsWith('.mp4') ? (
                 <video 
@@ -304,7 +297,7 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
                 />
               )}
             </motion.div>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </section>

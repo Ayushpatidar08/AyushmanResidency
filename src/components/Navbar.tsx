@@ -1,19 +1,22 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Building2, Menu } from 'lucide-react';
 import { useState, useEffect, lazy, Suspense } from 'react';
+import { scrollToSection } from '../utils/scroll';
 
 const MobileMenu = lazy(() => import('./MobileMenu'));
 
 const menuItems = [
-  { label: 'Home', href: '/#home' },
-  { label: 'Why Choose Us?', href: '/#offers-section' },
-  { label: 'Gallery', href: '/#gallery' },
-  { label: 'Contact', href: '/#contact' },
+  { label: 'Home', href: '#home' },
+  { label: 'Residences', href: '#features' },
+  { label: 'Gallery', href: '#gallery' },
+  { label: 'Why Choose Us?', href: '#offers-section' },
+  { label: 'Contact', href: '#contact' },
 ];
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -27,11 +30,18 @@ export function Navbar() {
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (location.pathname === '/') {
+      e.preventDefault();
+      scrollToSection(href);
+    }
+  };
+
   return (
     <nav className={`absolute top-0 w-full z-50 transition-all duration-500 pointer-events-none ${scrolled ? 'py-4' : 'py-8'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`pointer-events-auto relative flex justify-between h-20 items-center px-8 rounded-[2rem] transition-all duration-500 ${scrolled ? 'bg-dark/80 backdrop-blur-xl shadow-2xl shadow-black/50 border border-white/10' : 'bg-transparent'}`}>
-          <Link to="/" className="flex items-center space-x-3 group">
+          <Link to="/" onClick={(e) => { if (location.pathname === '/') { e.preventDefault(); scrollToSection('home'); } }} className="flex items-center space-x-3 group">
             <div
               className="p-2 bg-dark rounded-xl group-hover:bg-[#D4AF37] group-hover:rotate-180 transition-all duration-500"
             >
@@ -40,12 +50,13 @@ export function Navbar() {
             <span className="text-xl font-serif tracking-[0.2em] text-white">AYUSHMAN RESIDENCY</span>
           </Link>
 
-          <div className="hidden md:flex items-center space-x-12">
+          <div className="hidden md:flex items-center space-x-10">
             {menuItems.map((item) => (
               <a
                 key={item.label}
-                href={item.href}
-                className="text-[14px] font-serif tracking-widest text-[#F2F2F2] hover:text-[#D4AF37] transition-all duration-300 drop-shadow-sm hover:drop-shadow-md py-2"
+                href={location.pathname === '/' ? item.href : `/${item.href}`}
+                onClick={(e) => handleNavClick(e, item.href)}
+                className="text-[13px] font-serif tracking-widest text-[#F2F2F2] hover:text-[#D4AF37] transition-all duration-300 drop-shadow-sm hover:drop-shadow-md py-2 cursor-pointer"
               >
                 {item.label}
               </a>

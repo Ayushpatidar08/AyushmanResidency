@@ -1,71 +1,110 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Play, Camera, X, Volume2, VolumeX, Pause } from 'lucide-react';    
+import { Play, Camera, X, Volume2, VolumeX, Pause, Film } from 'lucide-react';
+import { useCMS } from '../context/CMSContext';
 
 const STATIC_IMAGES = [
-  '/gallery-5.webp',
-  '/gallery-1.webp',
-  '/gallery-2.webp',
-  '/gallery-3.webp',
-  '/gallery-4.webp',
-  '/gallery-6.webp',
-  '/gallery-7.webp',
+  { url: '/gallery-5.webp', category: 'exterior', title: 'Grand Elevation Front View' },
+  { url: '/gallery-1.webp', category: 'exterior', title: 'Modern Architecture Towers' },
+  { url: '/gallery-2.webp', category: 'campus', title: 'Open Green Campus & Wide Roads' },
+  { url: '/gallery-6.webp', category: 'amenities', title: 'Mahadev Temple & Garden' },
+  { url: '/gallery-3.webp', category: 'interior', title: 'Sunlit Living Room & Balcony' },
+  { url: '/gallery-4.webp', category: 'interior', title: 'Modern Finishes & Flooring' },
+  { url: '/gallery-7.webp', category: 'exterior', title: 'G+6 Scenic Balcony View' },
 ];
 
 const YOUTUBE_URL = "https://www.youtube.com/embed/vSvJb9Lpvzc?start=1&end=118";
-const YOUTUBE_EMBED_URL = "https://www.youtube.com/embed/vSvJb9Lpvzc?start=1&end=118";
 
-import { useCMS } from '../context/CMSContext';
+interface TourVideo {
+  id: string;
+  title: string;
+  subtitle: string;
+  url: string;
+  thumbnail: string;
+}
 
 export function Gallery() {
   const { data: cms } = useCMS();
-  const [galleryImages, setGalleryImages] = useState<string[]>(STATIC_IMAGES);
-
-  useEffect(() => {
-    if (cms.gallery_photos) {
-      try {
-        const parsed = JSON.parse(cms.gallery_photos);
-        if (parsed && parsed.length > 0) {
-          setGalleryImages([...STATIC_IMAGES, ...parsed]);
-        }
-      } catch(e) {}
-    }
-  }, [cms.gallery_photos]);
-
-  const currentVideoUrl = cms.gallery_videos || YOUTUBE_EMBED_URL;
-
+  const [activeCategory, setActiveCategory] = useState<'all' | 'exterior' | 'interior' | 'campus' | 'amenities'>('all');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  
+  // Video player and modal states
+  const [selectedVideo, setSelectedVideo] = useState<TourVideo | null>(null);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [isVideoSelectorOpen, setIsVideoSelectorOpen] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [deferredFlatVideoSrc, setDeferredFlatVideoSrc] = useState('');
-  const [deferredDroneVideoSrc, setDeferredDroneVideoSrc] = useState('');
+  
+  // Media element refs
   const videoRef = useRef<HTMLDivElement>(null);
   const droneVideoRef = useRef<HTMLVideoElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  useEffect(() => {
-    // Defer loading of non-critical flat visit video to optimize performance (LCP)
-    const handleLoad = () => {
-      setTimeout(() => setDeferredFlatVideoSrc('/video/2bhk.webm'), 8000);
-      setTimeout(() => setDeferredDroneVideoSrc('/video/drone.webm'), 6000);
-    };
+  const mainPromoVideo = cms.gallery_videos || YOUTUBE_URL;
 
-    if (document.readyState === 'complete') {
-      handleLoad();
-    } else {
-      window.addEventListener('load', handleLoad);
-      return () => window.removeEventListener('load', handleLoad);
+  const videoOptions: TourVideo[] = [
+    {
+      id: 'drone',
+      title: 'Drone Aerial Campus Tour',
+      subtitle: 'Panoramic view of towers, campus & 50-ft roads',
+      url: '/video/drone.webm',
+      thumbnail: '/drone-thumbnail.png'
+    },
+    {
+      id: '1bhk',
+      title: '1 BHK Sample Flat Tour',
+      subtitle: '540 sq.ft tailored compact luxury layout',
+      url: '/video/2bhk.webm',
+      thumbnail: '/1bhk.webp'
+    },
+    {
+      id: '2bhk',
+      title: '2 BHK Sample Flat Tour',
+      subtitle: '1050 sq.ft spacious family living with 3 balconies',
+      url: '/video/2bhk.webm',
+      thumbnail: '/2bhk-plan.webp'
+    },
+    {
+      id: '3bhk',
+      title: '3 BHK Luxury Flat Tour',
+      subtitle: '1200 sq.ft premium residence with dual balconies',
+      url: cms.video_url_3bhk || '/video/3bhk.webm',
+      thumbnail: '/3bhk-plan.webp'
+    },
+    {
+      id: 'promo',
+      title: 'Official Promotional Tour',
+      subtitle: 'Complete walkthrough of Ayushman Residency',
+      url: mainPromoVideo,
+      thumbnail: '/hero-bg.webp'
     }
+  ];
+
+  // IntersectionObserver for Drone Video (No hardcoded delays)
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (droneVideoRef.current) {
+            if (entry.isIntersecting) {
+              droneVideoRef.current.play().catch(() => {});
+            } else {
+              droneVideoRef.current.pause();
+            }
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+
+    if (droneVideoRef.current) {
+      observer.observe(droneVideoRef.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    if (deferredDroneVideoSrc && droneVideoRef.current) {
-      droneVideoRef.current.play().catch(() => {});
-    }
-  }, [deferredDroneVideoSrc]);
-
+  // IntersectionObserver for bottom promo iframe
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -77,36 +116,14 @@ export function Gallery() {
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.4 }
     );
 
     if (videoRef.current) {
       observer.observe(videoRef.current);
     }
 
-    const handleMessage = (event: MessageEvent) => {
-      // Allow both standard and nocookie origins
-      if (!event.origin.includes('youtube.com')) return;
-      
-      try {
-        const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
-        
-        // When video ends (state 0), loop back to start
-        if (data.event === 'onStateChange' && data.info === 0) {
-          const source = event.source as MessageEventSource || (event.currentTarget as any)?.contentWindow;
-          if (source) {
-            (source as Window).postMessage(JSON.stringify({ event: 'command', func: 'seekTo', args: [1, true] }), '*');
-            (source as Window).postMessage(JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), '*');
-          }
-        }
-      } catch (e) {}
-    };
-
-    window.addEventListener('message', handleMessage);
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('message', handleMessage);
-    };
+    return () => observer.disconnect();
   }, []);
 
   const sendCommand = (command: string, args: any[] = []) => {
@@ -145,196 +162,330 @@ export function Gallery() {
     setIsMuted(!isMuted);
   };
 
+  // Build image list including CMS photos
+  let allImages = [...STATIC_IMAGES];
+  if (cms.gallery_photos) {
+    try {
+      const parsed = JSON.parse(cms.gallery_photos);
+      if (Array.isArray(parsed)) {
+        parsed.forEach((url, i) => {
+          allImages.push({
+            url,
+            category: 'exterior',
+            title: `Ayushman Residency View ${i + 1}`
+          });
+        });
+      }
+    } catch (e) {}
+  }
+
+  const filteredImages = activeCategory === 'all'
+    ? allImages
+    : allImages.filter(img => img.category === activeCategory);
+
   return (
-    <section id="gallery" className="py-24 bg-dark text-white overflow-hidden">
+    <section id="gallery" className="py-14 md:py-24 bg-dark text-white overflow-hidden scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+        
+        {/* Header and Filter Buttons */}
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 md:mb-16 gap-6">
           <div className="max-w-xl">
             <motion.span 
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="text-gold font-bold uppercase tracking-[0.4em] text-xs mb-4 block"
+              className="text-gold font-bold uppercase tracking-[0.3em] text-xs mb-2 block"
             >
               Visual Experience
             </motion.span>
             <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-              className="text-4xl md:text-6xl font-serif"
+              className="text-3xl md:text-5xl lg:text-6xl font-serif text-white"
             >
               A Glimpse into <br />
               <span className="italic text-gold">Your Future Home</span>
             </motion.h2>
           </div>
-          <div className="flex space-x-4">
-            <button className="px-6 py-3 border border-white/20 rounded-full text-sm font-bold hover:bg-white/10 transition-colors">
-              View All Photos
-            </button>
+
+          <div className="flex flex-wrap gap-3 w-full lg:w-auto">
+            {/* Category Filter Tabs */}
+            <div className="flex flex-wrap gap-1.5 bg-white/5 p-1.5 rounded-2xl border border-white/10">
+              {[
+                { id: 'all', label: 'All Photos' },
+                { id: 'exterior', label: 'Exterior' },
+                { id: 'interior', label: 'Interiors' },
+                { id: 'campus', label: 'Campus' },
+                { id: 'amenities', label: 'Amenities' },
+              ].map(cat => (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id as any)}
+                  className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+                    activeCategory === cat.id
+                      ? 'bg-gold text-dark shadow-md'
+                      : 'text-white/60 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Video Tour Button */}
             <button 
-              onClick={() => {
-                setSelectedVideo(currentVideoUrl);
-                setIsVideoModalOpen(true);
-              }}
-              className="px-6 py-3 bg-gold text-dark rounded-full text-sm font-bold hover:scale-105 transition-transform flex items-center shrink-0"
+              onClick={() => setIsVideoSelectorOpen(true)}
+              className="px-5 py-2.5 bg-gold text-dark rounded-2xl text-xs sm:text-sm font-bold uppercase tracking-wider hover:scale-105 transition-transform flex items-center gap-2 shadow-lg shadow-gold/20"
             >
-              Watch Video Tour <Play className="ml-2 w-4 h-4 fill-dark" />
+              <Film className="w-4 h-4 fill-dark" />
+              <span>Watch Video Tours</span>
+              <span className="px-1.5 py-0.5 bg-dark text-gold text-[10px] rounded-full">5</span>
             </button>
           </div>
         </div>
 
         {/* Gallery Grid */}
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6 mb-16">
-          {/* Feature Drone Video Card */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="relative group rounded-2xl overflow-hidden break-inside-avoid inline-block w-full mb-6 bg-dark/40 border border-gold/20 shadow-lg shadow-gold/5 min-h-[300px]"
-          >
-            <video 
-              ref={droneVideoRef}
-              src={deferredDroneVideoSrc}
-              autoPlay
-              muted
-              preload="metadata"
-              loop
-              playsInline
-              className={`w-full h-full object-cover aspect-[4/5] md:aspect-auto transition-opacity duration-1000 ${deferredDroneVideoSrc ? 'opacity-100' : 'opacity-40'}`}
-            />
-            <div className="absolute inset-0 bg-dark/40 group-hover:bg-dark/10 transition-colors" />
-            <div className="absolute top-4 left-4">
-              <span className="px-3 py-1 bg-gold text-dark text-[10px] font-bold uppercase tracking-widest rounded-full">Drone Shot</span>
-            </div>
-          </motion.div>
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-5 space-y-5 mb-14">
+          
+          {/* Feature Drone Video Card (Only in 'all' or 'campus' tabs) */}
+          {(activeCategory === 'all' || activeCategory === 'campus' || activeCategory === 'exterior') && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="relative group rounded-2xl overflow-hidden break-inside-avoid inline-block w-full mb-5 bg-dark/40 border border-gold/30 shadow-xl"
+            >
+              <video 
+                ref={droneVideoRef}
+                src="/video/drone.webm"
+                muted
+                preload="metadata"
+                loop
+                playsInline
+                className="w-full h-full object-cover aspect-[4/5] sm:aspect-auto"
+              />
+              <div className="absolute inset-0 bg-dark/40 group-hover:bg-dark/10 transition-colors pointer-events-none" />
+              <div className="absolute top-3 left-3 flex items-center gap-2">
+                <span className="px-3 py-1 bg-gold text-dark text-[10px] font-bold uppercase tracking-widest rounded-full shadow-md">
+                  Aerial Drone Shot
+                </span>
+              </div>
+              <div className="absolute bottom-3 right-3">
+                <button
+                  onClick={() => {
+                    setSelectedVideo(videoOptions[0]);
+                    setIsVideoModalOpen(true);
+                  }}
+                  className="p-2.5 bg-gold text-dark rounded-full shadow-xl hover:scale-110 transition-transform flex items-center justify-center"
+                  aria-label="Expand drone video"
+                >
+                  <Play className="w-4 h-4 fill-dark" />
+                </button>
+              </div>
+            </motion.div>
+          )}
 
-          {galleryImages.map((url, index) => (
+          {filteredImages.map((img, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.8, delay: index * 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
-              className="relative group cursor-pointer rounded-2xl overflow-hidden break-inside-avoid inline-block w-full mt-0 mb-6 bg-dark/20"
-              onClick={() => setSelectedImage(url)}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.05 }}
+              className="relative group cursor-pointer rounded-2xl overflow-hidden break-inside-avoid inline-block w-full mb-5 bg-dark/20 border border-white/5"
+              onClick={() => setSelectedImage(img.url)}
             >
               <img 
-                src={url} 
-                alt={`Ayushman Residency Rau Indore - Gallery Photo ${index + 1} Luxury Apartments & Amenities`} 
-                title={`Ayushman Residency Rau Indore - Gallery ${index + 1}`}
+                src={img.url} 
+                alt={`Ayushman Residency Rau Indore - ${img.title}`}
+                title={img.title}
                 width={600}
                 height={400}
-                className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-700 ease-out"
+                className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 referrerPolicy="no-referrer"
                 loading="lazy"
                 decoding="async"
               />
-              <div className="absolute inset-0 bg-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+              <div className="absolute inset-0 bg-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-4">
                 <div className="text-center">
-                  <Camera className="w-12 h-12 text-gold mx-auto mb-2" />
-                  <p className="text-sm font-bold tracking-widest uppercase">View Detail</p>
+                  <Camera className="w-8 h-8 text-gold mx-auto mb-2" />
+                  <p className="text-xs font-bold tracking-widest uppercase text-white">{img.title}</p>
                 </div>
               </div>
             </motion.div>
           ))}
-
-          {/* Flat Visit Video Card - Small version at the end */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="relative group cursor-pointer rounded-2xl overflow-hidden break-inside-avoid inline-block w-full mb-6 bg-dark/40 border border-white/5 shadow-xl min-h-[220px]"
-          >
-            <video 
-              src={deferredFlatVideoSrc}
-              autoPlay 
-              muted 
-              loop 
-              playsInline
-              className={`w-full h-auto object-cover transition-opacity duration-1000 ${
-                deferredFlatVideoSrc.includes('.webm') || deferredFlatVideoSrc.includes('.mp4') ? 'aspect-[9/16]' : 'aspect-video'
-              } ${deferredFlatVideoSrc ? 'opacity-100' : 'opacity-0'}`}
-            />
-            <div className="absolute inset-0 bg-dark/30 group-hover:bg-transparent transition-colors" />
-            <div className="absolute top-3 left-3">
-              <span className="px-2 py-0.5 bg-white/20 backdrop-blur-md text-white text-[9px] font-bold uppercase tracking-widest rounded-full border border-white/10">Flat Visit</span>
-            </div>
-          </motion.div>
-
-          {/* Conditional "Add More" Placeholder - Automatically hides if images are already plentiful */}
-          {galleryImages.length < 10 ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              className="relative group rounded-2xl overflow-hidden break-inside-avoid inline-block w-full mb-6 border-2 border-dashed border-white/10 p-8 bg-white/5 flex flex-col items-center justify-center text-center opacity-40 hover:opacity-100 transition-opacity min-h-[180px]"
-            >
-              <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3">
-                <Camera className="w-6 h-6 text-white/20" />
-              </div>
-              <p className="text-xs font-serif italic text-white/30 tracking-wide">More coming soon...</p>
-            </motion.div>
-          ) : null}
         </div>
 
-        {/* Video Player Embed with Auto-Scroll Control */}
+        {/* Embedded YouTube / Promo Tour Box */}
         <motion.div 
           ref={videoRef}
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="w-full aspect-video rounded-2xl overflow-hidden shadow-2xl relative border-4 border-white/10 group"
+          className="w-full aspect-video rounded-3xl overflow-hidden shadow-2xl relative border border-white/10 group bg-black"
         >
           <iframe 
             ref={iframeRef}
             className="absolute top-0 left-0 w-full h-full pointer-events-none"
-            src={`${currentVideoUrl}${currentVideoUrl.includes('?') ? '&' : '?'}enablejsapi=1&autoplay=1&mute=1&controls=0&rel=0&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`} 
+            src={`${mainPromoVideo}${mainPromoVideo.includes('?') ? '&' : '?'}enablejsapi=1&autoplay=1&mute=1&controls=0&rel=0&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`} 
             title="Ayushman Residency Video Tour" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
             referrerPolicy="strict-origin-when-cross-origin" 
-          ></iframe>
+          />
           
-          {/* Unmute Hint (Visible only when muted and playing) */}
           {isMuted && isPlaying && (
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="absolute top-6 right-6 z-10"
-            >
+            <div className="absolute top-4 right-4 z-10">
               <button 
                 onClick={toggleMute}
-                className="flex items-center space-x-2 bg-gold px-4 py-2 rounded-full text-dark font-bold shadow-xl animate-bounce"
+                className="flex items-center space-x-2 bg-gold px-3.5 py-1.5 rounded-full text-dark font-bold text-xs shadow-xl animate-bounce"
               >
-                <VolumeX className="w-4 h-4" />
-                <span className="text-xs uppercase">Tap to Unmute</span>
+                <VolumeX className="w-3.5 h-3.5" />
+                <span>Tap to Unmute</span>
               </button>
-            </motion.div>
+            </div>
           )}
 
-          {/* Custom Controls Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-            <div className="flex items-center space-x-6">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+            <div className="flex items-center space-x-4">
               <button 
                 onClick={togglePlay}
-                className="w-12 h-12 flex items-center justify-center bg-gold rounded-full text-dark hover:scale-110 transition-transform"
+                className="w-10 h-10 flex items-center justify-center bg-gold rounded-full text-dark hover:scale-110 transition-transform"
+                aria-label="Toggle play"
               >
-                {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 fill-dark" />}
+                {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 fill-dark" />}
               </button>
               <button 
                 onClick={toggleMute}
-                className="w-12 h-12 flex items-center justify-center bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/40 transition-all"
+                className="w-10 h-10 flex items-center justify-center bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/40 transition-all"
+                aria-label="Toggle mute"
               >
-                {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
+                {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
               </button>
-              <span className="text-sm font-bold tracking-widest uppercase">
-                {isPlaying ? 'Now Playing' : 'Paused'}
+              <span className="text-xs font-bold tracking-widest uppercase text-white/90">
+                Official Campus Walkthrough
               </span>
             </div>
           </div>
         </motion.div>
       </div>
+
+      {/* Video Selector Modal: Lets user pick 1BHK, 2BHK, 3BHK, Drone, or Promo */}
+      <AnimatePresence>
+        {isVideoSelectorOpen && (
+          <div 
+            className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
+            onClick={() => setIsVideoSelectorOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-2xl bg-dark border border-gold/30 rounded-3xl p-6 sm:p-8 shadow-2xl text-white overflow-hidden max-h-[90vh] overflow-y-auto"
+            >
+              <div className="flex justify-between items-center mb-6">
+                <div>
+                  <span className="text-gold text-[10px] font-bold uppercase tracking-widest block">Video Gallery</span>
+                  <h3 className="text-2xl font-serif font-bold text-white">Select a Video Tour</h3>
+                </div>
+                <button 
+                  onClick={() => setIsVideoSelectorOpen(false)}
+                  className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white/70"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                {videoOptions.map((video) => (
+                  <div
+                    key={video.id}
+                    onClick={() => {
+                      setIsVideoSelectorOpen(false);
+                      setSelectedVideo(video);
+                      setIsVideoModalOpen(true);
+                    }}
+                    className="group p-3.5 sm:p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-gold/50 hover:bg-white/10 transition-all cursor-pointer flex items-center gap-4"
+                  >
+                    <div className="w-20 h-14 sm:w-24 sm:h-16 rounded-xl overflow-hidden relative shrink-0 bg-black">
+                      <img src={video.thumbnail} alt={video.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <Play className="w-5 h-5 text-gold fill-gold" />
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-bold text-sm sm:text-base text-white group-hover:text-gold transition-colors">
+                        {video.title}
+                      </h4>
+                      <p className="text-white/50 text-xs line-clamp-1">{video.subtitle}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Video Player Modal */}
+      <AnimatePresence>
+        {isVideoModalOpen && selectedVideo && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[110] bg-dark/95 flex items-center justify-center p-4 md:p-12 backdrop-blur-md"
+            onClick={() => {
+              setIsVideoModalOpen(false);
+              setSelectedVideo(null);
+            }}
+          >
+            <button
+              onClick={() => {
+                setIsVideoModalOpen(false);
+                setSelectedVideo(null);
+              }}
+              className="absolute top-4 right-4 md:top-8 md:right-8 p-3 bg-white/20 rounded-full text-white hover:bg-gold hover:text-dark transition-all z-[120]"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className={`rounded-3xl overflow-hidden shadow-2xl bg-black ${
+                selectedVideo.url.endsWith('.webm') || selectedVideo.url.endsWith('.mp4')
+                  ? 'w-[90vw] max-w-[420px] aspect-[9/16] max-h-[85vh]'
+                  : 'w-full h-full max-w-5xl aspect-video'
+              }`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {selectedVideo.url.endsWith('.webm') || selectedVideo.url.endsWith('.mp4') ? (
+                <video 
+                  key={selectedVideo.url}
+                  src={selectedVideo.url}
+                  autoPlay 
+                  controls 
+                  playsInline
+                  className="w-full h-full object-contain"
+                >
+                  Your browser does not support the video tag.
+                </video>
+              ) : (
+                <iframe
+                  key={selectedVideo.url}
+                  src={`${selectedVideo.url}${selectedVideo.url.includes('?') ? '&' : '?'}enablejsapi=1&autoplay=1&rel=0&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  className="w-full h-full border-0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Image Preview Modal */}
       <AnimatePresence>
@@ -347,88 +498,24 @@ export function Gallery() {
             onClick={() => setSelectedImage(null)}
           >
             <button 
-              className="absolute top-6 right-6 p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors z-50"
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelectedImage(null);
-              }}
+              className="absolute top-6 right-6 p-2.5 bg-white/10 rounded-full hover:bg-white/20 transition-colors z-50 text-white"
+              onClick={() => setSelectedImage(null)}
             >
-              <X className="w-8 h-8 text-white" />
+              <X className="w-7 h-7" />
             </button>
-            
             <motion.img 
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               src={selectedImage}
-              alt="Preview"
-              className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+              alt="Ayushman Residency Preview"
+              className="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             />
           </motion.div>
         )}
       </AnimatePresence>
-      {/* Video Preview Modal */}
-      <AnimatePresence>
-        {isVideoModalOpen && selectedVideo && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-dark/95 flex items-center justify-center p-4 md:p-20 backdrop-blur-sm"
-            onClick={() => {
-              setIsVideoModalOpen(false);
-              setSelectedVideo(null);
-            }}
-          >
-            <button
-              onClick={() => {
-                setIsVideoModalOpen(false);
-                setSelectedVideo(null);
-              }}
-              className="absolute top-4 right-4 md:top-10 md:right-10 p-3 bg-white/20 rounded-full text-white hover:bg-gold hover:text-dark transition-all z-[210] flex items-center justify-center shadow-lg"
-            >
-              <X className="w-6 h-6 md:w-8 md:h-8" />
-            </button>
-            <motion.div 
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className={`rounded-3xl overflow-hidden shadow-2xl bg-black ${
-                selectedVideo.includes('.webm') || selectedVideo.includes('.mp4')
-                  ? 'w-[85vw] max-w-[420px] aspect-[9/16] max-h-[85vh]'
-                  : 'w-full h-full max-w-6xl aspect-video'
-              }`}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {(() => {
-                const tourVideo = selectedVideo;
-                return tourVideo.endsWith('.webm') || tourVideo.endsWith('.mp4') ? (
-                  <video 
-                    key={tourVideo}
-                    src={tourVideo}
-                    autoPlay 
-                    controls 
-                    playsInline
-                    className="w-full h-full object-contain"
-                  >
-                    Your browser does not support the video tag.
-                  </video>
-                ) : (
-                  <iframe
-                    key={tourVideo}
-                    src={`${tourVideo}${tourVideo.includes('?') ? '&' : '?'}enablejsapi=1&autoplay=1&rel=0&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    className="w-full h-full border-0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  />
-                );
-              })()}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
     </section>
   );
 }

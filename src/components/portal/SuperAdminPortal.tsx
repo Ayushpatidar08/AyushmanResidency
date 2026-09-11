@@ -818,9 +818,15 @@ export function SuperAdminPortal() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
+                { key: 'price_1bhk', label: '1 BHK Estimated Price', type: 'text', defaultValue: '₹18.5 - ₹22.5 Lakhs*', placeholder: 'e.g., ₹18.5 - ₹22.5 Lakhs*' },
+                { key: 'price_2bhk', label: '2 BHK Estimated Price', type: 'text', defaultValue: '₹27.5 - ₹33.0 Lakhs*', placeholder: 'e.g., ₹27.5 - ₹33.0 Lakhs*' },
+                { key: 'price_3bhk', label: '3 BHK Estimated Price', type: 'text', defaultValue: '₹38.0 - ₹44.5 Lakhs*', placeholder: 'e.g., ₹38.0 - ₹44.5 Lakhs*' },
+                { key: 'main_photo_1bhk', label: '1 BHK Main Photo', type: 'file', defaultValue: '/1bhk.webp' },
                 { key: 'main_photo_2bhk', label: '2 BHK Main Photo', type: 'file', defaultValue: '/2bhk-plan.webp' },
                 { key: 'main_photo_3bhk', label: '3 BHK Main Photo', type: 'file', defaultValue: '/3bhk-plan.webp' },
-                { key: 'video_url_3bhk', label: '3 BHK Walkthrough Video URL', type: 'text', defaultValue: 'https://www.youtube.com/embed/vSvJb9Lpvzc?start=1&end=118', placeholder: 'e.g., https://youtube.com/embed/...' },
+                { key: 'video_url_1bhk', label: '1 BHK Walkthrough Video URL', type: 'text', defaultValue: '/video/2bhk.webm', placeholder: 'Video URL or /video/...' },
+                { key: 'video_url_2bhk', label: '2 BHK Walkthrough Video URL', type: 'text', defaultValue: '/video/2bhk.webm', placeholder: 'Video URL or /video/...' },
+                { key: 'video_url_3bhk', label: '3 BHK Walkthrough Video URL', type: 'text', defaultValue: '/video/3bhk.webm', placeholder: 'Video URL or /video/...' },
                 { key: 'offer_text', label: 'Promotional Offer Text', type: 'textarea', defaultValue: 'Active: Free Maintenance 2yr, Free Registry & GST, Book from ₹11,000 only', placeholder: 'e.g., Avail exclusive festival discounts...' },
                 { key: 'gallery_photos', label: 'Gallery Photos (Upload multiple)', type: 'file_multiple', defaultValue: JSON.stringify(['/gallery-5.webp','/gallery-1.webp','/gallery-2.webp','/gallery-3.webp','/gallery-4.webp','/gallery-6.webp','/gallery-7.webp']) },
                 { key: 'gallery_videos', label: 'Gallery Video URL', type: 'text', defaultValue: 'https://www.youtube.com/embed/vSvJb9Lpvzc?start=1&end=118' },

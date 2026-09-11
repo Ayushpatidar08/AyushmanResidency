@@ -19,6 +19,7 @@ const SuperAdminPortal = lazy(() => import('./components/portal/SuperAdminPortal
 const BrokerPortal = lazy(() => import('./components/portal/BrokerPortal').then(m => ({ default: m.BrokerPortal })));
 const ClientPortal = lazy(() => import('./components/portal/ClientPortal').then(m => ({ default: m.ClientPortal })));
 const ComingSoon = lazy(() => import('./components/ComingSoon').then(m => ({ default: m.ComingSoon })));
+const Blog = lazy(() => import('./components/Blog').then(m => ({ default: m.Blog })));
 
 import { LazySection } from './components/LazySection';
 import { useEffect } from 'react';
@@ -32,53 +33,67 @@ function ScrollToTop() {
   return null;
 }
 
+import { HeroPopup } from './components/HeroPopup';
+const WhyChooseUs = lazy(() => import('./components/WhyChooseUs').then(m => ({ default: m.WhyChooseUs })));
+
 function HomePage() {
   const [selectedOffers, setSelectedOffers] = useState<string[]>([]);
 
   const handleClaim = (offers: string[]) => {
     setSelectedOffers(offers);
     setTimeout(() => {
-      const offersSection = document.getElementById('offers-section');
-      if (offersSection) {
-        offersSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } else {
-        const contactSection = document.getElementById('contact');
-        contactSection?.scrollIntoView({ behavior: 'smooth' });
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
       }
-    }, 400);
+    }, 250);
   };
 
   return (
     <div>
+      {/* 1. Hero Section + 5-Sec Interaction Popup */}
       <Hero />
+      <HeroPopup />
+
+      {/* 2. Flats & Floor Plans */}
       <Features onOpen3D={() => {}} />
-      
-      <LazySection id="offers-section" minHeight="1000px">
+
+      {/* 3. Gallery (Just below Flats) */}
+      <LazySection id="gallery" minHeight="900px">
         <Suspense fallback={<div className="h-64 flex items-center justify-center"><div className="w-8 h-8 rounded-full border-2 border-gold border-t-transparent animate-spin"></div></div>}>
-          <Promotions onClaim={handleClaim} />
-        </Suspense>
-      </LazySection>
-      
-      <LazySection id="gallery" minHeight="2000px">
-        <Suspense fallback={<div className="h-96 flex items-center justify-center"><div className="w-8 h-8 rounded-full border-2 border-gold border-t-transparent animate-spin"></div></div>}>
           <Gallery />
         </Suspense>
       </LazySection>
-      
-      <LazySection minHeight="800px">
-        <Suspense fallback={<div className="h-64 flex items-center justify-center"><div className="w-8 h-8 rounded-full border-2 border-gold border-t-transparent animate-spin"></div></div>}>
-          <MapSection />
+
+      {/* 4. Amenities & Benefits (Why Choose Us) */}
+      <LazySection id="why-choose-us" minHeight="500px">
+        <Suspense fallback={<div className="h-48 flex items-center justify-center"><div className="w-8 h-8 rounded-full border-2 border-gold border-t-transparent animate-spin"></div></div>}>
+          <WhyChooseUs />
         </Suspense>
       </LazySection>
 
-      <div id="contact" className="scroll-mt-32">
-        <LazySection minHeight="1200px">
-          <Suspense fallback={<div className="h-96 flex items-center justify-center"><div className="w-8 h-8 rounded-full border-2 border-gold border-t-transparent animate-spin"></div></div>}>
+      {/* 5. Special Deals & Rewards (Just above the Contact Form) */}
+      <LazySection id="offers-section" minHeight="500px">
+        <Suspense fallback={<div className="h-48 flex items-center justify-center"><div className="w-8 h-8 rounded-full border-2 border-gold border-t-transparent animate-spin"></div></div>}>
+          <Promotions onClaim={handleClaim} />
+        </Suspense>
+      </LazySection>
+
+      {/* 6. Lead Form (Contact Us) */}
+      <div id="contact" className="scroll-mt-24">
+        <LazySection minHeight="700px">
+          <Suspense fallback={<div className="h-64 flex items-center justify-center"><div className="w-8 h-8 rounded-full border-2 border-gold border-t-transparent animate-spin"></div></div>}>
             <LeadForm preselectedOffers={selectedOffers} />
           </Suspense>
         </LazySection>
       </div>
 
+      {/* 7. Map & Neighborhood Nexus (At the very bottom above Footer) */}
+      <LazySection id="location" minHeight="700px">
+        <Suspense fallback={<div className="h-64 flex items-center justify-center"><div className="w-8 h-8 rounded-full border-2 border-gold border-t-transparent animate-spin"></div></div>}>
+          <MapSection />
+        </Suspense>
+      </LazySection>
     </div>
   );
 }
@@ -134,6 +149,11 @@ export default function App() {
               <Route path="/coming-soon" element={
                 <Suspense fallback={null}>
                   <ComingSoon />
+                </Suspense>
+              } />
+              <Route path="/blog" element={
+                <Suspense fallback={null}>
+                  <Blog />
                 </Suspense>
               } />
             </Routes>

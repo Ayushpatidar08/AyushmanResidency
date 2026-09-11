@@ -1,4 +1,5 @@
 import { ArrowRight, MapPin } from 'lucide-react';
+import { scrollToSection } from '../utils/scroll';
 
 export function Hero() {
   return (
@@ -45,28 +46,32 @@ export function Hero() {
               <div className="flex items-center space-x-2"><span className="text-[#D4AF37]">✦</span> <span>24x7 Water Supply</span></div>
             </div>
 
-            <div className="flex flex-col sm:flex-row flex-wrap gap-4">
-              <a
-                href="#features"
-                className="inline-flex items-center justify-center px-8 py-4 border border-white/40 text-white font-bold rounded-full hover:bg-white/10 transition-colors duration-300"
-              > View Flats
-              </a>
-              <a
-                href="#offers-section"
-                className="inline-flex items-center justify-center px-8 py-4 border border-white text-white font-bold rounded-full hover:bg-white/10 transition-colors duration-300"
-              > Why Choose Us?
-              </a>
-              <a
-                href="#gallery"
-                className="inline-flex items-center justify-center px-8 py-4 border border-white/40 text-white font-bold rounded-full hover:bg-white/10 transition-colors duration-300"
-              > View Gallery
-              </a>
-              <a
-                href="#contact"
-                className="inline-flex items-center justify-center px-8 py-4 bg-[#D4AF37] text-dark font-bold rounded-full hover:scale-105 transition-transform duration-300 group shadow-lg shadow-[#D4AF37]/20"
-              > Book a Site Visit
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </a>
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
+              <button
+                onClick={() => scrollToSection('features')}
+                className="inline-flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 border border-white/40 text-white text-sm sm:text-base font-bold rounded-full hover:bg-white/10 transition-colors duration-300"
+              >
+                View Flats
+              </button>
+              <button
+                onClick={() => scrollToSection('gallery')}
+                className="inline-flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 border border-white/40 text-white text-sm sm:text-base font-bold rounded-full hover:bg-white/10 transition-colors duration-300"
+              >
+                View Gallery
+              </button>
+              <button
+                onClick={() => scrollToSection('offers-section')}
+                className="inline-flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 border border-white text-white text-sm sm:text-base font-bold rounded-full hover:bg-white/10 transition-colors duration-300"
+              >
+                Why Choose Us?
+              </button>
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="inline-flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 bg-[#D4AF37] text-dark text-sm sm:text-base font-bold rounded-full hover:scale-105 transition-transform duration-300 group shadow-lg shadow-[#D4AF37]/20"
+              >
+                Book a Site Visit
+                <ArrowRight className="ml-2 w-4 sm:w-5 h-4 sm:h-5 group-hover:translate-x-1 transition-transform" />
+              </button>
             </div>
           </div>
         </div>

@@ -34,7 +34,7 @@ export function LazySection({
   }, [threshold, rootMargin]);
 
   return (
-    <div ref={ref} id={id} style={{ minHeight }}>
+    <div ref={ref} id={id} className="scroll-mt-24" style={{ minHeight }}>
       {isVisible ? children : null}
     </div>
   );

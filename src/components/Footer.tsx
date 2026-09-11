@@ -1,13 +1,24 @@
 import { Building2, Instagram, Mail, Phone, MapPin, Youtube, MessageCircle } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { scrollToSection } from '../utils/scroll';
 
 export function Footer() {
   const [cms, setCms] = useState<Record<string, string>>({});
+  const location = useLocation();
 
   useEffect(() => {
     fetch('/api/cms').then(r => r.json()).then(setCms).catch(console.error);
   }, []);
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('#')) {
+      if (location.pathname === '/') {
+        e.preventDefault();
+        scrollToSection(href);
+      }
+    }
+  };
   return (
     <footer className="relative bg-dark text-white pt-24 pb-12 overflow-hidden border-t border-gold/20">
       {/* Subtle Background Pattern or Gradient */}
@@ -55,17 +66,31 @@ export function Footer() {
             <h2 className="text-lg font-serif mb-6 text-gold tracking-wider">Explore</h2>
             <ul className="space-y-4">
               {[
-                { label: 'Home', href: '/#home' },
-                { label: 'Residences', href: '/#features' },
-                { label: 'Gallery', href: '/#gallery' },
-                { label: 'Contact Us', href: '/#contact' },
+                { label: 'Home', href: '#home' },
+                { label: 'Residences', href: '#features' },
+                { label: 'Gallery', href: '#gallery' },
+                { label: 'Why Choose Us?', href: '#why-choose-us' },
+                { label: 'Special Offers', href: '#offers-section' },
+                { label: 'Blog & Insights', href: '/blog' },
+                { label: 'Contact Us', href: '#contact' },
                 { label: 'Portal', href: '/admin' }
               ].map((link, idx) => (
                 <li key={idx}>
-                  <a href={link.href} className="text-white/60 hover:text-gold transition-all text-sm flex items-center group relative">
-                    <span className="absolute left-0 w-0 h-[1px] bg-gold opacity-0 group-hover:opacity-100 group-hover:w-4 transition-all duration-300"></span>
-                    <span className="transform translate-x-0 group-hover:translate-x-6 transition-transform duration-300">{link.label}</span>
-                  </a>
+                  {link.href.startsWith('/') && !link.href.startsWith('/#') ? (
+                    <Link to={link.href} className="text-white/60 hover:text-gold transition-all text-sm flex items-center group relative">
+                      <span className="absolute left-0 w-0 h-[1px] bg-gold opacity-0 group-hover:opacity-100 group-hover:w-4 transition-all duration-300"></span>
+                      <span className="transform translate-x-0 group-hover:translate-x-6 transition-transform duration-300">{link.label}</span>
+                    </Link>
+                  ) : (
+                    <a
+                      href={location.pathname === '/' ? link.href : `/${link.href}`}
+                      onClick={(e) => handleLinkClick(e, link.href)}
+                      className="text-white/60 hover:text-gold transition-all text-sm flex items-center group relative cursor-pointer"
+                    >
+                      <span className="absolute left-0 w-0 h-[1px] bg-gold opacity-0 group-hover:opacity-100 group-hover:w-4 transition-all duration-300"></span>
+                      <span className="transform translate-x-0 group-hover:translate-x-6 transition-transform duration-300">{link.label}</span>
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
