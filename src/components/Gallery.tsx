@@ -4,13 +4,13 @@ import { Play, Camera, X, Volume2, VolumeX, Pause, Film } from 'lucide-react';
 import { useCMS } from '../context/CMSContext';
 
 const STATIC_IMAGES = [
-  { url: '/gallery-5.webp', category: 'exterior', title: 'Grand Elevation Front View' },
-  { url: '/gallery-1.webp', category: 'exterior', title: 'Modern Architecture Towers' },
-  { url: '/gallery-2.webp', category: 'campus', title: 'Open Green Campus & Wide Roads' },
-  { url: '/gallery-6.webp', category: 'amenities', title: 'Mahadev Temple & Garden' },
-  { url: '/gallery-3.webp', category: 'interior', title: 'Sunlit Living Room & Balcony' },
-  { url: '/gallery-4.webp', category: 'interior', title: 'Modern Finishes & Flooring' },
-  { url: '/gallery-7.webp', category: 'exterior', title: 'G+6 Scenic Balcony View' },
+  { url: '/gallery-1.webp', category: 'campus', title: 'Ayushman Residency Aerial Campus View' },
+  { url: '/gallery-5.webp', category: 'amenities', title: 'Family Living & Campus Amenities' },
+  { url: '/gallery-2.webp', category: 'exterior', title: 'Ready-to-Move 2 & 3 BHK Towers' },
+  { url: '/gallery-3.webp', category: 'amenities', title: 'Swimming Pool & Club Facilities' },
+  { url: '/gallery-4.webp', category: 'campus', title: 'Master Society Site Layout Plan' },
+  { url: '/gallery-6.webp', category: 'interior', title: '2 BHK Module Floor Plan (1050 Sq.Ft)' },
+  { url: '/gallery-7.webp', category: 'interior', title: '3 BHK Module Floor Plan (1200 Sq.Ft)' },
 ];
 
 const YOUTUBE_URL = "https://www.youtube.com/embed/wVUJOZ6ipDQ";
