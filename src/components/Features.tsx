@@ -81,6 +81,7 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
     return {
       ...p,
       image: customImage,
+      defaultImage: p.image,
       videoUrl: customVideo,
       price: customPrice,
       isSold
@@ -137,6 +138,11 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
                     referrerPolicy="no-referrer"
                     loading="lazy"
                     decoding="async"
+                    onError={(e) => {
+                      if (e.currentTarget.src !== window.location.origin + prop.defaultImage) {
+                        e.currentTarget.src = prop.defaultImage;
+                      }
+                    }}
                   />
                   
                   {/* Tap/Hover to Zoom indicator */}
