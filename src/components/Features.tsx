@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Check, Maximize2, Ruler, Box, Play, X, Download, Tag } from 'lucide-react';
+import { Check, Maximize2, Ruler, Box, Play, X, Download, Tag, ZoomIn } from 'lucide-react';
 import { useCMS } from '../context/CMSContext';
 
 const properties = [
@@ -43,6 +43,7 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
   const { data: cms } = useCMS();
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [show3DDialog, setShow3DDialog] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<{ url: string; title: string } | null>(null);
 
   const handleDownload = (prop: typeof properties[0]) => {
     const link = document.createElement('a');
@@ -119,22 +120,33 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
               className={`group relative bg-paper rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg shadow-dark/5 border border-dark/5 flex flex-col justify-between ${prop.isSold ? 'opacity-80' : ''}`}
             >
               <div>
-                {/* Image Section */}
-                <div className="aspect-[4/3] overflow-hidden relative bg-zinc-100">
+                {/* Image Section - Clickable to Zoom */}
+                <div 
+                  className="aspect-[4/3] overflow-hidden relative bg-zinc-100 cursor-pointer group/img"
+                  onClick={() => setSelectedPlan({ url: prop.image, title: `${prop.title} Floor Plan` })}
+                  title="Click to view & zoom floor plan"
+                >
                   <img
                     src={prop.image}
                     alt={`Ayushman Residency Rau Indore - ${prop.title} Floor Plan Layout`}
                     title={`Ayushman Residency ${prop.title} Floor Plan`}
                     width={800}
                     height={600}
-                    className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${prop.isSold ? 'grayscale' : ''}`}
+                    className={`w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500 ${prop.isSold ? 'grayscale' : ''}`}
                     referrerPolicy="no-referrer"
                     loading="lazy"
                     decoding="async"
                   />
                   
+                  {/* Tap/Hover to Zoom indicator */}
+                  <div className="absolute inset-0 bg-dark/20 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                    <span className="px-3 py-1.5 bg-dark/80 backdrop-blur-md rounded-full text-white text-xs font-bold flex items-center gap-1.5 shadow-lg border border-white/20">
+                      <ZoomIn className="w-4 h-4 text-gold" /> Tap to Zoom
+                    </span>
+                  </div>
+                  
                   {prop.isSold && (
-                    <div className="absolute inset-0 bg-dark/40 flex items-center justify-center z-10">
+                    <div className="absolute inset-0 bg-dark/40 flex items-center justify-center z-10 pointer-events-none">
                       <span className="px-5 py-1.5 sm:px-6 sm:py-2 bg-red-600 text-white font-bold text-sm sm:text-lg rotate-[-12deg] border-2 border-white uppercase tracking-wider shadow-2xl">
                         Sold Out
                       </span>
@@ -142,7 +154,15 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
                   )}
 
                   {!prop.isSold && (
-                    <div className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 flex space-x-1.5 sm:space-x-2">
+                    <div className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 flex space-x-1.5 sm:space-x-2 z-20" onClick={(e) => e.stopPropagation()}>
+                      <button
+                        onClick={() => setSelectedPlan({ url: prop.image, title: `${prop.title} Floor Plan` })}
+                        title="Zoom Image"
+                        className="p-2 sm:p-2.5 bg-white/90 backdrop-blur-sm rounded-full text-dark hover:bg-gold transition-colors shadow-md group/btn"
+                        aria-label="Zoom Image"
+                      >
+                        <ZoomIn className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover/btn:scale-110 transition-transform" />
+                      </button>
                       <button
                         onClick={() => setShow3DDialog(true)}
                         title="3D Virtual Tour"
@@ -162,7 +182,7 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
                     </div>
                   )}
 
-                  <div className="absolute bottom-2.5 left-2.5 sm:bottom-3 sm:left-3 bg-dark/80 backdrop-blur-sm px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-white text-[10px] sm:text-[11px] font-bold">
+                  <div className="absolute bottom-2.5 left-2.5 sm:bottom-3 sm:left-3 bg-dark/80 backdrop-blur-sm px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-white text-[10px] sm:text-[11px] font-bold z-10">
                     {prop.key.toUpperCase()}
                   </div>
                 </div>
@@ -297,6 +317,49 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
                 />
               )}
             </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Image Zoom / Floor Plan Modal */}
+      <AnimatePresence>
+        {selectedPlan && (
+          <div 
+            className="fixed inset-0 z-[140] bg-black/95 flex flex-col items-center justify-center p-3 sm:p-6 backdrop-blur-md"
+            onClick={() => setSelectedPlan(null)}
+          >
+            <div className="absolute top-4 right-4 sm:top-6 sm:right-6 flex items-center space-x-3 z-[150]">
+              <button 
+                className="p-2.5 sm:p-3 bg-white/10 rounded-full hover:bg-gold hover:text-dark text-white transition-colors"
+                onClick={() => setSelectedPlan(null)}
+                aria-label="Close zoomed view"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            
+            <div className="text-center mb-3 sm:mb-4">
+              <span className="text-gold text-xs uppercase tracking-widest font-bold block">Floor Plan View</span>
+              <h3 className="text-white text-base sm:text-xl font-serif">{selectedPlan.title}</h3>
+            </div>
+
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="relative max-w-4xl max-h-[78vh] sm:max-h-[82vh] overflow-auto rounded-2xl bg-dark/40 border border-white/10 p-2"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img 
+                src={selectedPlan.url} 
+                alt={selectedPlan.title}
+                className="w-full h-full max-h-[75vh] object-contain rounded-xl select-none"
+              />
+            </motion.div>
+            
+            <p className="text-white/40 text-[11px] sm:text-xs mt-3 tracking-wider">
+              Pinch or click to view full resolution layout
+            </p>
           </div>
         )}
       </AnimatePresence>
