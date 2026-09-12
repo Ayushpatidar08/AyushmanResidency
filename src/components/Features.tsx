@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Check, Maximize2, Ruler, Box, Play, X, Download, Tag, ZoomIn } from 'lucide-react';
+import { Check, Maximize2, Ruler, Box, Play, X, Download, Tag, ZoomIn, PhoneCall } from 'lucide-react';
 import { useCMS } from '../context/CMSContext';
 
 const properties = [
@@ -8,18 +8,19 @@ const properties = [
     key: '1bhk',
     title: '1 BHK Flats',
     desc: '540 sq.ft tailored for compact & modern living.',
-    defaultPrice: '₹18.5 - ₹22.5 Lakhs*',
+    defaultPrice: '₹20.00 Lakhs* (can be negotiable)',
     image: '/1bhk.webp',
     details: 'Spacious balcony, Modern kitchen, Smart layout.',
     videoUrl: '/video/2bhk.webm',
-    features: ['1 Bedroom', '1 Bathroom', '1 Balcony', 'G+6 View', 'Modular Kitchen', 'Vitrified Tiles'],
+    features: ['1 Bedroom', '1 Bathroom', '1 Balcony', 'G+6 View', 'Modular Kitchen'],
     brochureUrl: '/brochure-1bhk.pdf'
+    
   },
   {
     key: '2bhk',
     title: '2 BHK Flats',
     desc: '1050 sq.ft designed for growing families.',
-    defaultPrice: '₹27.5 - ₹33.0 Lakhs*',
+    defaultPrice: ' ₹35.00 Lakhs* (can be negotiable)',
     image: '/2bhk-plan.webp',
     details: 'Master bedroom with en-suite, ample sunlight, 3 spacious balconies.',
     videoUrl: '/video/2bhk.webm',
@@ -30,7 +31,7 @@ const properties = [
     key: '3bhk',
     title: '3 BHK Flats',
     desc: '1200 sq.ft of expansive luxury and comfort.',
-    defaultPrice: '₹38.0 - ₹44.5 Lakhs*',
+    defaultPrice: '₹40.00 Lakhs* (can be negotiable)',
     image: '/3bhk-plan.webp',
     details: 'Premium corner views, Vast Living Area, Dual Balconies.',
     videoUrl: '/video/3bhk.webm',
@@ -171,19 +172,29 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
                       >
                         <Box className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover/btn:scale-110 transition-transform" />
                       </button>
-                      <button 
-                        onClick={() => setActiveVideo(prop.videoUrl)}
-                        title="Video Tour"
-                        className="p-2 sm:p-2.5 bg-white/90 backdrop-blur-sm rounded-full text-dark hover:bg-gold transition-colors shadow-md group/btn"
-                        aria-label="Play video"
-                      >
-                        <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-dark group-hover/btn:scale-110 transition-transform" />
-                      </button>
+                      {prop.key !== '1bhk' && (
+                        <button 
+                          onClick={() => setActiveVideo(prop.videoUrl)}
+                          title="Video Tour"
+                          className="p-2 sm:p-2.5 bg-white/90 backdrop-blur-sm rounded-full text-dark hover:bg-gold transition-colors shadow-md group/btn"
+                          aria-label="Play video"
+                        >
+                          <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-dark group-hover/btn:scale-110 transition-transform" />
+                        </button>
+                      )}
                     </div>
                   )}
 
-                  <div className="absolute bottom-2.5 left-2.5 sm:bottom-3 sm:left-3 bg-dark/80 backdrop-blur-sm px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-white text-[10px] sm:text-[11px] font-bold z-10">
-                    {prop.key.toUpperCase()}
+                  <div className="absolute bottom-2.5 left-2.5 sm:bottom-3 sm:left-3 flex items-center space-x-2 z-10">
+                    <span className="bg-dark/80 backdrop-blur-sm px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-white text-[10px] sm:text-[11px] font-bold">
+                      {prop.key.toUpperCase()}
+                    </span>
+                    {prop.key === '1bhk' && !prop.isSold && (
+                      <span className="bg-red-600 text-white px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-md shadow-red-900/40 animate-pulse flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-white"></span>
+                        Limited Units
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -221,17 +232,27 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
               <div className="p-4 sm:p-6 pt-0 grid grid-cols-2 gap-2 sm:gap-3 mt-auto">
                 <button
                   onClick={() => handleDownload(prop)}
-                  className="py-2 sm:py-2.5 px-2.5 sm:px-3 border border-dark/15 rounded-xl text-[11px] sm:text-xs font-bold uppercase tracking-wider text-dark hover:bg-dark hover:text-white transition-all flex items-center justify-center gap-1 sm:gap-1.5"
+                  className="py-2 sm:py-2.5 px-2 sm:px-3 border border-dark/15 rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider text-dark hover:bg-dark hover:text-white transition-all flex items-center justify-center gap-1 sm:gap-1.5"
                 >
                   <Download className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> Brochure
                 </button>
-                <button
-                  disabled={prop.isSold}
-                  onClick={() => setActiveVideo(prop.videoUrl)}
-                  className={`py-2 sm:py-2.5 px-2.5 sm:px-3 bg-gold text-dark rounded-xl text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 sm:gap-1.5 ${prop.isSold ? 'opacity-30 cursor-not-allowed' : 'hover:scale-[1.02] shadow-md shadow-gold/20'}`}
-                >
-                  <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-dark" /> Video Tour
-                </button>
+                {prop.key === '1bhk' ? (
+                  <a
+                    href="tel:+917869612823"
+                    className="py-2 sm:py-2.5 px-2 sm:px-3 bg-red-600 hover:bg-red-700 text-white rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 sm:gap-1.5 shadow-md shadow-red-600/30"
+                    title="Call Broker: +91 78696 12823"
+                  >
+                    <PhoneCall className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white animate-bounce" /> Call Broker
+                  </a>
+                ) : (
+                  <button
+                    disabled={prop.isSold}
+                    onClick={() => setActiveVideo(prop.videoUrl)}
+                    className={`py-2 sm:py-2.5 px-2 sm:px-3 bg-gold text-dark rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 sm:gap-1.5 ${prop.isSold ? 'opacity-30 cursor-not-allowed' : 'hover:scale-[1.02] shadow-md shadow-gold/20'}`}
+                  >
+                    <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-dark" /> Video Tour
+                  </button>
+                )}
               </div>
             </motion.div>
           ))}
