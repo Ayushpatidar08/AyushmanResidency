@@ -38,16 +38,16 @@ export function Navbar() {
   };
 
   return (
-    <nav className={`absolute top-0 w-full z-50 transition-all duration-500 pointer-events-none ${scrolled ? 'py-4' : 'py-8'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className={`pointer-events-auto relative flex justify-between h-20 items-center px-8 rounded-[2rem] transition-all duration-500 ${scrolled ? 'bg-dark/80 backdrop-blur-xl shadow-2xl shadow-black/50 border border-white/10' : 'bg-transparent'}`}>
-          <Link to="/" onClick={(e) => { if (location.pathname === '/') { e.preventDefault(); scrollToSection('home'); } }} className="flex items-center space-x-3 group">
+    <nav className={`absolute top-0 w-full z-50 transition-all duration-500 pointer-events-none ${scrolled ? 'py-2 sm:py-4' : 'py-3 sm:py-8'}`}>
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className={`pointer-events-auto relative flex justify-between h-14 sm:h-16 md:h-20 items-center px-4 sm:px-8 rounded-2xl sm:rounded-[2rem] transition-all duration-500 ${scrolled ? 'bg-dark/80 backdrop-blur-xl shadow-2xl shadow-black/50 border border-white/10' : 'bg-transparent'}`}>
+          <Link to="/" onClick={(e) => { if (location.pathname === '/') { e.preventDefault(); scrollToSection('home'); } }} className="flex items-center space-x-2 sm:space-x-3 group">
             <div
-              className="p-2 bg-dark rounded-xl group-hover:bg-[#D4AF37] group-hover:rotate-180 transition-all duration-500"
+              className="p-1.5 sm:p-2 bg-dark rounded-lg sm:rounded-xl group-hover:bg-[#D4AF37] group-hover:rotate-180 transition-all duration-500"
             >
-              <Building2 className="w-6 h-6 text-white" />
+              <Building2 className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
             </div>
-            <span className="text-xl font-serif tracking-[0.2em] text-white">AYUSHMAN RESIDENCY</span>
+            <span className="text-xs sm:text-base md:text-xl font-serif tracking-[0.15em] sm:tracking-[0.2em] text-white whitespace-nowrap">AYUSHMAN RESIDENCY</span>
           </Link>
 
           <div className="hidden md:flex items-center space-x-10">

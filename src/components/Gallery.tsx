@@ -184,17 +184,17 @@ export function Gallery() {
     : allImages.filter(img => img.category === activeCategory);
 
   return (
-    <section id="gallery" className="py-14 md:py-24 bg-dark text-white overflow-hidden scroll-mt-24">
+    <section id="gallery" className="py-10 sm:py-16 md:py-24 bg-dark text-white overflow-hidden scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header and Filter Buttons */}
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 md:mb-16 gap-6">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-8 md:mb-16 gap-5 sm:gap-6">
           <div className="max-w-xl">
             <motion.span 
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-gold font-bold uppercase tracking-[0.3em] text-xs mb-2 block"
+              className="text-gold font-bold uppercase tracking-[0.25em] text-[10.5px] sm:text-xs mb-1.5 block"
             >
               Visual Experience
             </motion.span>
@@ -202,16 +202,16 @@ export function Gallery() {
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-3xl md:text-5xl lg:text-6xl font-serif text-white"
+              className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-serif text-white"
             >
               A Glimpse into <br />
               <span className="italic text-gold">Your Future Home</span>
             </motion.h2>
           </div>
 
-          <div className="flex flex-wrap gap-3 w-full lg:w-auto">
+          <div className="flex flex-wrap gap-2.5 sm:gap-3 w-full lg:w-auto">
             {/* Category Filter Tabs */}
-            <div className="flex flex-wrap gap-1.5 bg-white/5 p-1.5 rounded-2xl border border-white/10">
+            <div className="flex flex-wrap gap-1 sm:gap-1.5 bg-white/5 p-1 sm:p-1.5 rounded-xl sm:rounded-2xl border border-white/10">
               {[
                 { id: 'all', label: 'All Photos' },
                 { id: 'exterior', label: 'Exterior' },
@@ -222,7 +222,7 @@ export function Gallery() {
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id as any)}
-                  className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+                  className={`px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold transition-all ${
                     activeCategory === cat.id
                       ? 'bg-gold text-dark shadow-md'
                       : 'text-white/60 hover:text-white hover:bg-white/5'
@@ -236,11 +236,11 @@ export function Gallery() {
             {/* Video Tour Button */}
             <button 
               onClick={() => setIsVideoSelectorOpen(true)}
-              className="px-5 py-2.5 bg-gold text-dark rounded-2xl text-xs sm:text-sm font-bold uppercase tracking-wider hover:scale-105 transition-transform flex items-center gap-2 shadow-lg shadow-gold/20"
+              className="px-3.5 sm:px-5 py-2 sm:py-2.5 bg-gold text-dark rounded-xl sm:rounded-2xl text-[11px] sm:text-xs md:text-sm font-bold uppercase tracking-wider hover:scale-105 transition-transform flex items-center gap-1.5 sm:gap-2 shadow-lg shadow-gold/20"
             >
-              <Film className="w-4 h-4 fill-dark" />
+              <Film className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-dark" />
               <span>Watch Video Tours</span>
-              <span className="px-1.5 py-0.5 bg-dark text-gold text-[10px] rounded-full">5</span>
+              <span className="px-1.5 py-0.5 bg-dark text-gold text-[9px] sm:text-[10px] rounded-full">5</span>
             </button>
           </div>
         </div>

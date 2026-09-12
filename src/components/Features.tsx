@@ -86,29 +86,29 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
   });
 
   return (
-    <section id="features" className="py-14 md:py-20 bg-white scroll-mt-24">
+    <section id="features" className="py-10 sm:py-16 md:py-20 bg-white scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center mb-8 md:mb-16">
           <motion.span
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            className="text-gold font-bold uppercase tracking-[0.3em] text-xs mb-2 block"
+            className="text-gold font-bold uppercase tracking-[0.25em] text-[10.5px] sm:text-xs mb-1.5 block"
           >
             Floor Plans & Estimates
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-3xl md:text-5xl font-serif text-dark"
+            className="text-2xl sm:text-3xl md:text-5xl font-serif text-dark"
           >
             Meticulously Designed <span className="italic text-gold">Residences</span>
           </motion.h2>
-          <p className="text-dark/60 text-xs sm:text-sm mt-2 max-w-lg mx-auto">
+          <p className="text-dark/60 text-xs sm:text-sm mt-1.5 max-w-lg mx-auto">
             Explore our ready-to-move 1, 2, and 3 BHK apartment floor plans in Rau, Indore.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
           {dynamicProperties.map((prop, index) => (
             <motion.div
               key={prop.key}
@@ -116,7 +116,7 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`group relative bg-paper rounded-3xl overflow-hidden shadow-lg shadow-dark/5 border border-dark/5 flex flex-col justify-between ${prop.isSold ? 'opacity-80' : ''}`}
+              className={`group relative bg-paper rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg shadow-dark/5 border border-dark/5 flex flex-col justify-between ${prop.isSold ? 'opacity-80' : ''}`}
             >
               <div>
                 {/* Image Section */}
@@ -135,61 +135,61 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
                   
                   {prop.isSold && (
                     <div className="absolute inset-0 bg-dark/40 flex items-center justify-center z-10">
-                      <span className="px-6 py-2 bg-red-600 text-white font-bold text-lg rotate-[-12deg] border-2 border-white uppercase tracking-wider shadow-2xl">
+                      <span className="px-5 py-1.5 sm:px-6 sm:py-2 bg-red-600 text-white font-bold text-sm sm:text-lg rotate-[-12deg] border-2 border-white uppercase tracking-wider shadow-2xl">
                         Sold Out
                       </span>
                     </div>
                   )}
 
                   {!prop.isSold && (
-                    <div className="absolute top-3 right-3 flex space-x-2">
+                    <div className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 flex space-x-1.5 sm:space-x-2">
                       <button
                         onClick={() => setShow3DDialog(true)}
                         title="3D Virtual Tour"
-                        className="p-2.5 bg-white/90 backdrop-blur-sm rounded-full text-dark hover:bg-gold transition-colors shadow-md group/btn"
+                        className="p-2 sm:p-2.5 bg-white/90 backdrop-blur-sm rounded-full text-dark hover:bg-gold transition-colors shadow-md group/btn"
                         aria-label="View 3D"
                       >
-                        <Box className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
+                        <Box className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover/btn:scale-110 transition-transform" />
                       </button>
                       <button 
                         onClick={() => setActiveVideo(prop.videoUrl)}
                         title="Video Tour"
-                        className="p-2.5 bg-white/90 backdrop-blur-sm rounded-full text-dark hover:bg-gold transition-colors shadow-md group/btn"
+                        className="p-2 sm:p-2.5 bg-white/90 backdrop-blur-sm rounded-full text-dark hover:bg-gold transition-colors shadow-md group/btn"
                         aria-label="Play video"
                       >
-                        <Play className="w-4 h-4 fill-dark group-hover/btn:scale-110 transition-transform" />
+                        <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-dark group-hover/btn:scale-110 transition-transform" />
                       </button>
                     </div>
                   )}
 
-                  <div className="absolute bottom-3 left-3 bg-dark/80 backdrop-blur-sm px-3 py-1 rounded-full text-white text-[11px] font-bold">
+                  <div className="absolute bottom-2.5 left-2.5 sm:bottom-3 sm:left-3 bg-dark/80 backdrop-blur-sm px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-white text-[10px] sm:text-[11px] font-bold">
                     {prop.key.toUpperCase()}
                   </div>
                 </div>
 
                 {/* Content Section */}
-                <div className="p-5 sm:p-6">
-                  <div className="flex justify-between items-start mb-3">
+                <div className="p-4 sm:p-6">
+                  <div className="flex justify-between items-start mb-2.5">
                     <div>
-                      <h3 className="text-xl font-serif font-bold text-dark">{prop.title}</h3>
-                      <p className="text-dark/50 text-xs mt-0.5">{prop.desc}</p>
+                      <h3 className="text-lg sm:text-xl font-serif font-bold text-dark">{prop.title}</h3>
+                      <p className="text-dark/50 text-[11px] sm:text-xs mt-0.5">{prop.desc}</p>
                     </div>
                   </div>
 
                   {/* Estimated Price Tag */}
-                  <div className="mb-4 p-2.5 bg-gold/10 border border-gold/30 rounded-xl flex items-center justify-between">
-                    <span className="text-[11px] uppercase tracking-wider font-bold text-dark/70 flex items-center gap-1">
-                      <Tag className="w-3.5 h-3.5 text-gold" /> Est. Price:
+                  <div className="mb-3.5 p-2 sm:p-2.5 bg-gold/10 border border-gold/30 rounded-xl flex items-center justify-between">
+                    <span className="text-[10px] sm:text-[11px] uppercase tracking-wider font-bold text-dark/70 flex items-center gap-1">
+                      <Tag className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-gold" /> Est. Price:
                     </span>
-                    <span className="text-sm font-bold text-gold font-mono">
+                    <span className="text-xs sm:text-sm font-bold text-gold font-mono">
                       {prop.price}
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2 mb-6">
+                  <div className="grid grid-cols-2 gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                     {prop.features.map((feature) => (
-                      <div key={feature} className="flex items-center space-x-1.5 text-xs text-dark/70">
-                        <Check className="w-3.5 h-3.5 text-gold shrink-0" />
+                      <div key={feature} className="flex items-center space-x-1.5 text-[11px] sm:text-xs text-dark/70">
+                        <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-gold shrink-0" />
                         <span className="truncate">{feature}</span>
                       </div>
                     ))}
@@ -198,19 +198,19 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
               </div>
 
               {/* Action Buttons */}
-              <div className="p-5 sm:p-6 pt-0 grid grid-cols-2 gap-3 mt-auto">
+              <div className="p-4 sm:p-6 pt-0 grid grid-cols-2 gap-2 sm:gap-3 mt-auto">
                 <button
                   onClick={() => handleDownload(prop)}
-                  className="py-2.5 px-3 border border-dark/15 rounded-xl text-xs font-bold uppercase tracking-wider text-dark hover:bg-dark hover:text-white transition-all flex items-center justify-center gap-1.5"
+                  className="py-2 sm:py-2.5 px-2.5 sm:px-3 border border-dark/15 rounded-xl text-[11px] sm:text-xs font-bold uppercase tracking-wider text-dark hover:bg-dark hover:text-white transition-all flex items-center justify-center gap-1 sm:gap-1.5"
                 >
-                  <Download className="w-3.5 h-3.5" /> Brochure
+                  <Download className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> Brochure
                 </button>
                 <button
                   disabled={prop.isSold}
                   onClick={() => setActiveVideo(prop.videoUrl)}
-                  className={`py-2.5 px-3 bg-gold text-dark rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${prop.isSold ? 'opacity-30 cursor-not-allowed' : 'hover:scale-[1.02] shadow-md shadow-gold/20'}`}
+                  className={`py-2 sm:py-2.5 px-2.5 sm:px-3 bg-gold text-dark rounded-xl text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 sm:gap-1.5 ${prop.isSold ? 'opacity-30 cursor-not-allowed' : 'hover:scale-[1.02] shadow-md shadow-gold/20'}`}
                 >
-                  <Play className="w-3.5 h-3.5 fill-dark" /> Video Tour
+                  <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-dark" /> Video Tour
                 </button>
               </div>
             </motion.div>

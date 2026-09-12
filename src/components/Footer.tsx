@@ -20,28 +20,28 @@ export function Footer() {
     }
   };
   return (
-    <footer className="relative bg-dark text-white pt-24 pb-12 overflow-hidden border-t border-gold/20">
+    <footer className="relative bg-dark text-white pt-10 sm:pt-20 pb-8 sm:pb-12 overflow-hidden border-t border-gold/20">
       {/* Subtle Background Pattern or Gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.05),transparent_50%)] pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(212,175,55,0.05),transparent_50%)] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16 mb-16 border-b border-white/10 pb-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-12 lg:gap-16 mb-8 sm:mb-16 border-b border-white/10 pb-8 sm:pb-16">
           {/* Brand & About */}
           <div className="col-span-1 md:col-span-5 lg:col-span-4">
             <button 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} 
-              className="flex items-center space-x-3 mb-6 hover:opacity-80 transition-opacity text-left"
+              className="flex items-center space-x-2.5 sm:space-x-3 mb-4 sm:mb-6 hover:opacity-80 transition-opacity text-left"
             >
-              <div className="p-2 border border-gold/30 rounded-lg bg-gold/5">
-                <Building2 className="w-6 h-6 text-gold" />
+              <div className="p-1.5 sm:p-2 border border-gold/30 rounded-lg bg-gold/5">
+                <Building2 className="w-5 h-5 sm:w-6 sm:h-6 text-gold" />
               </div>
-              <span className="text-xl font-serif tracking-[0.25em] text-white">AYUSHMAN RESIDENCY</span>
+              <span className="text-base sm:text-xl font-serif tracking-[0.2em] sm:tracking-[0.25em] text-white">AYUSHMAN RESIDENCY</span>
             </button>
-            <p className="text-white/60 leading-relaxed mb-6 font-light text-sm">
+            <p className="text-white/60 leading-relaxed mb-4 sm:mb-6 font-light text-xs sm:text-sm">
               Ayushman Residency is more than just a home; it's a sanctuary of modern luxury and serene living. Thoughtfully designed to blend nature with contemporary architecture, we offer a lifestyle of unparalleled comfort and elegance for you and your loved ones.
             </p>
-            <p className="text-white/80 text-sm font-medium mb-3">Connect With Us On</p>
+            <p className="text-white/80 text-xs sm:text-sm font-medium mb-2.5 sm:mb-3">Connect With Us On</p>
             <div className="flex space-x-3 mt-6">
               {[
                 { Icon: Instagram, href: 'https://www.instagram.com/shreegirirajrealestate', label: 'Instagram', external: true },
