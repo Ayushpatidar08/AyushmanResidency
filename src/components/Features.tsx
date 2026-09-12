@@ -44,7 +44,7 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
   const { data: cms } = useCMS();
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [show3DDialog, setShow3DDialog] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<{ url: string; title: string } | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<{ url: string; defaultUrl?: string; title: string } | null>(null);
 
   const handleDownload = (prop: typeof properties[0]) => {
     const link = document.createElement('a');
@@ -125,7 +125,7 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
                 {/* Image Section - Clickable to Zoom */}
                 <div 
                   className="aspect-[4/3] overflow-hidden relative bg-zinc-100 cursor-pointer group/img"
-                  onClick={() => setSelectedPlan({ url: prop.image, title: `${prop.title} Floor Plan` })}
+                  onClick={() => setSelectedPlan({ url: prop.image, defaultUrl: prop.defaultImage, title: `${prop.title} Floor Plan` })}
                   title="Click to view & zoom floor plan"
                 >
                   <img
@@ -163,7 +163,7 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
                   {!prop.isSold && (
                     <div className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 flex space-x-1.5 sm:space-x-2 z-20" onClick={(e) => e.stopPropagation()}>
                       <button
-                        onClick={() => setSelectedPlan({ url: prop.image, title: `${prop.title} Floor Plan` })}
+                        onClick={() => setSelectedPlan({ url: prop.image, defaultUrl: prop.defaultImage, title: `${prop.title} Floor Plan` })}
                         title="Zoom Image"
                         className="p-2 sm:p-2.5 bg-white/90 backdrop-blur-sm rounded-full text-dark hover:bg-gold transition-colors shadow-md group/btn"
                         aria-label="Zoom Image"
@@ -381,6 +381,11 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
                 src={selectedPlan.url} 
                 alt={selectedPlan.title}
                 className="w-full h-full max-h-[75vh] object-contain rounded-xl select-none"
+                onError={(e) => {
+                  if (selectedPlan.defaultUrl && e.currentTarget.src !== window.location.origin + selectedPlan.defaultUrl) {
+                    e.currentTarget.src = selectedPlan.defaultUrl;
+                  }
+                }}
               />
             </motion.div>
             
