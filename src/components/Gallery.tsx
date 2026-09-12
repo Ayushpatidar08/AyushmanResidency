@@ -13,7 +13,7 @@ const STATIC_IMAGES = [
   { url: '/gallery-7.webp', category: 'exterior', title: 'G+6 Scenic Balcony View' },
 ];
 
-const YOUTUBE_URL = "https://www.youtube.com/embed/vSvJb9Lpvzc?start=1&end=118";
+const YOUTUBE_URL = "https://www.youtube.com/embed/wVUJOZ6ipDQ";
 
 interface TourVideo {
   id: string;
