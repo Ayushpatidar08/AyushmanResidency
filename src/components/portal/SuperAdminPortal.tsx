@@ -898,6 +898,15 @@ export function SuperAdminPortal() {
                            }} 
                            className="w-full text-sm text-white/50 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-gold file:text-dark hover:file:bg-white transition-all cursor-pointer"
                          />
+                         {isCustomized && (
+                           <button
+                             type="button"
+                             onClick={() => updateCMS(field.key, '')}
+                             className="text-xs font-bold text-red-400 bg-red-500/10 px-3 py-1.5 rounded-lg border border-red-500/20 hover:bg-red-500 hover:text-white transition-all"
+                           >
+                             Reset to Default Image
+                           </button>
+                         )}
                       </div>
                     ) : field.type === 'file_multiple' ? (
                        <div className="space-y-3">
