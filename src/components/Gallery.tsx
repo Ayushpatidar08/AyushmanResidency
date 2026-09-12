@@ -4,13 +4,17 @@ import { Play, Camera, X, Volume2, VolumeX, Pause, Film } from 'lucide-react';
 import { useCMS } from '../context/CMSContext';
 
 const STATIC_IMAGES = [
+  { url: '/gallery-1bhk-plan.webp', category: 'interior', title: '1 BHK Module Floor Plan (540 Sq.Ft)' },
+  { url: '/gallery-1bhk-3d.webp', category: 'interior', title: '1 BHK 3D Isometric View & Layout' },
+  { url: '/2bhk-plan.webp', category: 'interior', title: '2 BHK Module Floor Plan (1050 Sq.Ft)' },
+  { url: '/gallery-2bhk-3d.webp', category: 'interior', title: '2 BHK 3D Isometric View & Layout' },
+  { url: '/gallery-3bhk-plan.webp', category: 'interior', title: '3 BHK Module Floor Plan (1200 Sq.Ft)' },
+  { url: '/gallery-3bhk-3d.webp', category: 'interior', title: '3 BHK 3D Isometric View & Layout' },
   { url: '/gallery-1.webp', category: 'campus', title: 'Ayushman Residency Aerial Campus View' },
   { url: '/gallery-5.webp', category: 'amenities', title: 'Family Living & Campus Amenities' },
   { url: '/gallery-2.webp', category: 'exterior', title: 'Ready-to-Move 2 & 3 BHK Towers' },
   { url: '/gallery-3.webp', category: 'amenities', title: 'Swimming Pool & Club Facilities' },
   { url: '/gallery-4.webp', category: 'campus', title: 'Master Society Site Layout Plan' },
-  { url: '/gallery-6.webp', category: 'interior', title: '2 BHK Module Floor Plan (1050 Sq.Ft)' },
-  { url: '/gallery-7.webp', category: 'interior', title: '3 BHK Module Floor Plan (1200 Sq.Ft)' },
 ];
 
 const YOUTUBE_URL = "https://www.youtube.com/embed/wVUJOZ6ipDQ";
