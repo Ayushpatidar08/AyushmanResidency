@@ -15,6 +15,7 @@ const STATIC_IMAGES = [
   { url: '/gallery-2.webp', category: 'exterior', title: 'Ready-to-Move 2 & 3 BHK Towers' },
   { url: '/gallery-3.webp', category: 'amenities', title: 'Swimming Pool & Club Facilities' },
   { url: '/gallery-4.webp', category: 'campus', title: 'Master Society Site Layout Plan' },
+  { url: '/gallery-7.webp', category: 'interior', title: '3 BHK Module Floor Plan (1200 Sq.Ft)' },
 ];
 
 const YOUTUBE_URL = "https://www.youtube.com/embed/wVUJOZ6ipDQ";
