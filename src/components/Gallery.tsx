@@ -364,20 +364,21 @@ export function Gallery() {
           className="max-w-3xl mx-auto aspect-video max-h-[360px] sm:max-h-[400px] rounded-2xl overflow-hidden shadow-xl relative border border-white/15 group bg-black"
         >
           {isPromoActive ? (
-            <>
+            <div className="relative w-full h-full" onClick={togglePlay}>
               <iframe 
                 ref={iframeRef}
-                className="absolute top-0 left-0 w-full h-full"
-                src={`${mainPromoVideo}${mainPromoVideo.includes('?') ? '&' : '?'}enablejsapi=1&autoplay=1&mute=${isMuted ? '1' : '0'}&controls=1&rel=0&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`} 
+                className="absolute top-0 left-0 w-full h-full pointer-events-none"
+                src={`${mainPromoVideo}${mainPromoVideo.includes('?') ? '&' : '?'}enablejsapi=1&autoplay=1&mute=${isMuted ? '1' : '0'}&controls=0&modestbranding=1&rel=0&iv_load_policy=3&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`} 
                 title="Ayushman Residency Video Tour" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 referrerPolicy="strict-origin-when-cross-origin" 
               />
               
               {isMuted && (
-                <div className="absolute top-3 right-3 z-10">
+                <div className="absolute top-3 right-3 z-20">
                   <button 
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       setIsMuted(false);
                       sendCommand('unMute');
                     }}
@@ -388,7 +389,38 @@ export function Gallery() {
                   </button>
                 </div>
               )}
-            </>
+
+              {/* Custom Overlay Controls (Hover/Tap visible) */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 z-10">
+                <div className="flex items-center space-x-3 w-full justify-between">
+                  <div className="flex items-center space-x-3">
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        togglePlay();
+                      }}
+                      className="w-9 h-9 flex items-center justify-center bg-gold rounded-full text-dark hover:scale-110 transition-transform"
+                      aria-label="Toggle play"
+                    >
+                      {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-dark" />}
+                    </button>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleMute();
+                      }}
+                      className="w-9 h-9 flex items-center justify-center bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/40 transition-all"
+                      aria-label="Toggle mute"
+                    >
+                      {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                    </button>
+                  </div>
+                  <span className="text-[11px] font-bold tracking-widest uppercase text-white/90">
+                    Ayushman Residency Walkthrough
+                  </span>
+                </div>
+              </div>
+            </div>
           ) : (
             <div 
               onClick={handleManualPlay}
