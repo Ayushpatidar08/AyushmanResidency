@@ -37,6 +37,7 @@ export function Gallery() {
   const [selectedVideo, setSelectedVideo] = useState<TourVideo | null>(null);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isVideoSelectorOpen, setIsVideoSelectorOpen] = useState(false);
+  const [isPromoActive, setIsPromoActive] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   
@@ -53,7 +54,7 @@ export function Gallery() {
       title: 'Drone Aerial Campus Tour',
       subtitle: 'Panoramic view of towers, campus & 50-ft roads',
       url: '/video/drone.webm',
-      thumbnail: '/drone-thumbnail.png'
+      thumbnail: '/gallery-1.webp'
     },
     {
       id: '1bhk',
@@ -268,7 +269,7 @@ export function Gallery() {
                 ref={droneVideoRef}
                 src="/video/drone.webm"
                 muted
-                preload="metadata"
+                preload="none"
                 loop
                 playsInline
                 className="w-full h-full object-cover"
@@ -314,6 +315,7 @@ export function Gallery() {
                 referrerPolicy="no-referrer"
                 loading="lazy"
                 decoding="async"
+                fetchPriority="low"
               />
               <div className="absolute inset-0 bg-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-2 text-center">
                 <div>
@@ -325,7 +327,7 @@ export function Gallery() {
           ))}
         </div>
 
-        {/* Embedded YouTube / Promo Tour Box */}
+        {/* Embedded YouTube / Promo Tour Box with High-Speed On-Demand Facade */}
         <motion.div 
           ref={videoRef}
           initial={{ opacity: 0, y: 20 }}
@@ -333,48 +335,59 @@ export function Gallery() {
           viewport={{ once: true }}
           className="w-full aspect-video rounded-3xl overflow-hidden shadow-2xl relative border border-white/10 group bg-black"
         >
-          <iframe 
-            ref={iframeRef}
-            className="absolute top-0 left-0 w-full h-full pointer-events-none"
-            src={`${mainPromoVideo}${mainPromoVideo.includes('?') ? '&' : '?'}enablejsapi=1&autoplay=1&mute=1&controls=0&rel=0&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`} 
-            title="Ayushman Residency Video Tour" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            referrerPolicy="strict-origin-when-cross-origin" 
-          />
-          
-          {isMuted && isPlaying && (
-            <div className="absolute top-4 right-4 z-10">
-              <button 
-                onClick={toggleMute}
-                className="flex items-center space-x-2 bg-gold px-3.5 py-1.5 rounded-full text-dark font-bold text-xs shadow-xl animate-bounce"
-              >
-                <VolumeX className="w-3.5 h-3.5" />
-                <span>Tap to Unmute</span>
-              </button>
+          {isPromoActive ? (
+            <>
+              <iframe 
+                ref={iframeRef}
+                className="absolute top-0 left-0 w-full h-full"
+                src={`${mainPromoVideo}${mainPromoVideo.includes('?') ? '&' : '?'}enablejsapi=1&autoplay=1&mute=0&controls=1&rel=0&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`} 
+                title="Ayushman Residency Video Tour" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerPolicy="strict-origin-when-cross-origin" 
+              />
+              
+              {isMuted && isPlaying && (
+                <div className="absolute top-4 right-4 z-10">
+                  <button 
+                    onClick={toggleMute}
+                    className="flex items-center space-x-2 bg-gold px-3.5 py-1.5 rounded-full text-dark font-bold text-xs shadow-xl animate-bounce"
+                  >
+                    <VolumeX className="w-3.5 h-3.5" />
+                    <span>Tap to Unmute</span>
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <div 
+              onClick={() => {
+                setIsPromoActive(true);
+                setIsPlaying(true);
+              }}
+              className="absolute inset-0 cursor-pointer flex items-center justify-center"
+            >
+              <img 
+                src="/hero-bg.webp" 
+                alt="Ayushman Residency Official Tour" 
+                className="w-full h-full object-cover opacity-60 group-hover:scale-105 group-hover:opacity-75 transition-all duration-700" 
+                loading="lazy" 
+                decoding="async" 
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
+              
+              <div className="relative z-10 flex flex-col items-center text-center p-4">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gold rounded-full flex items-center justify-center shadow-2xl shadow-gold/40 group-hover:scale-110 transition-transform mb-3">
+                  <Play className="w-7 h-7 sm:w-8 sm:h-8 text-dark fill-dark ml-1" />
+                </div>
+                <h3 className="text-lg sm:text-2xl font-serif font-bold text-white mb-1">
+                  Watch Official Campus Walkthrough
+                </h3>
+                <p className="text-gold text-xs sm:text-sm font-semibold tracking-wider uppercase">
+                  HD Video Tour • Click to Play
+                </p>
+              </div>
             </div>
           )}
-
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
-            <div className="flex items-center space-x-4">
-              <button 
-                onClick={togglePlay}
-                className="w-10 h-10 flex items-center justify-center bg-gold rounded-full text-dark hover:scale-110 transition-transform"
-                aria-label="Toggle play"
-              >
-                {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 fill-dark" />}
-              </button>
-              <button 
-                onClick={toggleMute}
-                className="w-10 h-10 flex items-center justify-center bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/40 transition-all"
-                aria-label="Toggle mute"
-              >
-                {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-              </button>
-              <span className="text-xs font-bold tracking-widest uppercase text-white/90">
-                Official Campus Walkthrough
-              </span>
-            </div>
-          </div>
         </motion.div>
       </div>
 
