@@ -333,7 +333,7 @@ export function Gallery() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="w-full aspect-video rounded-3xl overflow-hidden shadow-2xl relative border border-white/10 group bg-black"
+          className="max-w-3xl mx-auto aspect-video max-h-[360px] sm:max-h-[400px] rounded-2xl overflow-hidden shadow-xl relative border border-white/15 group bg-black"
         >
           {isPromoActive ? (
             <>
@@ -347,12 +347,12 @@ export function Gallery() {
               />
               
               {isMuted && isPlaying && (
-                <div className="absolute top-4 right-4 z-10">
+                <div className="absolute top-3 right-3 z-10">
                   <button 
                     onClick={toggleMute}
-                    className="flex items-center space-x-2 bg-gold px-3.5 py-1.5 rounded-full text-dark font-bold text-xs shadow-xl animate-bounce"
+                    className="flex items-center space-x-1.5 bg-gold px-3 py-1 rounded-full text-dark font-bold text-[11px] shadow-lg animate-bounce"
                   >
-                    <VolumeX className="w-3.5 h-3.5" />
+                    <VolumeX className="w-3 h-3" />
                     <span>Tap to Unmute</span>
                   </button>
                 </div>
@@ -369,21 +369,21 @@ export function Gallery() {
               <img 
                 src="/hero-bg.webp" 
                 alt="Ayushman Residency Official Tour" 
-                className="w-full h-full object-cover opacity-60 group-hover:scale-105 group-hover:opacity-75 transition-all duration-700" 
+                className="w-full h-full object-cover opacity-60 group-hover:scale-105 group-hover:opacity-75 transition-all duration-500" 
                 loading="lazy" 
                 decoding="async" 
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
               
-              <div className="relative z-10 flex flex-col items-center text-center p-4">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gold rounded-full flex items-center justify-center shadow-2xl shadow-gold/40 group-hover:scale-110 transition-transform mb-3">
-                  <Play className="w-7 h-7 sm:w-8 sm:h-8 text-dark fill-dark ml-1" />
+              <div className="relative z-10 flex flex-col items-center text-center p-3 sm:p-4">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gold rounded-full flex items-center justify-center shadow-xl shadow-gold/40 group-hover:scale-110 transition-transform mb-2">
+                  <Play className="w-5 h-5 sm:w-6 sm:h-6 text-dark fill-dark ml-0.5" />
                 </div>
-                <h3 className="text-lg sm:text-2xl font-serif font-bold text-white mb-1">
+                <h3 className="text-base sm:text-xl font-serif font-bold text-white mb-0.5">
                   Watch Official Campus Walkthrough
                 </h3>
-                <p className="text-gold text-xs sm:text-sm font-semibold tracking-wider uppercase">
-                  HD Video Tour • Click to Play
+                <p className="text-gold text-[10px] sm:text-xs font-bold tracking-wider uppercase">
+                  HD Video Tour • Tap to Play
                 </p>
               </div>
             </div>
