@@ -26,10 +26,16 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (hash) {
+      setTimeout(() => {
+        scrollToSection(hash);
+      }, 150);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
   return null;
 }
 
@@ -89,7 +95,7 @@ function HomePage() {
       </div>
 
       {/* 7. Map & Neighborhood Nexus (At the very bottom above Footer) */}
-      <LazySection id="location" minHeight="700px">
+      <LazySection id="location" minHeight="400px">
         <Suspense fallback={<div className="h-64 flex items-center justify-center"><div className="w-8 h-8 rounded-full border-2 border-gold border-t-transparent animate-spin"></div></div>}>
           <MapSection />
         </Suspense>

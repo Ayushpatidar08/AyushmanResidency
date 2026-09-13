@@ -828,7 +828,7 @@ export function SuperAdminPortal() {
                 { key: 'video_url_2bhk', label: '2 BHK Walkthrough Video URL', type: 'text', defaultValue: '/video/2bhk.webm', placeholder: 'Video URL or /video/...' },
                 { key: 'video_url_3bhk', label: '3 BHK Walkthrough Video URL', type: 'text', defaultValue: '/video/3bhk.webm', placeholder: 'Video URL or /video/...' },
                 { key: 'offer_text', label: 'Promotional Offer Text', type: 'textarea', defaultValue: 'Active: Free Maintenance 2yr, Free Registry & GST, Book from ₹11,000 only', placeholder: 'e.g., Avail exclusive festival discounts...' },
-                { key: 'gallery_photos', label: 'Gallery Photos (Upload multiple)', type: 'file_multiple', defaultValue: JSON.stringify(['/gallery-5.webp','/gallery-1.webp','/gallery-2.webp','/gallery-3.webp','/gallery-4.webp','/gallery-6.webp','/gallery-7.webp']) },
+                { key: 'gallery_photos', label: 'Gallery Photos (Upload multiple)', type: 'file_multiple', defaultValue: JSON.stringify(['/gallery-5.webp','/gallery-1.webp','/gallery-2.webp','/gallery-3.webp','/gallery-4.webp','/gallery-7.webp']) },
                 { key: 'gallery_videos', label: 'Gallery Video URL', type: 'text', defaultValue: 'https://www.youtube.com/embed/wVUJOZ6ipDQ' },
                 { key: 'map_location', label: 'Map Embed URL', type: 'text', defaultValue: 'https://maps.google.com/maps?q=Ayushman%20Residency%20Rau%20Indore&t=&z=15&ie=UTF8&iwloc=&output=embed' },
                 { key: 'all_location_link', label: 'Get Directions Link', type: 'text', defaultValue: 'https://maps.app.goo.gl/EUKjJBXYGgxubYUm8' },

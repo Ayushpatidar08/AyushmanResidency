@@ -86,6 +86,172 @@ async function sendLeadEmail(lead: any) {
   }
 }
 
+async function sendBrochureToUserEmail(lead: any) {
+  if (!lead.email || !process.env.BREVO_API_KEY || !process.env.BREVO_SENDER_EMAIL) {
+    return;
+  }
+  const appUrl = process.env.APP_URL || 'http://localhost:3000';
+  const selectedProp = (lead.property_type || '').toLowerCase();
+  
+  interface FlatKit {
+    title: string;
+    pdfUrl: string;
+    planImg: string;
+    view3dImg: string;
+    size: string;
+    details: string;
+  }
+
+  let selectedKits: FlatKit[] = [];
+
+  if (selectedProp.includes('1bhk')) {
+    selectedKits.push({
+      title: '1 BHK Compact Luxury Flat',
+      pdfUrl: `${appUrl}/brochure-1bhk.pdf`,
+      planImg: `${appUrl}/gallery-1bhk-plan.webp`,
+      view3dImg: `${appUrl}/gallery-1bhk-3d.webp`,
+      size: '540 Sq.Ft Carpet Area',
+      details: 'Modular kitchen, living lounge, spacious balcony & G+6 view.'
+    });
+  }
+
+  if (selectedProp.includes('2bhk')) {
+    selectedKits.push({
+      title: '2 BHK Executive Family Residence',
+      pdfUrl: `${appUrl}/brochure.pdf`,
+      planImg: `${appUrl}/2bhk-plan.webp`,
+      view3dImg: `${appUrl}/gallery-2bhk-3d.webp`,
+      size: '1050 Sq.Ft Carpet Area',
+      details: 'Master bedroom with en-suite, 3 airy balconies & dual washrooms.'
+    });
+  }
+
+  if (selectedProp.includes('3bhk')) {
+    selectedKits.push({
+      title: '3 BHK Premium Luxury Residence',
+      pdfUrl: `${appUrl}/brochure.pdf`,
+      planImg: `${appUrl}/gallery-3bhk-plan.webp`,
+      view3dImg: `${appUrl}/gallery-3bhk-3d.webp`,
+      size: '1200 Sq.Ft Carpet Area',
+      details: 'Expansive living hall, 3 washrooms, dual corner balconies & luxury fittings.'
+    });
+  }
+
+  if (selectedKits.length === 0) {
+    selectedKits.push({
+      title: '2 BHK Executive Family Residence',
+      pdfUrl: `${appUrl}/brochure.pdf`,
+      planImg: `${appUrl}/2bhk-plan.webp`,
+      view3dImg: `${appUrl}/gallery-2bhk-3d.webp`,
+      size: '1050 Sq.Ft Carpet Area',
+      details: 'Master bedroom with en-suite, 3 airy balconies & dual washrooms.'
+    });
+  }
+
+  const sendSmtpEmail = new SibApi.SendSmtpEmail();
+  sendSmtpEmail.subject = `Floor Plans & Requested Property Details - Ayushman Residency`;
+  sendSmtpEmail.sender = { name: "Ayushman Residency Desk", email: process.env.BREVO_SENDER_EMAIL };
+  sendSmtpEmail.to = [{ email: lead.email, name: lead.name || 'Valued Customer' }];
+  sendSmtpEmail.replyTo = { name: "Ayushman Residency", email: process.env.BREVO_ADMIN_EMAIL || process.env.BREVO_SENDER_EMAIL };
+  sendSmtpEmail.headers = { 
+    "X-Mailin-tag": "customer-request",
+    "Precedence": "bulk" 
+  };
+  
+  const bhkCardsHtml = selectedKits.map(kit => `
+    <div style="margin-bottom: 24px; padding: 18px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #c9a050; padding-bottom: 8px; margin-bottom: 12px;">
+        <h3 style="margin: 0; color: #1a202c; font-size: 16px;">${sanitizeHtml(kit.title)}</h3>
+        <span style="background: #c9a050; color: #ffffff; font-size: 11px; font-weight: bold; padding: 3px 8px; border-radius: 20px;">${sanitizeHtml(kit.size)}</span>
+      </div>
+      <p style="margin: 0 0 12px 0; color: #4a5568; font-size: 13px;">${sanitizeHtml(kit.details)}</p>
+      
+      <!-- 2D & 3D Photos Grid -->
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 14px;">
+        <tr>
+          <td style="width: 50%; padding-right: 6px; text-align: center;">
+            <div style="border: 1px solid #cbd5e0; border-radius: 8px; overflow: hidden; background: #f8fafc; padding: 6px;">
+              <img src="${kit.planImg}" alt="${sanitizeHtml(kit.title)} 2D Layout" style="width: 100%; max-height: 180px; object-fit: contain; display: block;" />
+              <span style="font-size: 11px; font-weight: bold; color: #64748b; display: block; margin-top: 4px;">📐 2D Floor Plan Layout</span>
+            </div>
+          </td>
+          <td style="width: 50%; padding-left: 6px; text-align: center;">
+            <div style="border: 1px solid #cbd5e0; border-radius: 8px; overflow: hidden; background: #f8fafc; padding: 6px;">
+              <img src="${kit.view3dImg}" alt="${sanitizeHtml(kit.title)} 3D Layout" style="width: 100%; max-height: 180px; object-fit: contain; display: block;" />
+              <span style="font-size: 11px; font-weight: bold; color: #c9a050; display: block; margin-top: 4px;">🧊 3D Isometric View</span>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <a href="${kit.pdfUrl}" style="display: block; text-align: center; padding: 10px 18px; background: #c9a050; color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px;" target="_blank">📥 Download Official E-Brochure (PDF)</a>
+    </div>
+  `).join('');
+
+  sendSmtpEmail.htmlContent = `
+    <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 620px; margin: auto; background-color: #f8fafc; padding: 20px; border-radius: 16px;">
+      
+      <!-- Top Banner Header -->
+      <div style="background-color: #111111; padding: 24px; border-radius: 12px; text-align: center; border-bottom: 3px solid #c9a050;">
+        <h1 style="color: #c9a050; font-size: 22px; margin: 0; text-transform: uppercase; letter-spacing: 2px;">AYUSHMAN RESIDENCY</h1>
+        <p style="color: #cbd5e0; font-size: 12px; margin: 4px 0 0 0;">Rau, Near Medi-Caps University, AB Road, Indore</p>
+      </div>
+
+      <div style="padding: 20px 10px;">
+        <h2 style="color: #1e293b; font-size: 18px; margin-top: 0;">Hello ${sanitizeHtml(lead.name || 'Valued Buyer')}, 👋</h2>
+        <p style="color: #475569; font-size: 14px; line-height: 1.6;">
+          Thank you for choosing <strong>Ayushman Residency</strong>! Below are the official 2D floor plans, 3D isometric layouts, and PDF brochures for your selected property preferences (${sanitizeHtml(lead.property_type)}):
+        </p>
+
+        <!-- BHK Cards Section -->
+        <div style="margin: 20px 0;">
+          ${bhkCardsHtml}
+        </div>
+
+        <!-- Key Campus Amenities Highlight -->
+        <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-bottom: 24px;">
+          <h3 style="color: #c9a050; margin: 0 0 12px 0; font-size: 15px; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px;">✨ Why Ayushman Residency is Indore's Top Choice</h3>
+          <table style="width: 100%; border-collapse: collapse; font-size: 12px; color: #334155;">
+            <tr>
+              <td style="padding: 6px; width: 50%;">🛕 <strong>Mahadev Temple</strong> inside campus</td>
+              <td style="padding: 6px; width: 50%;">🌳 <strong>Lush Green Garden</strong> & Play Area</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px;">🚗 <strong>Ground Parking</strong> & 50-ft Roads</td>
+              <td style="padding: 6px;">💧 <strong>24x7 Water Supply</strong> & Security</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px;">🎓 <strong>0.5 km from Medi-Caps</strong> & NH-52</td>
+              <td style="padding: 6px;">🏢 <strong>Ready-to-Move G+6 Towers</strong></td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- VIP Call Box -->
+        <div style="background: linear-gradient(135deg, #111111 0%, #1e293b 100%); color: #ffffff; padding: 20px; border-radius: 12px; text-align: center;">
+          <h3 style="margin: 0 0 6px 0; color: #c9a050; font-size: 16px;">Ready for a Free VIP Site Visit?</h3>
+          <p style="margin: 0 0 14px 0; font-size: 13px; color: #e2e8f0;">Call our senior property expert directly for site visit arrangements & spot booking discounts.</p>
+          <a href="tel:+917869612823" style="display: inline-block; padding: 10px 24px; background-color: #dc2626; background: #dc2626; color: #ffffff; text-decoration: none; border-radius: 25px; font-weight: bold; font-size: 14px;">📞 Call Builder: +91 78696 12823</a>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div style="text-align: center; padding-top: 10px; border-top: 1px solid #e2e8f0; color: #94a3b8; font-size: 11px;">
+        <p style="margin: 0;">Ayushman Residency • Rau, near Medi-Caps University, AB Road, Indore (M.P.)</p>
+        <p style="margin: 4px 0 0 0;">© 2026 Ayushman Residency. All rights reserved.</p>
+      </div>
+
+    </div>
+  `;
+
+  try {
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log(`[BREVO] Rich customer brochure email sent to ${lead.email}`);
+  } catch (error: any) {
+    console.error("[BREVO] Failed to send customer brochure email:", error?.response?.body || error);
+  }
+}
+
 async function sendOTPEmail(toEmail: string, toName: string, otp: string) {
   if (!process.env.BREVO_API_KEY || !process.env.BREVO_SENDER_EMAIL) {
     console.warn("[BREVO] Missing config for OTP email. Code not sent.");
@@ -358,7 +524,7 @@ const LeadSchema = z.object({
   name: z.string().min(2).max(100),
   email: z.string().email().optional().or(z.literal('')),
   phone: z.string().min(10).max(20),
-  property_type: z.enum(['2BHK', '3BHK']),
+  property_type: z.string().min(1).max(200),
   location_pref: z.string().max(200).optional().or(z.literal('')),
   budget: z.string().max(50).optional().or(z.literal('')),
   message: z.string().max(500).optional().or(z.literal('')),
@@ -421,7 +587,7 @@ function verifyAdminOrBroker(req: AuthRequest, res: Response, next: NextFunction
 }
 
 // Rate limiters
-const leadLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 5, message: { error: 'Too many submissions. Try later.' } });
+const leadLimiter = rateLimit({ windowMs: 1 * 60 * 1000, max: 10, message: { error: 'Rate limit exceeded: Maximum 10 form submissions per minute allowed per IP.' } });
 const loginLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 10, message: { error: 'Too many login attempts.' } });
 const otpLimiter = rateLimit({ windowMs: 60 * 60 * 1000, max: 3, message: { error: 'Too many OTP requests.' } });
 const resetLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 5, message: { error: 'Too many reset attempts.' } });
@@ -602,6 +768,9 @@ async function startServer() {
       
       console.log("[SERVER] Lead saved successfully with ID:", _id);
       sendLeadEmail(parsed.data);
+      if (parsed.data.email) {
+        sendBrochureToUserEmail(parsed.data);
+      }
       res.status(201).json({ success: true, message: "Lead captured successfully" });
     } catch (err: any) { 
       console.error("[SERVER] Lead Save Error:", err);

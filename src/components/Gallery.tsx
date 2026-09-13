@@ -4,18 +4,18 @@ import { Play, Camera, X, Volume2, VolumeX, Pause, Film } from 'lucide-react';
 import { useCMS } from '../context/CMSContext';
 
 const STATIC_IMAGES = [
-  { url: '/gallery-1bhk-plan.webp', category: 'interior', title: '1 BHK Module Floor Plan (540 Sq.Ft)' },
-  { url: '/gallery-1bhk-3d.webp', category: 'interior', title: '1 BHK 3D Isometric View & Layout' },
-  { url: '/2bhk-plan.webp', category: 'interior', title: '2 BHK Module Floor Plan (1050 Sq.Ft)' },
-  { url: '/gallery-2bhk-3d.webp', category: 'interior', title: '2 BHK 3D Isometric View & Layout' },
-  { url: '/gallery-3bhk-plan.webp', category: 'interior', title: '3 BHK Module Floor Plan (1200 Sq.Ft)' },
-  { url: '/gallery-3bhk-3d.webp', category: 'interior', title: '3 BHK 3D Isometric View & Layout' },
+  { url: '/gallery-1bhk-plan.webp', category: '1bhk', title: '1 BHK Module Floor Plan (540 Sq.Ft)' },
+  { url: '/gallery-1bhk-3d.webp', category: '1bhk', title: '1 BHK 3D Isometric View & Layout' },
+  { url: '/gallery-2bhk-3d.webp', category: '2bhk', title: '2 BHK 3D Isometric View & Layout' },
+  { url: '/2bhk-plan.webp', category: '2bhk', title: '2 BHK Module Floor Plan (1050 Sq.Ft)' },
+  { url: '/gallery-3bhk-plan.webp', category: '3bhk', title: '3 BHK Module Floor Plan (1200 Sq.Ft)' },
+  { url: '/gallery-3bhk-3d.webp', category: '3bhk', title: '3 BHK 3D Isometric View & Layout' },
   { url: '/gallery-1.webp', category: 'campus', title: 'Ayushman Residency Aerial Campus View' },
   { url: '/gallery-5.webp', category: 'amenities', title: 'Family Living & Campus Amenities' },
   { url: '/gallery-2.webp', category: 'exterior', title: 'Ready-to-Move 2 & 3 BHK Towers' },
   { url: '/gallery-3.webp', category: 'amenities', title: 'Swimming Pool & Club Facilities' },
   { url: '/gallery-4.webp', category: 'campus', title: 'Master Society Site Layout Plan' },
-  { url: '/gallery-7.webp', category: 'interior', title: '3 BHK Module Floor Plan (1200 Sq.Ft)' },
+  { url: '/gallery-7.webp', category: 'interior', title: '3 BHK Layout Plan' },
 ];
 
 const YOUTUBE_URL = "https://www.youtube.com/embed/wVUJOZ6ipDQ";
@@ -30,7 +30,7 @@ interface TourVideo {
 
 export function Gallery() {
   const { data: cms } = useCMS();
-  const [activeCategory, setActiveCategory] = useState<'all' | 'exterior' | 'interior' | 'campus' | 'amenities'>('all');
+  const [activeCategory, setActiveCategory] = useState<'all' | '1bhk' | '2bhk' | '3bhk' | 'exterior' | 'interior' | 'campus' | 'amenities'>('all');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   
   // Video player and modal states
@@ -67,7 +67,7 @@ export function Gallery() {
       title: '2 BHK Sample Flat Tour',
       subtitle: '1050 sq.ft spacious family living with 3 balconies',
       url: '/video/2bhk.webm',
-      thumbnail: '/2bhk-plan.webp'
+      thumbnail: '/gallery-2bhk-3d.webp'
     },
     {
       id: '3bhk',
@@ -186,7 +186,7 @@ export function Gallery() {
 
   const filteredImages = activeCategory === 'all'
     ? allImages
-    : allImages.filter(img => img.category === activeCategory);
+    : allImages.filter(img => img.category === activeCategory || (activeCategory === 'interior' && ['1bhk', '2bhk', '3bhk', 'interior'].includes(img.category)));
 
   return (
     <section id="gallery" className="py-10 sm:py-16 md:py-24 bg-dark text-white overflow-hidden scroll-mt-24">
@@ -219,6 +219,9 @@ export function Gallery() {
             <div className="flex flex-wrap gap-1 sm:gap-1.5 bg-white/5 p-1 sm:p-1.5 rounded-xl sm:rounded-2xl border border-white/10">
               {[
                 { id: 'all', label: 'All Photos' },
+                { id: '1bhk', label: '1 BHK' },
+                { id: '2bhk', label: '2 BHK' },
+                { id: '3bhk', label: '3 BHK' },
                 { id: 'exterior', label: 'Exterior' },
                 { id: 'interior', label: 'Interiors' },
                 { id: 'campus', label: 'Campus' },
@@ -250,16 +253,16 @@ export function Gallery() {
           </div>
         </div>
 
-        {/* Gallery Grid */}
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-5 space-y-5 mb-14">
+        {/* Compact Responsive Gallery Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mb-10">
           
-          {/* Feature Drone Video Card (Only in 'all' or 'campus' tabs) */}
+          {/* Feature Drone Video Card (Only in 'all' or 'campus' or 'exterior' tabs) */}
           {(activeCategory === 'all' || activeCategory === 'campus' || activeCategory === 'exterior') && (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="relative group rounded-2xl overflow-hidden break-inside-avoid inline-block w-full mb-5 bg-dark/40 border border-gold/30 shadow-xl"
+              className="relative group rounded-xl overflow-hidden aspect-[4/3] bg-dark/40 border border-gold/30 shadow-md flex items-center justify-center"
             >
               <video 
                 ref={droneVideoRef}
@@ -268,24 +271,24 @@ export function Gallery() {
                 preload="metadata"
                 loop
                 playsInline
-                className="w-full h-full object-cover aspect-[4/5] sm:aspect-auto"
+                className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-dark/40 group-hover:bg-dark/10 transition-colors pointer-events-none" />
-              <div className="absolute top-3 left-3 flex items-center gap-2">
-                <span className="px-3 py-1 bg-gold text-dark text-[10px] font-bold uppercase tracking-widest rounded-full shadow-md">
-                  Aerial Drone Shot
+              <div className="absolute top-2 left-2 flex items-center gap-2">
+                <span className="px-2 py-0.5 bg-gold text-dark text-[9px] font-bold uppercase tracking-wider rounded-full shadow-sm">
+                  Drone View
                 </span>
               </div>
-              <div className="absolute bottom-3 right-3">
+              <div className="absolute bottom-2 right-2">
                 <button
                   onClick={() => {
                     setSelectedVideo(videoOptions[0]);
                     setIsVideoModalOpen(true);
                   }}
-                  className="p-2.5 bg-gold text-dark rounded-full shadow-xl hover:scale-110 transition-transform flex items-center justify-center"
+                  className="p-2 bg-gold text-dark rounded-full shadow-lg hover:scale-110 transition-transform flex items-center justify-center"
                   aria-label="Expand drone video"
                 >
-                  <Play className="w-4 h-4 fill-dark" />
+                  <Play className="w-3.5 h-3.5 fill-dark" />
                 </button>
               </div>
             </motion.div>
@@ -294,28 +297,28 @@ export function Gallery() {
           {filteredImages.map((img, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.05 }}
-              className="relative group cursor-pointer rounded-2xl overflow-hidden break-inside-avoid inline-block w-full mb-5 bg-dark/20 border border-white/5"
+              transition={{ duration: 0.3, delay: index * 0.03 }}
+              className="relative group cursor-pointer rounded-xl overflow-hidden aspect-[4/3] bg-zinc-950 border border-white/15 shadow-md flex items-center justify-center p-1"
               onClick={() => setSelectedImage(img.url)}
             >
               <img 
                 src={img.url} 
                 alt={`Ayushman Residency Rau Indore - ${img.title}`}
                 title={img.title}
-                width={600}
-                height={400}
-                className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                width={400}
+                height={300}
+                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 ease-out"
                 referrerPolicy="no-referrer"
                 loading="lazy"
                 decoding="async"
               />
-              <div className="absolute inset-0 bg-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-4">
-                <div className="text-center">
-                  <Camera className="w-8 h-8 text-gold mx-auto mb-2" />
-                  <p className="text-xs font-bold tracking-widest uppercase text-white">{img.title}</p>
+              <div className="absolute inset-0 bg-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-2 text-center">
+                <div>
+                  <Camera className="w-5 h-5 text-gold mx-auto mb-1" />
+                  <p className="text-[10px] font-bold tracking-wider uppercase text-white leading-tight">{img.title}</p>
                 </div>
               </div>
             </motion.div>

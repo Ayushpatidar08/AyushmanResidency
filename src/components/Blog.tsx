@@ -98,7 +98,7 @@ export const BLOG_POSTS: BlogPost[] = [
     readTime: '4 min read',
     category: 'Lifestyle & Community',
     author: 'Ayushman Living Desk',
-    image: '/gallery-6.webp',
+    image: '/gallery-5.webp',
     content: [
       {
         heading: 'Prioritizing Natural Light & Ventilation',

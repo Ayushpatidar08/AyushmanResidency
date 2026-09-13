@@ -65,7 +65,7 @@ export function MapSection() {
   const isMapInView = useInView(mapRef, { once: true, margin: "200px" });
 
   return (
-    <section className="py-24 bg-dark relative overflow-hidden">
+    <section className="py-8 sm:py-12 bg-dark relative overflow-hidden">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20">
         <div className="absolute top-1/4 -left-24 w-96 h-96 bg-gold/30 rounded-full blur-[120px]"></div>
@@ -73,79 +73,75 @@ export function MapSection() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col lg:flex-row items-end justify-between mb-16 gap-8">
-          <div className="max-w-2xl">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-6 gap-4">
+          <div>
             <motion.span 
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              className="text-gold font-bold uppercase tracking-[0.4em] text-xs mb-4 block"
+              className="text-gold font-bold uppercase tracking-[0.3em] text-[10px] sm:text-xs mb-1 block"
             >
               The Neighborhood Nexus
             </motion.span>
             <motion.h2 
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-4xl md:text-6xl font-serif text-white leading-tight"
+              className="text-2xl sm:text-3xl md:text-4xl font-serif text-white leading-tight"
             >
-              Where Every Advantage <br />
-              <span className="italic text-gold">Converges.</span>
+              Location & <span className="italic text-gold">Connectivity</span>
             </motion.h2>
           </div>
           <motion.div 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            className="flex flex-wrap gap-2 bg-white/5 p-2 rounded-2xl border border-white/10 backdrop-blur-xl"
+            className="flex flex-wrap gap-1.5 bg-white/5 p-1.5 rounded-xl border border-white/10 backdrop-blur-xl"
           >
             {CATEGORIES.map(cat => (
               <button
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
-                className={`flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all duration-500 ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-300 ${
                   activeTab === cat.id 
-                    ? 'bg-gold text-dark shadow-xl shadow-gold/20' 
+                    ? 'bg-gold text-dark shadow-md shadow-gold/20' 
                     : 'text-white/40 hover:text-white hover:bg-white/5'
                 }`}
               >
-                <cat.icon className="w-4 h-4" />
+                <cat.icon className="w-3.5 h-3.5" />
                 {cat.label}
               </button>
             ))}
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
-          {/* Amenity List Panel */}
-          <div className="lg:col-span-5 space-y-4 flex flex-col justify-between">
-            <div className="space-y-3">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-stretch">
+          {/* Amenity List & Address Panel */}
+          <div className="lg:col-span-5 flex flex-col justify-between gap-3">
+            <div className="space-y-2 max-h-[220px] sm:max-h-[260px] overflow-y-auto pr-1 custom-scrollbar">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTab}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  transition={{ duration: 0.4, ease: "circOut" }}
-                  className="space-y-2.5 sm:space-y-3"
+                  exit={{ opacity: 0, x: 10 }}
+                  transition={{ duration: 0.3 }}
+                  className="space-y-2"
                 >
                   {AMENITIES[activeTab].map((item, idx) => (
                     <motion.div
                       key={item.name}
-                      initial={{ opacity: 0, y: 10 }}
+                      initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: idx * 0.06 }}
-                      className="group p-3.5 sm:p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-gold/50 hover:bg-white/[0.08] transition-all duration-300 flex items-start gap-3.5 cursor-default"
+                      transition={{ delay: idx * 0.04 }}
+                      className="group p-2.5 bg-white/5 rounded-xl border border-white/10 hover:border-gold/50 hover:bg-white/[0.08] transition-all duration-300 flex items-center gap-3"
                     >
-                      <div className="p-2.5 bg-gold/10 rounded-xl group-hover:scale-105 transition-transform duration-300 shrink-0">
-                        <item.icon className="w-5 h-5 text-gold" />
+                      <div className="p-1.5 bg-gold/10 rounded-lg shrink-0">
+                        <item.icon className="w-4 h-4 text-gold" />
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex justify-between items-start mb-0.5">
-                          <h4 className="font-bold text-white text-sm sm:text-base group-hover:text-gold transition-colors truncate">{item.name}</h4>
-                          <span className="px-2.5 py-0.5 bg-white/5 rounded-full text-[10px] font-black uppercase tracking-wider text-gold/80 border border-gold/20 shrink-0 ml-2">
-                            {item.dist}
-                          </span>
-                        </div>
-                        <p className="text-white/40 text-xs leading-snug line-clamp-2">{item.desc}</p>
+                      <div className="flex-1 min-w-0 flex items-center justify-between gap-2">
+                        <h4 className="font-bold text-white text-xs sm:text-sm group-hover:text-gold transition-colors truncate">{item.name}</h4>
+                        <span className="px-2 py-0.5 bg-white/5 rounded-full text-[10px] font-black uppercase tracking-wider text-gold/80 border border-gold/20 shrink-0">
+                          {item.dist}
+                        </span>
                       </div>
                     </motion.div>
                   ))}
@@ -158,30 +154,24 @@ export function MapSection() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="mt-6 p-6 sm:p-7 bg-gradient-to-br from-gold/15 to-white/5 rounded-3xl border border-gold/20 relative group overflow-hidden"
+              className="p-3.5 sm:p-4 bg-gradient-to-br from-gold/15 to-white/5 rounded-2xl border border-gold/20 relative group overflow-hidden"
             >
-              <div className="absolute top-0 right-0 p-5 opacity-10 pointer-events-none">
-                <Compass className="w-20 h-20 text-gold" />
-              </div>
               <div className="relative z-10">
-                <div className="flex items-center gap-2 text-gold mb-2 font-bold text-[11px] uppercase tracking-widest">
-                  <MapPin className="w-4 h-4 text-emerald-400" /> Official Site Address
+                <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center gap-1.5 text-gold font-bold text-[10px] uppercase tracking-widest">
+                    <MapPin className="w-3.5 h-3.5 text-emerald-400" /> Ayushman Residency, Rau
+                  </div>
+                  <span className="text-[10px] text-white/50">Near Medi-Caps University</span>
                 </div>
-                <h3 className="text-lg sm:text-xl font-serif text-white font-bold mb-1">
-                  Ayushman Residency, Rau
-                </h3>
-                <p className="text-white/60 text-xs sm:text-sm leading-relaxed mb-4">
-                  Near Medi-Caps University, AB Road Bypass, Rau, Indore, Madhya Pradesh - 453331
-                </p>
 
-                <div className="grid grid-cols-2 gap-3 mb-5 p-3 bg-black/40 rounded-2xl border border-white/5">
+                <div className="grid grid-cols-2 gap-2 my-2 p-2 bg-black/40 rounded-xl border border-white/5 text-center">
                   <div>
-                    <p className="text-white/40 text-[10px] font-bold uppercase tracking-wider">Highway Access</p>
-                    <p className="text-gold text-lg font-black">1.0 km <span className="text-[10px] text-white/50 uppercase">NH-52</span></p>
+                    <p className="text-white/40 text-[9px] font-bold uppercase">NH-52 Highway</p>
+                    <p className="text-gold text-sm font-black">1.0 km</p>
                   </div>
                   <div>
-                    <p className="text-white/40 text-[10px] font-bold uppercase tracking-wider">Indore Airport</p>
-                    <p className="text-gold text-lg font-black">25 mins <span className="text-[10px] text-white/50 uppercase">Drive</span></p>
+                    <p className="text-white/40 text-[9px] font-bold uppercase">Airport Drive</p>
+                    <p className="text-gold text-sm font-black">25 Mins</p>
                   </div>
                 </div>
 
@@ -189,30 +179,30 @@ export function MapSection() {
                   href={cms.all_location_link || "https://maps.app.goo.gl/EUKjJBXYGgxubYUm8"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full py-3.5 bg-gold hover:bg-white text-dark rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-xl shadow-gold/20"
+                  className="flex items-center justify-center gap-2 w-full py-2 bg-gold hover:bg-white text-dark rounded-lg font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-md shadow-gold/20"
                 >
-                  <span>Open Directions in Google Maps</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span>Open Google Maps Directions</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </a>
               </div>
             </motion.div>
           </div>
 
           {/* Interactive Map Area */}
-          <div className="lg:col-span-7 h-[400px] sm:h-[480px] lg:h-auto min-h-[400px] rounded-3xl relative group border border-white/10 shadow-2xl overflow-hidden bg-dark">
-            <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
+          <div className="lg:col-span-7 h-[280px] sm:h-[350px] lg:h-auto min-h-[280px] rounded-2xl relative group border border-white/10 shadow-xl overflow-hidden bg-dark">
+            <div className="absolute top-3 left-3 z-20">
               <a 
                 href="https://maps.app.goo.gl/EUKjJBXYGgxubYUm8"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-dark/85 backdrop-blur-md p-3 rounded-xl border border-white/15 flex items-center gap-3 shadow-xl hover:bg-gold/10 transition-colors"
+                className="bg-dark/85 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/15 flex items-center gap-2 shadow-lg hover:bg-gold/10 transition-colors"
               >
-                <div className="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center border border-emerald-500/30">
-                  <MapPin className="w-4 h-4 text-emerald-400" />
+                <div className="w-6 h-6 bg-emerald-500/20 rounded flex items-center justify-center border border-emerald-500/30">
+                  <MapPin className="w-3.5 h-3.5 text-emerald-400" />
                 </div>
                 <div>
-                  <p className="text-[9px] font-bold uppercase text-white/40 tracking-wider">GPS Verified Location</p>
-                  <p className="text-xs font-bold text-white uppercase">Ayushman Residency Rau</p>
+                  <p className="text-[8px] font-bold uppercase text-white/40 tracking-wider">Site Location</p>
+                  <p className="text-[10px] font-bold text-white uppercase">Ayushman Residency Rau</p>
                 </div>
               </a>
             </div>
@@ -220,8 +210,8 @@ export function MapSection() {
             <div ref={mapRef} className="absolute inset-0 transition-transform duration-1000 scale-[1.02] group-hover:scale-100">
               {isMapInView && (
                 <Suspense fallback={
-                  <div className="w-full h-full flex flex-col gap-3 items-center justify-center bg-dark text-gold font-bold uppercase tracking-widest text-xs animate-pulse opacity-50">
-                    <MapPin className="w-8 h-8 opacity-50" />
+                  <div className="w-full h-full flex flex-col gap-2 items-center justify-center bg-dark text-gold font-bold uppercase tracking-widest text-[11px] animate-pulse opacity-50">
+                    <MapPin className="w-6 h-6 opacity-50" />
                     Loading Maps...
                   </div>
                 }>
@@ -231,8 +221,7 @@ export function MapSection() {
             </div>
 
             {/* Glass Overlays for Depth */}
-            <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-dark to-transparent pointer-events-none"></div>
-            <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-dark/20 to-transparent pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-dark to-transparent pointer-events-none"></div>
           </div>
         </div>
       </div>

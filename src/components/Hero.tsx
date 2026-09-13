@@ -1,4 +1,4 @@
-import { ArrowRight, MapPin } from 'lucide-react';
+import { ArrowRight, MapPin, Trees, Landmark, Car, Droplets, ShieldCheck, Building2, Milestone, Sparkles } from 'lucide-react';
 import { scrollToSection } from '../utils/scroll';
 
 export function Hero() {
@@ -35,15 +35,20 @@ export function Hero() {
               <span className="italic text-[#D4AF37]">Residency</span>
             </h1>
 
-            <p className="text-xs sm:text-base md:text-xl text-[#F2F2F2]/90 font-light max-w-2xl mb-4 sm:mb-8 leading-relaxed">
-              Premium G+6 Multi-Story Residences (Blocks A to K). Discover meticulously crafted living spaces featuring <strong className="font-semibold text-white">1 BHK (540 sq.ft)</strong>, <strong className="font-semibold text-white">2 BHK (1050 sq.ft)</strong>, and <strong className="font-semibold text-white">3 BHK (1200 sq.ft)</strong> flats.
+            <p className="text-xs sm:text-base md:text-xl text-[#F2F2F2]/90 font-light max-w-2xl mb-4 sm:mb-6 leading-relaxed">
+              Premium G+6 Multi-Story Residences (Blocks A to K). Discover meticulously crafted living spaces featuring <strong className="font-semibold text-white">1 BHK </strong>, <strong className="font-semibold text-white">2 BHK </strong>, and <strong className="font-semibold text-white">3 BHK </strong> flats.
             </p>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 mb-6 sm:mb-10 text-[11.5px] sm:text-sm text-[#F2F2F2] font-medium">
-              <div className="flex items-center space-x-1.5"><span className="text-[#D4AF37] text-xs">✦</span> <span>Garden & Play Zone</span></div>
-              <div className="flex items-center space-x-1.5"><span className="text-[#D4AF37] text-xs">✦</span> <span>Temple & Wide Roads</span></div>
-              <div className="flex items-center space-x-1.5"><span className="text-[#D4AF37] text-xs">✦</span> <span>Ground Parking</span></div>
-              <div className="flex items-center space-x-1.5"><span className="text-[#D4AF37] text-xs">✦</span> <span>24x7 Water Supply</span></div>
+            {/* Compact Amenities Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2.5 mb-6 sm:mb-8 text-[10px] sm:text-xs text-[#F2F2F2] font-medium">
+              <div className="flex items-center space-x-1.5 bg-white/5 border border-white/10 px-2 py-1.5 rounded-lg"><ShieldCheck className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" /> <span className="truncate">24x7 Security</span></div>
+              <div className="flex items-center space-x-1.5 bg-white/5 border border-white/10 px-2 py-1.5 rounded-lg"><Building2 className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" /> <span className="truncate">Secured Campus</span></div>
+              <div className="flex items-center space-x-1.5 bg-white/5 border border-white/10 px-2 py-1.5 rounded-lg"><Trees className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" /> <span className="truncate">Lush Green Garden</span></div>
+              <div className="flex items-center space-x-1.5 bg-white/5 border border-white/10 px-2 py-1.5 rounded-lg"><Droplets className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" /> <span className="truncate">24x7 Water Supply</span></div>
+              <div className="flex items-center space-x-1.5 bg-white/5 border border-white/10 px-2 py-1.5 rounded-lg"><Landmark className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" /> <span className="truncate">Mahadev Temple</span></div>
+              <div className="flex items-center space-x-1.5 bg-white/5 border border-white/10 px-2 py-1.5 rounded-lg"><Car className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" /> <span className="truncate">Large Parking</span></div>
+              <div className="flex items-center space-x-1.5 bg-white/5 border border-white/10 px-2 py-1.5 rounded-lg"><Milestone className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" /> <span className="truncate">Wide Internal Roads</span></div>
+              <div className="flex items-center space-x-1.5 bg-white/5 border border-white/10 px-2 py-1.5 rounded-lg"><Sparkles className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" /> <span className="truncate">Gap Between Multi Tower</span></div>
             </div>
 
             <div className="grid grid-cols-2 sm:flex sm:flex-row sm:flex-wrap gap-2.5 sm:gap-4">

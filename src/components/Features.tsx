@@ -21,7 +21,7 @@ const properties = [
     title: '2 BHK Flats',
     desc: '1050 sq.ft designed for growing families.',
     defaultPrice: ' ₹35.00 Lakhs* (can be negotiable)',
-    image: '/2bhk-plan.webp',
+    image: '/gallery-2bhk-3d.webp',
     details: 'Master bedroom with en-suite, ample sunlight, 3 spacious balconies.',
     videoUrl: '/video/2bhk.webm',
     features: ['2 Bedrooms', '2 Washrooms', '3 Balconies', '1 Living Room', 'Kitchen & Wash', 'G+6 View'],
@@ -235,30 +235,33 @@ export function Features({ onOpen3D }: { onOpen3D?: () => void }) {
               </div>
 
               {/* Action Buttons */}
-              <div className="p-4 sm:p-6 pt-0 grid grid-cols-2 gap-2 sm:gap-3 mt-auto">
-                <button
-                  onClick={() => handleDownload(prop)}
-                  className="py-2 sm:py-2.5 px-2 sm:px-3 border border-dark/15 rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider text-dark hover:bg-dark hover:text-white transition-all flex items-center justify-center gap-1 sm:gap-1.5"
-                >
-                  <Download className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> Brochure
-                </button>
-                {prop.key === '1bhk' ? (
-                  <a
-                    href="tel:+917869612823"
-                    className="py-2 sm:py-2.5 px-2 sm:px-3 bg-red-600 hover:bg-red-700 text-white rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 sm:gap-1.5 shadow-md shadow-red-600/30"
-                    title="Call Broker: +91 78696 12823"
-                  >
-                    <PhoneCall className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white animate-bounce" /> Call Broker
-                  </a>
-                ) : (
+              <div className="p-4 sm:p-6 pt-0 flex flex-col gap-2 mt-auto">
+                <div className="grid grid-cols-2 gap-2 sm:gap-3">
                   <button
-                    disabled={prop.isSold}
-                    onClick={() => setActiveVideo(prop.videoUrl)}
-                    className={`py-2 sm:py-2.5 px-2 sm:px-3 bg-gold text-dark rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 sm:gap-1.5 ${prop.isSold ? 'opacity-30 cursor-not-allowed' : 'hover:scale-[1.02] shadow-md shadow-gold/20'}`}
+                    onClick={() => handleDownload(prop)}
+                    className={`py-2 sm:py-2.5 px-2 sm:px-3 border border-dark/15 rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider text-dark hover:bg-dark hover:text-white transition-all flex items-center justify-center gap-1 sm:gap-1.5 ${
+                      prop.key === '1bhk' ? 'col-span-2' : 'col-span-1'
+                    }`}
                   >
-                    <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-dark" /> Video Tour
+                    <Download className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> Brochure
                   </button>
-                )}
+                  {prop.key !== '1bhk' && (
+                    <button
+                      disabled={prop.isSold}
+                      onClick={() => setActiveVideo(prop.videoUrl)}
+                      className={`py-2 sm:py-2.5 px-2 sm:px-3 bg-gold text-dark rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 sm:gap-1.5 ${prop.isSold ? 'opacity-30 cursor-not-allowed' : 'hover:scale-[1.02] shadow-md shadow-gold/20'}`}
+                    >
+                      <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-dark" /> Video Tour
+                    </button>
+                  )}
+                </div>
+                <a
+                  href="tel:+917869612823"
+                  className="w-full py-2 sm:py-2.5 px-3 bg-red-600 hover:bg-red-700 text-white rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-md shadow-red-600/30"
+                  title="Call Builder: +91 78696 12823"
+                >
+                  <PhoneCall className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white animate-bounce" /> Call Builder
+                </a>
               </div>
             </motion.div>
           ))}
