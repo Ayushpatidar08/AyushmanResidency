@@ -110,27 +110,55 @@ export function Gallery() {
     return () => observer.disconnect();
   }, []);
 
-  // IntersectionObserver for bottom promo iframe
+  // Smart Auto-play Promo Video logic:
+  // 1. Scrolls to video -> Auto play immediately
+  // 2. Page fully loaded -> Auto play after smooth init
+  // 3. User clicks card or play button -> Plays immediately with audio
   useEffect(() => {
+    const startAutoPlay = () => {
+      setIsPromoActive(true);
+      setIsPlaying(true);
+    };
+
+    // 1. If user scrolls to the video section before load timer
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            playVideo();
-          } else {
-            pauseVideo();
+            startAutoPlay();
+            observer.disconnect();
           }
         });
       },
-      { threshold: 0.4 }
+      { threshold: 0.15, rootMargin: '250px' }
     );
 
     if (videoRef.current) {
       observer.observe(videoRef.current);
     }
 
-    return () => observer.disconnect();
+    // 2. After page finishes loading (or 2s fallback)
+    let timer: NodeJS.Timeout;
+    if (document.readyState === 'complete') {
+      timer = setTimeout(startAutoPlay, 1800);
+    } else {
+      const handleLoad = () => {
+        timer = setTimeout(startAutoPlay, 1500);
+      };
+      window.addEventListener('load', handleLoad, { once: true });
+    }
+
+    return () => {
+      observer.disconnect();
+      if (timer) clearTimeout(timer);
+    };
   }, []);
+
+  const handleManualPlay = () => {
+    setIsPromoActive(true);
+    setIsPlaying(true);
+    setIsMuted(false);
+  };
 
   const sendCommand = (command: string, args: any[] = []) => {
     if (iframeRef.current?.contentWindow) {
@@ -340,30 +368,30 @@ export function Gallery() {
               <iframe 
                 ref={iframeRef}
                 className="absolute top-0 left-0 w-full h-full"
-                src={`${mainPromoVideo}${mainPromoVideo.includes('?') ? '&' : '?'}enablejsapi=1&autoplay=1&mute=0&controls=1&rel=0&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`} 
+                src={`${mainPromoVideo}${mainPromoVideo.includes('?') ? '&' : '?'}enablejsapi=1&autoplay=1&mute=${isMuted ? '1' : '0'}&controls=1&rel=0&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`} 
                 title="Ayushman Residency Video Tour" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 referrerPolicy="strict-origin-when-cross-origin" 
               />
               
-              {isMuted && isPlaying && (
+              {isMuted && (
                 <div className="absolute top-3 right-3 z-10">
                   <button 
-                    onClick={toggleMute}
-                    className="flex items-center space-x-1.5 bg-gold px-3 py-1 rounded-full text-dark font-bold text-[11px] shadow-lg animate-bounce"
+                    onClick={() => {
+                      setIsMuted(false);
+                      sendCommand('unMute');
+                    }}
+                    className="flex items-center space-x-1.5 bg-gold px-3.5 py-1.5 rounded-full text-dark font-bold text-[11px] shadow-lg hover:scale-105 transition-transform animate-bounce"
                   >
-                    <VolumeX className="w-3 h-3" />
-                    <span>Tap to Unmute</span>
+                    <VolumeX className="w-3.5 h-3.5" />
+                    <span>Tap to Unmute Audio 🔊</span>
                   </button>
                 </div>
               )}
             </>
           ) : (
             <div 
-              onClick={() => {
-                setIsPromoActive(true);
-                setIsPlaying(true);
-              }}
+              onClick={handleManualPlay}
               className="absolute inset-0 cursor-pointer flex items-center justify-center p-4 text-center"
             >
               <img 
