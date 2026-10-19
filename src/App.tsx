@@ -71,6 +71,13 @@ function HomePage() {
         </Suspense>
       </div>
 
+      {/* Inquiry Form (Copy below Gallery) */}
+      <div className="scroll-mt-24">
+        <Suspense fallback={<div className="h-64 flex items-center justify-center"><div className="w-8 h-8 rounded-full border-2 border-gold border-t-transparent animate-spin"></div></div>}>
+          <LeadForm preselectedOffers={selectedOffers} />
+        </Suspense>
+      </div>
+
       {/* 4. Amenities & Benefits (Why Choose Us) */}
       <div id="why-choose-us" className="scroll-mt-24">
         <Suspense fallback={<div className="h-48 flex items-center justify-center"><div className="w-8 h-8 rounded-full border-2 border-gold border-t-transparent animate-spin"></div></div>}>

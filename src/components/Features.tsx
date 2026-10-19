@@ -5,16 +5,15 @@ import { useCMS } from '../context/CMSContext';
 
 const properties = [
   {
-    key: '1bhk',
-    title: '1 BHK Flats',
-    desc: '540 sq.ft tailored for compact & modern living.',
-    defaultPrice: '₹20.00 Lakhs* (can be negotiable)',
-    image: '/1bhk.webp',
-    details: 'Spacious balcony, Modern kitchen, Smart layout.',
-    videoUrl: '/video/2bhk.webm',
-    features: ['1 Bedroom', '1 Bathroom', '1 Balcony', 'G+6 View', 'Modular Kitchen'],
-    brochureUrl: '/brochure-1bhk.pdf'
-    
+    key: '3bhk',
+    title: '3 BHK Flats',
+    desc: '1200 sq.ft of expansive luxury and comfort.',
+    defaultPrice: '₹40.00 Lakhs* (can be negotiable)',
+    image: '/3bhk-plan.webp',
+    details: 'Premium corner views, Vast Living Area, Dual Balconies.',
+    videoUrl: '/video/3bhk.webm',
+    features: ['3 Bedrooms', '3 Washrooms', '2 Balconies', 'Vast Living Area', 'Large Kitchen', 'Premium Fittings'],
+    brochureUrl: '/brochure.pdf'
   },
   {
     key: '2bhk',
@@ -28,15 +27,15 @@ const properties = [
     brochureUrl: '/brochure.pdf'
   },
   {
-    key: '3bhk',
-    title: '3 BHK Flats',
-    desc: '1200 sq.ft of expansive luxury and comfort.',
-    defaultPrice: '₹40.00 Lakhs* (can be negotiable)',
-    image: '/3bhk-plan.webp',
-    details: 'Premium corner views, Vast Living Area, Dual Balconies.',
-    videoUrl: '/video/3bhk.webm',
-    features: ['3 Bedrooms', '3 Washrooms', '2 Balconies', 'Vast Living Area', 'Large Kitchen', 'Premium Fittings'],
-    brochureUrl: '/brochure.pdf'
+    key: '1bhk',
+    title: '1 BHK Flats',
+    desc: '540 sq.ft tailored for compact & modern living.',
+    defaultPrice: '₹20.00 Lakhs* (can be negotiable)',
+    image: '/1bhk.webp',
+    details: 'Spacious balcony, Modern kitchen, Smart layout.',
+    videoUrl: '/video/2bhk.webm',
+    features: ['1 Bedroom', '1 Bathroom', '1 Balcony', 'G+6 View', 'Modular Kitchen'],
+    brochureUrl: '/brochure-1bhk.pdf'
   }
 ];
 
