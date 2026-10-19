@@ -11,6 +11,7 @@ const STATIC_IMAGES = [
   { url: '/gallery-3bhk-plan.webp', category: '3bhk', title: '3 BHK Module Floor Plan (1200 Sq.Ft)' },
   { url: '/gallery-3bhk-3d.webp', category: '3bhk', title: '3 BHK 3D Isometric View & Layout' },
   { url: '/gallery-1.webp', category: 'campus', title: 'Ayushman Residency Aerial Campus View' },
+  { url: '/secured-campus.webp', category: 'campus', title: 'Secured & Peaceful Campus - 24x7 Security' },
   { url: '/gallery-5.webp', category: 'amenities', title: 'Family Living & Campus Amenities' },
   { url: '/gallery-2.webp', category: 'exterior', title: 'Ready-to-Move 2 & 3 BHK Towers' },
   { url: '/gallery-3.webp', category: 'amenities', title: 'Swimming Pool & Club Facilities' },

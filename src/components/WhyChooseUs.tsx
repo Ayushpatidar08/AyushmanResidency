@@ -108,6 +108,61 @@ export function WhyChooseUs() {
             </motion.div>
           ))}
         </div>
+
+        {/* Attractive Secured Peaceful Campus Spotlight Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-8 sm:mt-12 bg-white rounded-2xl sm:rounded-3xl overflow-hidden border border-gold/20 shadow-xl grid grid-cols-1 md:grid-cols-12 items-center"
+        >
+          <div className="md:col-span-5 relative h-72 sm:h-96 md:h-full min-h-[300px] overflow-hidden bg-dark">
+            <img 
+              src="/secured-campus.webp" 
+              alt="Ayushman Residency Secured Peaceful Campus"
+              className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
+              loading="lazy"
+            />
+            <div className="absolute top-3 left-3 bg-dark/80 backdrop-blur-md px-3 py-1 rounded-full border border-gold/30 text-gold text-[11px] font-bold flex items-center gap-1.5 shadow-lg">
+              <ShieldCheck className="w-3.5 h-3.5 text-gold" /> 24x7 Guarded Society
+            </div>
+          </div>
+          <div className="md:col-span-7 p-6 sm:p-8 md:p-10 flex flex-col justify-center">
+            <span className="text-gold font-bold uppercase tracking-widest text-xs flex items-center gap-1.5 mb-2">
+              <Sparkles className="w-4 h-4 text-gold" /> Safe & Serene Family Living
+            </span>
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-serif text-dark font-bold leading-tight mb-3">
+              Secured & <span className="italic text-gold">Peaceful Campus</span>
+            </h3>
+            <p className="text-dark/70 text-xs sm:text-sm md:text-base leading-relaxed mb-6">
+              Experience total peace of mind with round-the-clock professional security guards, complete CCTV surveillance, wide internal roads, and an environment curated specially for children and senior citizens.
+            </p>
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6">
+              <div className="bg-paper p-3 sm:p-3.5 rounded-xl border border-dark/5">
+                <span className="block text-dark font-bold text-xs sm:text-sm">Single Gated Entry</span>
+                <span className="text-dark/60 text-[11px] sm:text-xs">Visitor verification & boom barriers</span>
+              </div>
+              <div className="bg-paper p-3 sm:p-3.5 rounded-xl border border-dark/5">
+                <span className="block text-dark font-bold text-xs sm:text-sm">Dedicated Parking</span>
+                <span className="text-dark/60 text-[11px] sm:text-xs">Covered stilt & open visitor parking</span>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <a 
+                href="#contact" 
+                className="px-5 py-2.5 bg-gold hover:bg-gold-light text-dark font-bold rounded-xl text-xs sm:text-sm transition-all shadow-md shadow-gold/20"
+              >
+                Book VIP Campus Visit
+              </a>
+              <a 
+                href="tel:+917869612823" 
+                className="px-5 py-2.5 bg-dark hover:bg-dark/90 text-white font-bold rounded-xl text-xs sm:text-sm transition-all"
+              >
+                Call: +91 78696 12823
+              </a>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
