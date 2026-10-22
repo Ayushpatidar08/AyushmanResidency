@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://ayushmanresidency.in/sitemap.xml
+
+Sitemap: https://www.ayushmanresidency.in/sitemap.xml
